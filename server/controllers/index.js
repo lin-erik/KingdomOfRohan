@@ -5,7 +5,7 @@ const axios = require('axios')
 
 //********middleware and plugins*********
 server.use(parser.json())
-server.use(express.static(__dirname + './../../dist'))
+server.use(express.static(__dirname + '/../../client'))
 
 //*******GET/POST section*******
 
