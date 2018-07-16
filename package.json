@@ -4,7 +4,9 @@
   "description": "pure movie moods",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server-dev": "nodemon server/controllers/index.js",
+    "react-dev": "webpack -d --watch"
   },
   "repository": {
     "type": "git",
@@ -25,13 +27,14 @@
     "mysql": "2.15.0",
     "react": "16.4.1",
     "react-dom": "16.4.1",
-    "react-router-dom": "4.3.1"
+    "react-router-dom": "4.3.1",
+    "webpack-cli": "3.0.8"
   },
   "devDependencies": {
     "babel-core": "6.26.3",
     "babel-loader": "7.1.5",
     "babel-preset-es2015": "6.24.1",
     "babel-preset-react": "6.24.1",
-    "webpack": "4.16.1"
+    "webpack": "2.2.1"
   }
 }
