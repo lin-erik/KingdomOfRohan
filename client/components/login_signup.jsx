@@ -38,7 +38,7 @@ class Login_Signup extends React.Component {
 
                     <div className= "button-container">
                         <button>Login</button>
-                        <button>Sign Up Page</button>
+                        <button onClick= {this.handleSignupToggle} >Sign Up Page</button>
                     </div>
                 </div>
             )
@@ -56,8 +56,8 @@ class Login_Signup extends React.Component {
                     </div>
 
                     <div className= "button-container">
-                        <button>Sign Up Now!</button>
-                        <button>Already Have an Account?</button>
+                        <button>Sign Up Now!</button> <br/>
+                        <button onClick= {this.handleSignupToggle} >Already Have an Account?</button>
                     </div>
                 </div>
             )
