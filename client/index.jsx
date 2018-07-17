@@ -13,16 +13,35 @@ class App extends React.Component {
   }
 
   render() {
-    return (
-      <div>
+    if (!loggedIn) {
+      
+      return(
+        <div>
         <h1 className="title is-1">Kingdom of Rohan and the Movie Moods</h1>
-        <section className="section">
-
-          {/* Search component */}
-
-        </section>
-      </div>
-    );
+          {/* render the login/signup page.  change loggedIn state to true on login/signup */}
+        </div>
+      )
+    } else if (loggedIn && profilePage) {
+      return(
+        <div>
+        <h1 className="title is-1">Kingdom of Rohan and the Movie Moods</h1>
+          {/*render out the profile page*/}
+          { profileSearched ? 
+            <div>
+              {/*render out the movie*/}
+            </div>
+            : null
+          }
+        </div>
+      )
+    } else if (loggedIn && !profilePage) {
+      return(
+        <div>
+        <h1 className="title is-1">Kingdom of Rohan and the Movie Moods</h1>
+          {/*render main search/recommendation page page*/}
+        </div>
+      )
+    }
   }
 }
 
