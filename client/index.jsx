@@ -28,10 +28,10 @@ class App extends React.Component {
            this.setState({
              loggedIn: true
           })
-          .catch((err) => {
-            console.error('something went wrong: ', err)
-          })
-         })
+        })
+         .catch((err) => {
+           console.error('something went wrong: ', err)
+        })
   }
 
   handleLogin(username, password) {

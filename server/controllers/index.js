@@ -60,11 +60,13 @@ app.get('/users/history/:username?', (req, res) => {
 //*******Authentication section*******
 app.post('/login', (req, res) => {
   let username = req.body.username;
+  console.log('in server.  authenticating with: ', username)
   authenticate(username, (err, data) => {
     if (err) console.error(err)
     else {
+      console.log('in server.  response from DB: ', data)
       let allowedAccess = false
-      if (data.keys.length > 1 && data.password === req.body.password) {
+      if (Object.keys(data).length > 1 && data.password === req.body.password) {
         allowedAccess = true
       }
       res.send(allowedAccess)
