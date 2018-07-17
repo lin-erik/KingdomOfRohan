@@ -12,7 +12,8 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      loggedIn: false
+      loggedIn: false,
+      user: ''
     };
 
     this.handleSignUp = this.handleSignUp.bind(this);
@@ -25,7 +26,8 @@ class App extends React.Component {
          .then((response) => {
            console.log('signed up successfully!')
            this.setState({
-             loggedIn: true
+             loggedIn: true,
+             user: username
           })
         })
          .catch((err) => {
@@ -39,7 +41,8 @@ class App extends React.Component {
          .then((response) => {
            if (response.data) {
              this.setState({
-               loggedIn: true
+               loggedIn: true,
+               user: username
              });
            } else {
              alert('incorrect login.  please try again')
