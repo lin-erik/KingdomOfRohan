@@ -5,6 +5,7 @@ const axios = require('axios');
 let db = require('./../db/connection').connection
 let authenticate = require('./../db/index').authenticate
 let signup = require('./../db/index').signup
+let save = require('./../db/index').save
 
 //********middleware and plugins*********
 app.use(parser.json());

@@ -21,7 +21,7 @@ let signup = (info, cb) => {
 }
 
 let save = (info, cb) => {
-    Move.findOne({movieName: info.title} `movieName`, (err, docs) => {
+    Movie.findOne({movieName: info.title} `movieName`, (err, docs) => {
         if (err) console.log(err)
         else {
             if (docs === undefined) {
@@ -32,7 +32,7 @@ let save = (info, cb) => {
                     }
                 })
             } else {
-                updateMovie(docs, (err) => {
+                updateMovie(docs, info, (err) => {
                     if (err) cb(err)
                     else (cb(null))
                 })
@@ -54,8 +54,17 @@ let newMovie = (info, cb) => {
     cb(null)
 }
 
-let updateMovie = (info, cb) {
+let updateMovie = (docs, info, cb) => {
+    info.moods.forEach((mood) => {
+        if (docs[mood]) docs[mood]++
+        else docs[mood] = 1
+    });
+    Movie.findByIdAndUpdate({title: docs.title}, {docs}, {upsert: true}, (err) => {
+        if (err) cb(err)
+        else cb(null)
+    })
 }
 
 module.exports.authenticate = authenticate
 module.exports.signup = signup
+module.exports.save = save
