@@ -82,12 +82,12 @@ class Profile_Search extends React.Component {
           <div className="columns">
             <div className="column is-two-fifths">
               <MovieCard />
-          <div className="container">
-            {this.state.moods.map((mood, index) =>
-              <span className="tag is-warning" style={{ margin: '7px' }}>{mood}
-                <button onClick={this.handleDeleteMood} value={index} className="delete"></button>
-              </span>)}
-          </div>
+              <div className="container">
+                {this.state.moods.map((mood, index) =>
+                  <span className="tag is-warning" style={{ margin: '7px' }}>{mood}
+                    <button onClick={this.handleDeleteMood} value={index} className="delete"></button>
+                  </span>)}
+              </div>
             </div>
           </div>
         </div>
