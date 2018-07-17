@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Login_Signup from './components/login_signup.jsx';
 import GlobalSearch from './components/GlobalSearch.jsx';
+
 import Profile_Search from './components/Profile_Search.jsx';
 
 class App extends React.Component {
@@ -49,6 +50,7 @@ class App extends React.Component {
       return (
         <div>
           <h1 className="title is-1">Kingdom of Rohan and the Movie Moods</h1>
+
           <Profile_Search />
           {this.state.profileSearched ?
             <div>
