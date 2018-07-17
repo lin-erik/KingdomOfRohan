@@ -10,9 +10,9 @@ var MovieCard = (props) => {
         </figure>
       </div>
       <div className="card-content">
-        <p className="title">Movie Title</p>
-        <p className="subtitle">2008</p>
-        <p>Mood tags will go here</p>
+        <p className="title is-4">Movie Title</p>
+        <p className="title is-5">2008</p>
+        <p>Description goes in here</p>
       </div>
     </div>
   );
