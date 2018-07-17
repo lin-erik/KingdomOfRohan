@@ -5,15 +5,31 @@ class Login_Signup extends React.Component {
         super(props)
 
         this.state = {
-            showLoginPage: true
+            showLoginPage: true,
+            username: '',
+            password: ''
         }
         this.handleSignupToggle = this.handleSignupToggle.bind(this)
+        this.handleUsernameChange = this.handleUsernameChange.bind(this)
+        this.handlePasswordChange = this.handlePasswordChange.bind(this)
     }
 
     handleSignupToggle () {
         let current = this.state.showLoginPage
         this.setState({
             showLoginPage: !current
+        })
+    }
+
+    handleUsernameChange(e) {
+        this.setState({
+            username: e.target.value
+        })
+    }
+
+    handlePasswordChange(e) {
+        this.setState({
+            password: e.target.value
         })
     }
 
@@ -27,17 +43,17 @@ class Login_Signup extends React.Component {
                     <h2>Welcome to Moodvie</h2>
                     <h3>Login</h3>
                     <div className="login-container">
-                        <div className="username-container">
+                        <div className="username-container" onChange = {this.handleUsernameChange} >
                             <span>Username: </span><input type="text" />
                         </div>
-                        <div className="password-container">
+                        <div className="password-container" onChange = {this.handlePasswordChange}>
                             <span>Password: </span><input type="text" />
                         </div>
                     </div>
 
 
                     <div className= "button-container">
-                        <button onClick= {this.props.login} >Login</button>
+                        <button>Login</button>
                         <button onClick= {this.handleSignupToggle} >Sign Up Page</button>
                     </div>
                 </div>
@@ -47,10 +63,10 @@ class Login_Signup extends React.Component {
                 <div>
                     <h3>Create a New Account</h3>
                     <div className="signup-container">
-                        <div className="username-container">
+                        <div className="username-container" onChange = {this.handleUsernameChange}>
                             <span>Username: </span><input type="text" />
                         </div>
-                        <div className="password-container">
+                        <div className="password-container" onChange = {this.handlePasswordChange}>
                             <span>Password: </span><input type="text" />
                         </div>
                     </div>
