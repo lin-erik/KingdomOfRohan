@@ -7,7 +7,9 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-
+      loggedIn: false,
+      profilePage: true,
+      profileSearched: false
     };
 
   }
