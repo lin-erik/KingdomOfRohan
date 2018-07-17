@@ -15,7 +15,7 @@ class App extends React.Component {
   }
 
   render() {
-    if (!loggedIn) {
+    if (!this.state.loggedIn) {
       
       return(
         <div>
@@ -23,12 +23,12 @@ class App extends React.Component {
           {/* render the login/signup page.  change loggedIn state to true on login/signup */}
         </div>
       )
-    } else if (loggedIn && profilePage) {
+    } else if (this.state.loggedIn && this.state.profilePage) {
       return(
         <div>
         <h1 className="title is-1">Kingdom of Rohan and the Movie Moods</h1>
           {/*render out the profile page*/}
-          { profileSearched ? 
+          { this.state.profileSearched ? 
             <div>
               {/*render out the movie*/}
             </div>
@@ -36,7 +36,7 @@ class App extends React.Component {
           }
         </div>
       )
-    } else if (loggedIn && !profilePage) {
+    } else if (this.state.loggedIn && !this.state.profilePage) {
       return(
         <div>
         <h1 className="title is-1">Kingdom of Rohan and the Movie Moods</h1>
