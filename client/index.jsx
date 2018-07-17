@@ -13,6 +13,23 @@ class App extends React.Component {
       profileSearched: false
     };
 
+    this.handleSignUp = this.handleSignUp.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
+  }
+
+  handleSignUp(username, password) {
+    //sends info to the server
+    this.setState({
+      loggedIn: true
+    })
+  }
+
+  handleLogin(username, password) {
+    //authenticate user signup
+    //on success...
+    this.setState({
+      loggedIn: true
+    })
   }
 
   render() {
@@ -21,7 +38,7 @@ class App extends React.Component {
       return(
         <div>
           <h1 className="title is-1">Kingdom of Rohan and the Movie Moods</h1>
-          <Login_Signup />
+          <Login_Signup signup = {this.handleSignUp} login = {this.handleLogin} />
         </div>
       )
     } else if (this.state.loggedIn && this.state.profilePage) {
