@@ -53,7 +53,11 @@ class Login_Signup extends React.Component {
 
 
                     <div className= "button-container">
-                        <button>Login</button>
+                        <button onClick = {() => {
+                            let un = this.state.username;
+                            let pw = this.state.password;
+                            this.props.login(un, pw)}} 
+                            >Login</button>
                         <button onClick= {this.handleSignupToggle} >Sign Up Page</button>
                     </div>
                 </div>

@@ -18,6 +18,7 @@ class App extends React.Component {
   }
 
   handleSignUp(username, password) {
+    console.log('signing up with: ', username, password)
     //sends info to the server
     this.setState({
       loggedIn: true
@@ -25,6 +26,7 @@ class App extends React.Component {
   }
 
   handleLogin(username, password) {
+    console.log('logging in with: ', username, password)
     //authenticate user signup
     //on success...
     this.setState({
