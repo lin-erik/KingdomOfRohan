@@ -56,7 +56,14 @@ app.get('/users/history/:username?', (req, res) => {
 
 //*******Authentication section*******
 app.post('/login', (req, res) => {
-  
+  let username = req.body.username
+  User.findOne({username: username}, `password`, (err, response) => {
+    if (err) console.error(err)
+    else {
+      let allowAccess = (req.body.password === response.data)
+      res.send(allowAccess)
+    }
+  })
 })
 
 
