@@ -28,11 +28,18 @@ class App extends React.Component {
 
   handleLogin(username, password) {
     console.log('logging in with: ', username, password);
+    axios.post('/login', {username: username, password: password})
+         .then((response) => {
+           if (response.data) {
+             this.setState({
+               loggedIn: true
+             });
+           } else {
+             alert('incorrect login.  please try again')
+           }
+         })
     //authenticate user signup
     //on success...
-    this.setState({
-      loggedIn: true
-    });
   }
 
   render() {
