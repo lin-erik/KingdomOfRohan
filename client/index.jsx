@@ -13,14 +13,16 @@ class App extends React.Component {
   }
 
   render() {
-    <div>
-      <h1 className="title is-1">Kingdom of Rohan and the Movie Moods</h1>
-      <section className="section">
+    return (
+      <div>
+        <h1 className="title is-1">Kingdom of Rohan and the Movie Moods</h1>
+        <section className="section">
 
-        {/* Search component */}
+          {/* Search component */}
 
-      </section>
-    </div>;
+        </section>
+      </div>
+    );
   }
 }
 
