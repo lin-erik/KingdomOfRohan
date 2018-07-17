@@ -58,17 +58,20 @@ class GlobalSearch extends React.Component {
   render() {
     return (
       <div className="container">
-        <div className="section">
-          <div className="title is-title-3">Search for These Moods:</div>
-          <div>{this.state.moods.map((mood, index) => <div onClick={this.handleDelete} value={index}>{mood}</div>)}</div>
-          <select onChange={this.handleChange}>
+          <div className="title is-title-4">Search for These Moods:</div>
+          <select onChange={this.handleChange} className="select is-multiple">
             {this.state.dbMoods.map((option, index) => {
               return <option value={option} key={index}>{option}</option>;
             })}
           </select>
           <button onClick={this.addMood}>Add Mood</button>
           <button onClick={this.handleSearch}>Find Me Movies</button>
-        </div>
+          <div className="container">
+            {this.state.moods.map((mood, index) =>
+              <span className="tag is-dark is-warning" style={{ margin: '7px' }}>{mood}
+                <button onClick={this.handleDelete} value={index} className="delete"></button>
+              </span>)}
+          </div>
       </div>
     );
   }
