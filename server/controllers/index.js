@@ -40,7 +40,7 @@ app.get('/results/:moods?', (req, res) => {
   var moods = req.query.moods.split(' ');
   console.log(moods);
 
-  res.status(200).send(moods);
+  res.status(200).send('received your query');
 });
 
 //*****Single User Functionality ******/
