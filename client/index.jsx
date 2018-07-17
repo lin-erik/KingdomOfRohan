@@ -22,19 +22,33 @@ class App extends React.Component {
 
   handleSignUp(username, password) {
     console.log('signing up with: ', username, password);
-    //sends info to the server
-    this.setState({
-      loggedIn: true
-    });
+    axios.post('/signup', {username: username, password: password})
+         .then((response) => {
+           console.log('signed up successfully!')
+           this.setState({
+             loggedIn: true
+          })
+        })
+         .catch((err) => {
+           console.error('something went wrong: ', err)
+        })
   }
 
   handleLogin(username, password) {
     console.log('logging in with: ', username, password);
-    //authenticate user signup
-    //on success...
-    this.setState({
-      loggedIn: true
-    });
+    axios.post('/login', {username: username, password: password})
+         .then((response) => {
+           if (response.data) {
+             this.setState({
+               loggedIn: true
+             });
+           } else {
+             alert('incorrect login.  please try again')
+           }
+         })
+         .catch((err) => {
+           console.log('something went wrong: ', err)
+         })
   }
 
   render() {

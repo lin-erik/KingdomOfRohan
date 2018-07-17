@@ -2,6 +2,9 @@ const express = require('express');
 let app = express();
 const parser = require('body-parser');
 const axios = require('axios');
+let db = require('./../db/connection').connection
+let authenticate = require('./../db/index').authenticate
+let signup = require('./../db/index').signup
 
 //********middleware and plugins*********
 app.use(parser.json());
@@ -55,7 +58,28 @@ app.get('/users/history/:username?', (req, res) => {
 });
 
 //*******Authentication section*******
+app.post('/login', (req, res) => {
+  let username = req.body.username;
+  authenticate(username, (err, data) => {
+    if (err) console.error(err)
+    else {
+      let allowedAccess = false
+      if (Object.keys(data).length > 1 && data.password === req.body.password) {
+        allowedAccess = true
+      }
+      res.send(allowedAccess)
+    }
+  })
+})
 
+app.post('/signup', (req, res) => {
+  signup({username: req.body.username, password: req.body.password}, (err, response) => {
+    if (err) console.log(err)
+    else {
+      res.send()
+    }
+  })
+})
 
 
 //*******server startup********
