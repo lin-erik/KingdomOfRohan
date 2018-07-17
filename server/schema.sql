@@ -1,8 +1,13 @@
+DROP SCHEMA IF EXISTS 'moodvies'
+
 -- ---
 -- Globals
 -- ---
-CREATE DATABASE moodvies;
-CREATE TABLE Movies (
+CREATE SCHEMA IF NOT EXISTS 'moodvies' DEFAULT CHARACTER SET utf8;
+USE 'moodvies';
+
+
+CREATE TABLE IF NOT EXISTS 'moodvies'.'Movies' (
 		movieId int NOT NULL AUTO_INCREMENT,
 		movieName varchar (100),
 		moviePosterURL varchar (255),
@@ -25,12 +30,15 @@ CREATE TABLE Movies (
 		paranoid int(4),
 		motivated int(4),
 		uncomfortable int(4),
+	PRIMARY KEY (movieId);
 )
 
-CREATE TABLE Users (
+
+CREATE TABLE IF NOT EXISTS 'moodvies'.'Users' (
 		userId int NOT NULL AUTO_INCREMENT,
 		username varchar (100),
 		password varchar (100)
+		PRIMARY KEY (userId);
 )
 -- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- SET FOREIGN_KEY_CHECKS=0;
