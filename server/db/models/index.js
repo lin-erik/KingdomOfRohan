@@ -1,3 +1,5 @@
+const mongoose = require ('mongoose');
+
 mongoose.connect(`mongodb://KingTheoden:KingTheoden1@ds139921.mlab.com:39921/moodvie-db`)
 
 let db = mongoose.connection;
@@ -10,7 +12,8 @@ parkermuir
 moodvie1
 */
 let UserSchema = mongoose.Schema ({
-  username: String,
+  username: {type: String,
+             uniq: true},
   password: String,
   history: Object
 })
