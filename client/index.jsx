@@ -7,22 +7,43 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-
+      loggedIn: false,
+      profilePage: true,
+      profileSearched: false
     };
 
   }
 
   render() {
-    return (
-      <div>
+    if (!this.state.loggedIn) {
+      
+      return(
+        <div>
         <h1 className="title is-1">Kingdom of Rohan and the Movie Moods</h1>
-        <section className="section">
-
-          {/* Search component */}
-
-        </section>
-      </div>
-    );
+          {/* render the login/signup page.  change loggedIn state to true on login/signup */}
+        </div>
+      )
+    } else if (this.state.loggedIn && this.state.profilePage) {
+      return(
+        <div>
+        <h1 className="title is-1">Kingdom of Rohan and the Movie Moods</h1>
+          {/*render out the profile page*/}
+          { this.state.profileSearched ? 
+            <div>
+              {/*render out the movie*/}
+            </div>
+            : null
+          }
+        </div>
+      )
+    } else if (this.state.loggedIn && !this.state.profilePage) {
+      return(
+        <div>
+        <h1 className="title is-1">Kingdom of Rohan and the Movie Moods</h1>
+          {/*render main search/recommendation page page*/}
+        </div>
+      )
+    }
   }
 }
 
