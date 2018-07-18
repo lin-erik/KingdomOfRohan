@@ -57,15 +57,21 @@ var RecList extends React.component {
     }).then (function () {
       var recView = this.state.queuedMovies.map (function(movie) {
               return (
-                <
+                <li>
+                  <img src={movie.poster_path}/>
+                  <h1>{movie.title}</h1>
+                </li>
               )
             })
       return (
-        <div>
-          {
-
-          }
-        </div>
+        <style>
+        ul#reclist li {
+                    display:inline;
+                  }
+        </style>
+        <ul id='reclist'>
+          {recView}
+        </ul>
       )
     })
   }
