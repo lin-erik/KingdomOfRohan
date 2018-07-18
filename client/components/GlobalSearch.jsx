@@ -8,9 +8,9 @@ class GlobalSearch extends React.Component {
     super(props);
 
     this.state = {
-      dbMoods: ['happy', 'sad', 'uplifting'],
+      dbMoods: ['whimsical', 'intense', 'thriller', 'heartfelt', 'gripping', 'boring', 'thoughtProvoking', 'uplifting', 'light', 'tearJerker', 'challenging', 'mindScrew', 'nostalgic', 'powerful', 'despair', 'exhausting', 'paranoid', 'motivated', 'uncomfortable'],
       moods: [],
-      selected: 'happy',
+      selected: 'whimsical',
       movies: dummyData
     };
 
