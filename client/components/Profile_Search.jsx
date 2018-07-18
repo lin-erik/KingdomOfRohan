@@ -37,6 +37,7 @@ class Profile_Search extends React.Component {
     console.log(this.state.movie);
     axios.get('/search', { params: { title: this.state.video } })
       .then((response) => {
+        console.log('Client Received: ', response)
         //skeleton!!
         //send info
         //render movieCard

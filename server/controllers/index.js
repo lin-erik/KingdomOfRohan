@@ -14,13 +14,20 @@ app.use(express.static(__dirname + '/../../dist'));
 
 //profile search - example url: localhost:8080/search/?input=batman+begins
 app.get('/search', (req, res) => {
-
-  console.log(req.query);
+  let movie = req.query.title
+  console.log(movie)
+  axios.get(`https://api.themoviedb.org/3/search/movie?api_key=9e172c233cc489304e8cd6b8f340934e&language=en-US&page=1&include_adult=false&query=${movie}`)
+    .then((response) => {
+      console.log('server repsonse: ', typeof response.data.results, response.data.results.length);
+      res.status(200).send(response.data.results);
+    })
+    .catch((err) => console.log(err))
+  
 
   //search the API here for a movie response
   //then send back single movie response to front end axios call
   
-  res.status(200).send('movie was searched');
+  
 });
 
 //profile save with tags
