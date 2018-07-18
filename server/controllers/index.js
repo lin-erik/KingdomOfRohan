@@ -7,6 +7,7 @@ let authenticate = require('./../db/index').authenticate
 let signup = require('./../db/index').signup
 let save = require('./../db/index').save
 let histSave = require('./../db/index').histSave
+let fetchHist = require('./../db/index').fetchHist
 let { API_KEY } = require('../../config.js');
 
 

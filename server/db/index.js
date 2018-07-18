@@ -90,7 +90,13 @@ let histSave = (info, cb) => {
     })
 }
 
+let fetchHist = async (info) => {
+    let data = await User.findOne({username: info.current_user})
+    return data.history
+}
+
 module.exports.authenticate = authenticate
 module.exports.signup = signup
 module.exports.save = save
 module.exports.histSave = histSave
+module.exports.fetchHist = fetchHist
