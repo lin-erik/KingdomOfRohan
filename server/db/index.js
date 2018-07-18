@@ -14,13 +14,14 @@ let signup = (info, cb) => {
     let user = new User({
         username: info.username,
         password: info.password,
-        history: {}
+        history: {null: null}
     });
     user.save();
     cb(null)
 }
 
 let save = (info, cb) => {
+    delete info.user;
     Movie.findOne({title: info.title}, (err, docs) => {
         if (err) console.log('error retrieving movie', err)
         else {
@@ -62,13 +63,32 @@ let updateMovie = (docs, info, cb) => {
         }
         else docs[mood] = 1
     });
-    console.log('after the forEach: ', docs)
+    // console.log('after the forEach: ', docs)
     Movie.findOneAndUpdate({title: docs.title}, docs, {upsert: true}, (err, document) => {
         if (err) cb(err)
         else cb(null)
     })
 }
 
+let histSave = (info, cb) => {
+    console.log('in the db, saving to user history');
+    User.findOne({username: info.username}, (err, docs) => {
+        if (err) cb(err)
+        else {
+            console.log('finding one by username: ', docs)
+            if (docs.history.null) delete docs.history.null
+            let un = info.username
+            delete info.user;
+            docs.history[info.id] = info;
+            User.findOneAndUpdate({username: un}, docs, (err, response) => {
+                if (err) cb(err)
+                else cb(null) 
+            })
+        }
+    })
+}
+
 module.exports.authenticate = authenticate
 module.exports.signup = signup
 module.exports.save = save
+module.exports.histSave = histSave

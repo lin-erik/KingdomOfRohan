@@ -6,7 +6,11 @@ let db = require('./../db/connection').connection
 let authenticate = require('./../db/index').authenticate
 let signup = require('./../db/index').signup
 let save = require('./../db/index').save
+<<<<<<< HEAD
 let { API_KEY } = require('../../config.js')
+=======
+let histSave = require('./../db/index').histSave
+>>>>>>> myLocalDev
 
 //********middleware and plugins*********
 app.use(parser.json());
@@ -35,14 +39,15 @@ app.get('/search', (req, res) => {
 //profile save with tags
 app.post('/save', (req, res) => {
   //access the data that needs to be posted to db like this
-  console.log(req.body);
 
-  //save data to both the global movie table
+  // save data to both the global movie table
   save(req.body, (err) => {
     if (err) console.error(err)
     else {
-      //AND the users individual history
-      res.status(200).send(req.body);
+      histSave(req.body, (err) => {
+        if (err) console.error(err)
+        else res.status(200).send(req.body); 
+      })
     }
   })
 
@@ -87,7 +92,7 @@ app.post('/login', (req, res) => {
 })
 
 app.post('/signup', (req, res) => {
-  signup({username: req.body.username, password: req.body.password}, (err, response) => {
+  signup({username: req.body.username, password: req.body.password, history: {}}, (err, response) => {
     if (err) console.log(err)
     else {
       res.send()
