@@ -113,3 +113,4 @@ module.exports.signup = signup
 module.exports.save = save
 module.exports.histSave = histSave
 module.exports.fetchHist = fetchHist
+module.exports.moodSearch = moodSearch
