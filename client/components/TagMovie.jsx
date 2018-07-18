@@ -11,7 +11,7 @@ class TagMovie extends React.Component {
       moods: [],
       selected: 'whimsical',
       //movie and user should eventually come from props after testing
-      movie: dummyData[0],
+      movie: this.props.movie,
       username: 'p' 
     };
 
@@ -78,7 +78,7 @@ class TagMovie extends React.Component {
       <div className="section">
         <div className="columns">
           <div className="column is-two-fifths">
-            <MovieCard />
+            <MovieCard movie={this.props.movie}/>
             <div className="container">
               {this.state.moods.map((mood, index) => (
                 <span className="tag is-warning" style={{ margin: '7px' }}>
