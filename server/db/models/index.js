@@ -15,7 +15,9 @@ let UserSchema = mongoose.Schema ({
   username: {type: String,
              uniq: true},
   password: String,
-  history: Object
+  history: {type: Object,
+			default: {},
+			required: true}
 })
 
 let MovieSchema = mongoose.Schema ({
