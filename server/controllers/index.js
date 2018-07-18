@@ -8,6 +8,7 @@ let signup = require('./../db/index').signup
 let save = require('./../db/index').save
 let histSave = require('./../db/index').histSave
 let fetchHist = require('./../db/index').fetchHist
+let moodSearch = require('./../db/index').moodSearch
 let { API_KEY } = require('../../config.js');
 
 
@@ -54,8 +55,7 @@ app.get('/results/:moods?', (req, res) => {
   //creating an array with each mood that was sent with query
   var moods = req.query.moods.split(' ');
   // console.log(moods);
-
-  res.status(200).send('received your query');
+  moodSearch(moods, res.send);
 });
 
 //*****Single User Functionality ******/
