@@ -64,9 +64,8 @@ app.get('/results/:moods?', (req, res) => {
 //example url: localhost:8080/users/history/?username=parker
 app.get('/users/history/:username?', (req, res) => {
   //this is how you grab the username from the url
-  console.log(req.query.username);
-
-  res.status(200).send(req.query);
+  console.log('username searching for: ', req.query.username);
+  fetchHist(req.query.username).then(history => res.send(history))
 });
 
 //*******Authentication section*******
