@@ -1,15 +1,15 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
-class Login_Signup extends React.Component {
+class Signup extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      showLoginPage: false,
       username: '',
       password: ''
     }
-    this.handleSignupToggle = this.handleSignupToggle.bind(this)
+
     this.handleUsernameChange = this.handleUsernameChange.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
   };
@@ -40,15 +40,17 @@ class Login_Signup extends React.Component {
         </div>
 
         <div className="button-container">
-          <button onClick={() => {
+          <Link to="/profile" onClick={() => {
             let un = this.state.username;
             let pw = this.state.password;
             this.props.signup(un, pw);
           }}
-          >Register</button> <br />
+          >Register</Link> <br/>
         </div>
       </div>
     )
   }
 
 }
+
+export default Signup;

@@ -5,6 +5,8 @@ import Login_Signup from './components/login_signup.jsx';
 import GlobalSearch from './components/GlobalSearch.jsx';
 import Profile_Search from './components/Profile_Search.jsx';
 import Nav from './components/Nav.jsx';
+import Login from './components/Login.jsx';
+import Signup from './components/Signup.jsx';
 import {BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
 
 class App extends React.Component {
