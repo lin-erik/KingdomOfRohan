@@ -8,6 +8,8 @@ let signup = require('./../db/index').signup
 let save = require('./../db/index').save
 let histSave = require('./../db/index').histSave
 
+const helpers = require('./serverhelpers');
+
 //********middleware and plugins*********
 app.use(parser.json());
 app.use(express.static(__dirname + '/../../dist'));
@@ -16,26 +18,17 @@ app.use(express.static(__dirname + '/../../dist'));
 
 //profile search - example url: localhost:8080/search/?input=batman+begins
 app.get('/search', (req, res) => {
-  let movie = req.query.title
-  console.log(movie)
+  let movie = req.query.title;
   axios.get(`https://api.themoviedb.org/3/search/movie?api_key=9e172c233cc489304e8cd6b8f340934e&language=en-US&page=1&include_adult=false&query=${movie}`)
     .then((response) => {
-      console.log('server repsonse: ', typeof response.data.results, response.data.results.length);
-      res.status(200).send(response.data.results);
+      let filtered = helpers.filterResults(response.data.results);
+      res.status(200).send(filtered);
     })
-    .catch((err) => console.log(err))
-  
-
-  //search the API here for a movie response
-  //then send back single movie response to front end axios call
-  
-  
+    .catch((err) => console.log(err)); 
 });
 
 //profile save with tags
 app.post('/save', (req, res) => {
-  //access the data that needs to be posted to db like this
-
   // save data to both the global movie table
   save(req.body, (err) => {
     if (err) console.error(err)
@@ -43,7 +36,7 @@ app.post('/save', (req, res) => {
       histSave(req.body, (err) => {
         if (err) console.error(err)
         else res.status(200).send(req.body); 
-      })
+      }) 
     }
   })
 
@@ -56,7 +49,7 @@ app.post('/save', (req, res) => {
 app.get('/results/:moods?', (req, res) => {
   //creating an array with each mood that was sent with query
   var moods = req.query.moods.split(' ');
-  console.log(moods);
+  // console.log(moods);
 
   res.status(200).send('received your query');
 });
