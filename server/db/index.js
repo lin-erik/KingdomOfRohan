@@ -22,12 +22,11 @@ let signup = (info, cb) => {
 
 let save = (info, cb) => {
     console.log('sucessfully dipped into db')
-    Movie.findOne({movieName: info.title}, `movieName`, (err, docs) => {
-        console.log('info body: ', info)
-        console.log(typeof info.moods)
+    Movie.findOne({title: info.title}, `title`, (err, docs) => {
+        console.log('info body: ', docs)
         if (err) console.log('error retrieving movie', err)
         else {
-            if (docs === undefined) {
+            if (docs === null) {
                 newMovie(info, (err) => {
                     if (err) cb(err)
                     else {
@@ -45,9 +44,9 @@ let save = (info, cb) => {
 }
 
 let newMovie = (info, cb) => {
+    console.log('we saving a new movie!')
     let spec = {};
-    let arr = JSON.parse(info.moods)
-    arr.forEach((mood) => {
+    info.moods.forEach((mood) => {
         spec[mood] = 1
     })
     spec.title = info.title;
@@ -59,13 +58,12 @@ let newMovie = (info, cb) => {
 }
 
 let updateMovie = (docs, info, cb) => {
-    console.log(info.moods, typeof info.moods)
-    let arr = JSON.parse(info.moods)
-    arr.forEach((mood) => {
+    console.log('inside update movie: ', docs)
+    info.moods.forEach((mood) => {
         if (docs[mood]) docs[mood]++
         else docs[mood] = 1
     });
-    Movie.findByIdAndUpdate({title: docs.title}, {docs}, {upsert: true}, (err) => {
+    Movie.findByIdAndUpdate({title: docs.title}, {docs}, (err) => {
         if (err) cb(err)
         else cb(null)
     })
