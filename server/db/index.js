@@ -21,8 +21,11 @@ let signup = (info, cb) => {
 }
 
 let save = (info, cb) => {
-    Movie.findOne({movieName: info.title} `movieName`, (err, docs) => {
-        if (err) console.log(err)
+    console.log('sucessfully dipped into db')
+    Movie.findOne({movieName: info.title}, `movieName`, (err, docs) => {
+        console.log('info body: ', info)
+        console.log(typeof info.moods)
+        if (err) console.log('error retrieving movie', err)
         else {
             if (docs === undefined) {
                 newMovie(info, (err) => {
@@ -43,19 +46,22 @@ let save = (info, cb) => {
 
 let newMovie = (info, cb) => {
     let spec = {};
-    info.moods.forEach((mood) => {
+    let arr = JSON.parse(info.moods)
+    arr.forEach((mood) => {
         spec[mood] = 1
     })
     spec.title = info.title;
     spec.poster_path = info.poster_path;
-    spec.release_date = info.release_date;
+    spec.release_date = JSON.parse(info.release_date);
     let movie = new Movie(spec)
     movie.save();
     cb(null)
 }
 
 let updateMovie = (docs, info, cb) => {
-    info.moods.forEach((mood) => {
+    console.log(info.moods, typeof info.moods)
+    let arr = JSON.parse(info.moods)
+    arr.forEach((mood) => {
         if (docs[mood]) docs[mood]++
         else docs[mood] = 1
     });
