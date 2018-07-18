@@ -25,7 +25,7 @@ let signup = (info, cb) => {
 //the passed in callback cb
 let moodSearch = (moodArr, cb) => {
   
-  Movie.find()
+  Movie
   .where(moodArr[0]: {$not: undefined})
   .where(moodArr[1]: {$not: undefined})
   .where(moodArr[2]: {$not: undefined})
