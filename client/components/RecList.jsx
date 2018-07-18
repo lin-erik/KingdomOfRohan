@@ -1,64 +1,72 @@
 import React from 'react';
 import axios from 'axios';
-var recList extends React.component {
+var RecList extends React.component {
   constructor (props) {
     this.state = (
       watchedMovies: [],
       queuedMovies: [],
-      userTags:  [{mood: null, count: 0},
-                  {mood: null, count: 0},
-                  {mood: null, count: 0}]
+//      userTags:  [{mood: null, count: 0},
+//                  {mood: null, count: 0},
+//                  {mood: null, count: 0}]
+      userMoods: [];
     )
     
     //returns an array of the movies the user has tagged and watched
     //and then parses that information into the state as watchMovies
     //and userTags
-    function getUserMovies {
-      return axios.get('/User/',
-              params: {
-              username: props.username;
-              }).then (function (response) {
-                this.state.watchedMovies = response;
-                var userTagTotals = {};
-                for (var i = 0; i < response.length; i++) {
-                  userTagTotals[response[i].tag1] = userTagTotals[response[i].tag1] ? userTagTotals[response[i].tag1]++ : 1;
-                  if (response[i].tag2) {
-                   userTagTotals[response[i].tag2] = userTagTotals[response[i].tag2] ? userTagTotals[response[i].tag2]++ : 1; 
-                  }
-                  if (response[i].tag3) {
-                   userTagTotals[response[i].tag3] = userTagTotals[response[i].tag3] ? userTagTotals[response[i].tag3]++ : 1; 
-                  }
-                }
-                return userTagTotals;
-              }).then (function (response) {
-                for (var i in response) {
-                  for (var j = 0; j < 3; j++) {
-                    if (this.state.userTags[j].count < response[i]) {
-//                      this.state.userTags.splice(j, 1, {
-//                        mood: i,
-//                        count: response[i]
-//                      })
-                      this.state.userTags = this.state.userTags.slice(0, j)
-                        .concat([{mood: i, count: response[i]}])
-                        .concat(this.state.userTags.slice(j+1, 3));
-                      break;
-                    }
-                  }
-                }
-              return this.state.userTags;
-              })
-    };
+//axios.get('/users/history/',
+//          params: {
+//            username: props.username
+//          }).then (function (response) {
+//            this.state.watchedMovies = response;
+//            var currentMovie = response.pop();
+//            for (var i = 0; i < currentMovie.moods.length; i++){
+//              this.state.userMoods.push (currentMovie.moods[i])
+//            }
+//          }).then (function () {
+//            this.state.queuedMovies = axios.get('/results/', params: this.state.userMoods)
+//          }).then (function () {
+//            for (var j = 0; j < this.state.watchedMovies.length; j++) {
+//              var watchedMovie = this.state.watchedMovies[j];
+//              this.state.queuedMovies = this.state.queuedMovies.filter(movie => movie.movieId !== watchedMovie.movieId);
+//            }
+//          })
+};
     
-    //gets all movies from the global movie list based on a basic query
-    function getGlobalMovies {
-      return axios.get('/Movie/',
-                      params)
-    }
-  }
   
   render () {
-    return (
     
-    )
+    axios.get('/users/history/',
+      params: {
+        username: props.username
+    }).then (function (response) {
+      this.setState ({watchedMovies: response});
+      var currentMovie = response.pop();
+      let tempMoodArr = []
+      for (var i = 0; i < currentMovie.moods.length; i++){
+        tempMoodArr.push (currentMovie.moods[i])
+      }
+      this.setState({userMoods: tempMoodArr});
+    }).then (function () {
+      this.setState ({queuedMovies: axios.get('/results/', params: this.state.userMoods)})
+    }).then (function () {
+      for (var j = 0; j < this.state.watchedMovies.length; j++) {
+        var watchedMovie = this.state.watchedMovies[j];
+        this.state.queuedMovies = this.state.queuedMovies.filter(movie => movie.movieId !== watchedMovie.movieId);
+      }
+    }).then (function () {
+      var recView = this.state.queuedMovies.map (function(movie) {
+              return (
+                <
+              )
+            })
+      return (
+        <div>
+          {
+
+          }
+        </div>
+      )
+    })
   }
 }
