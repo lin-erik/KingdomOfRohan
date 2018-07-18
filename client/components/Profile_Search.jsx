@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import MovieCard from './MovieCard.jsx';
+import TagMovie from './TagMovie.jsx';
 
 class Profile_Search extends React.Component {
   constructor(props) {
@@ -8,18 +9,10 @@ class Profile_Search extends React.Component {
     this.state = {
       movies: [],
       movie: '',
-      showMovie: false,
-      dbMoods: ['happy', 'sad', 'uplifting', 'dark', 'tear-jerker'],
-      moods: [],
-      selected: 'happy'
+      showMovie: false
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.handleClick = this.handleClick.bind(this);
-
-    this.handleChangeMood = this.handleChangeMood.bind(this);
-    this.addMood = this.addMood.bind(this);
-    this.handleSaveMovie = this.handleSaveMovie.bind(this);
-    this.handleDeleteMood = this.handleDeleteMood.bind(this);
   }
 
   componentDidMount() {
@@ -46,30 +39,7 @@ class Profile_Search extends React.Component {
       .catch((err) => console.error(err));
   }
 
-  handleChangeMood(e) {
-    this.setState({ selected: e.target.value });
-    console.log(this.state.selected);
-  }
-
-  addMood() {
-    let temp = this.state.moods;
-    if (!temp.includes(this.state.selected)) {
-      temp.push(this.state.selected);
-    }
-    this.setState({ moods: temp });
-  }
-
-  handleSaveMovie() {
-    console.log('Saving movie with ', this.state.moods);
-  }
-
-  handleDeleteMood(e) {
-    let index = e.target.value;
-    let temp = this.state.moods;
-    temp.splice(index, 1);
-    this.setState({ moods: temp });
-  }
-
+  
   render() {
     //form will get onChange prop(function)
     //button will get onSubmit prop(funtion)
@@ -79,28 +49,9 @@ class Profile_Search extends React.Component {
           <input onChange={(event) => this.handleSearch(event)} />
           <button onClick={(event) => this.handleClick(event)}>Search</button>
         </div>
-        <div className="section">
-          <div className="columns">
-            <div className="column is-two-fifths">
-              <MovieCard />
-              {this.state.moods.map((mood, index) =>
-                <span className="tag is-warning" style={{ margin: '7px' }}>{mood}
-                  <button onClick={this.handleDeleteMood} value={index} className="delete"></button>
-                </span>)}
-            </div>
-          </div>
-        </div>
 
-        <div className="container">
-          <div className="title is-title-4">Add Moods:</div>
-          <select onChange={this.handleChangeMood} className="select is-multiple">
-            {this.state.dbMoods.map((option, index) => {
-              return <option value={option} key={index}>{option}</option>;
-            })}
-          </select>
-          <button onClick={this.addMood}>Add Mood</button>
-          <button onClick={this.handleSaveMovie}>Submit</button>
-        </div>
+        After Search + Selection Render this:
+        <TagMovie />
       </div>
 
     );
