@@ -49,7 +49,8 @@ class App extends React.Component {
             user: username
           });
         } else {
-          alert('Incorrect Password or Username. Please try again or Sign Up for an account.');
+          console.log('Login retrieval is ', response.data)
+          // alert('Incorrect Password or Username. Please try again or Sign Up for an account.');
         }
       })
       .catch((err) => {
@@ -61,12 +62,24 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div className="container">
-          <Nav loggedIn={this.state.loggedIn}/>
+          <Nav loggedIn={this.state.loggedIn} />
           <Switch>
             <Route path="/global" render={() => <GlobalSearch />} />
-            <Route path="/profile" render={() => <Profile_Search />} />
-            <Route path="/login" render={() => <Login signup={this.handleSignUp} login={this.handleLogin}/>} />
-            <Route path="/signup" render={() => <Signup signup={this.handleSignUp} login={this.handleLogin}/>} />
+            <Route path="/profile" render={() => (
+              this.state.loggedIn ? (
+                <Profile_Search />
+              ) : (
+                <Redirect to="/login" />
+              )
+            )} />
+            <Route path="/login" render={() => (
+              this.state.loggedIn ? (
+                <Redirect to="/profile" />
+              ) : (
+                <Login signup={this.handleSignUp} login={this.handleLogin} />
+              )
+            )} />
+            <Route path="/signup" render={() => <Signup signup={this.handleSignUp} login={this.handleLogin} />} />
           </Switch>
         </div>
       </BrowserRouter>

@@ -72,13 +72,17 @@ app.get('/users/history/:username?', (req, res) => {
 app.post('/login', (req, res) => {
   let username = req.body.username;
   authenticate(username, (err, data) => {
-    if (err) console.error(err)
+    if (err) {
+      console.log('Error in the db retrieval '. err)
+    }
     else {
-      let allowedAccess = false
-      if (Object.keys(data).length > 1 && data.password === req.body.password) {
-        allowedAccess = true
+      if (data === null) {
+        res.send(false)
+      } else if (Object.keys(data).length > 1 && data.password === req.body.password) {
+        res.send(true)
+      } else {
+        res.send(false)
       }
-      res.send(allowedAccess)
     }
   })
 })

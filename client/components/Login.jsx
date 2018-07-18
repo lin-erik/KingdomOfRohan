@@ -47,7 +47,7 @@ class Login extends React.Component {
         </div>
 
         <div className="button-container">
-          <Link to="/profile"
+          <button
             onClick={() => {
               let un = this.state.username;
               let pw = this.state.password;
@@ -56,7 +56,7 @@ class Login extends React.Component {
             }}
           >
             Login
-          </Link>
+          </button>
         </div>
       </div>
     );
