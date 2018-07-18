@@ -7,6 +7,8 @@ let authenticate = require('./../db/index').authenticate
 let signup = require('./../db/index').signup
 let save = require('./../db/index').save
 let histSave = require('./../db/index').histSave
+let { API_KEY } = require('../../config.js');
+
 
 const helpers = require('./serverhelpers');
 
@@ -18,8 +20,9 @@ app.use(express.static(__dirname + '/../../dist'));
 
 //profile search - example url: localhost:8080/search/?input=batman+begins
 app.get('/search', (req, res) => {
-  let movie = req.query.title;
-  axios.get(`https://api.themoviedb.org/3/search/movie?api_key=9e172c233cc489304e8cd6b8f340934e&language=en-US&page=1&include_adult=false&query=${movie}`)
+  let movie = req.query.title
+  console.log('movie: ', movie)
+  axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${ API_KEY }&language=en-US&page=1&include_adult=false&query=${movie}`)
     .then((response) => {
       let filtered = helpers.filterResults(response.data.results);
       res.status(200).send(filtered);
