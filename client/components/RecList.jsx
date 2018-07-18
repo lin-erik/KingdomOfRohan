@@ -31,13 +31,28 @@ var recList extends React.component {
                 }
                 return userTagTotals;
               }).then (function (response) {
-                for (var i = 0; i < response.length; i++) {
+                for (var i in response) {
                   for (var j = 0; j < 3; j++) {
-                    if ()
+                    if (this.state.userTags[j].count < response[i]) {
+//                      this.state.userTags.splice(j, 1, {
+//                        mood: i,
+//                        count: response[i]
+//                      })
+                      this.state.userTags = this.state.userTags.slice(0, j)
+                        .concat([{mood: i, count: response[i]}])
+                        .concat(this.state.userTags.slice(j+1, 3));
+                      break;
+                    }
                   }
                 }
-                
+              return this.state.userTags;
               })
+    };
+    
+    //gets all movies from the global movie list based on a basic query
+    function getGlobalMovies {
+      return axios.get('/Movie/',
+                      params)
     }
   }
   
