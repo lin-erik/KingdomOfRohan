@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import MovieCard from './MovieCard.jsx';
 import TagMovie from './TagMovie.jsx';
+import Results from './Results.jsx'
 
 class Profile_Search extends React.Component {
   constructor(props) {
@@ -28,12 +29,10 @@ class Profile_Search extends React.Component {
   handleClick(e) {
     e.preventDefault();
     console.log(this.state.movie);
-    axios.get('/search', { params: { title: this.state.video } })
+    axios.get('/search', { params: { title: this.state.movie } })
       .then((response) => {
-        console.log('Client Received: ', response)
-        //skeleton!!
-        //send info
-        //render movieCard
+        console.log('Client Received: ', response.data)
+       this.setState({movies: response.data})
         this.setState({ showMovie: true })
       })
       .catch((err) => console.error(err));
@@ -51,7 +50,10 @@ class Profile_Search extends React.Component {
         </div>
 
         After Search + Selection Render this:
-        <TagMovie />
+        {this.state.movies.map((movie, index) => {
+          return <MovieCard key={index} movie={movie}/>
+        })}
+        
       </div>
 
     );
