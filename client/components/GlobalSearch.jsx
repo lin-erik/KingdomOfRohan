@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import Results from './Results.jsx';
+const dummyData = require('./DummyData').dummyData;
 
 class GlobalSearch extends React.Component {
   constructor(props) {
@@ -8,7 +10,8 @@ class GlobalSearch extends React.Component {
     this.state = {
       dbMoods: ['happy', 'sad', 'uplifting'],
       moods: [],
-      selected: 'happy'
+      selected: 'happy',
+      movies: dummyData
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -18,6 +21,7 @@ class GlobalSearch extends React.Component {
   }
 
   componentDidMount() {
+    console.log(dummyData);
     //update genre list from db
   }
 
@@ -36,12 +40,12 @@ class GlobalSearch extends React.Component {
 
   handleSearch() {
     console.log('Querying server for ', this.state.moods);
-    
+
     //create the search params by transfroming into string with spaces
-    var params = {moods: this.state.moods.join(' ')};
-   
+    var params = { moods: this.state.moods.join(' ') };
+
     //send moods array to server and eventually query DB
-    axios.get('/results/', {params})
+    axios.get('/results/', { params })
       .then((response) => {
         //do something
       })
@@ -57,21 +61,25 @@ class GlobalSearch extends React.Component {
 
   render() {
     return (
-      <div className="container">
-          <div className="title is-title-4">Search for These Moods:</div>
-          <select onChange={this.handleChange} className="select is-multiple">
-            {this.state.dbMoods.map((option, index) => {
-              return <option value={option} key={index}>{option}</option>;
-            })}
-          </select>
-          <button onClick={this.addMood}>Add Mood</button>
-          <button onClick={this.handleSearch}>Find Me Movies</button>
-          <div className="container">
-            {this.state.moods.map((mood, index) =>
-              <span className="tag is-dark is-warning" style={{ margin: '7px' }}>{mood}
-                <button onClick={this.handleDelete} value={index} className="delete"></button>
-              </span>)}
-          </div>
+      <div className="section">
+        <div className="title is-title-4">Search for These Moods:</div>
+        <select onChange={this.handleChange} className="select is-multiple">
+          {this.state.dbMoods.map((option, index) => {
+            return <option value={option} key={index}>{option}</option>;
+          })}
+        </select>
+        <button onClick={this.addMood}>Add Mood</button>
+        <button onClick={this.handleSearch}>Find Me Movies</button>
+        <div className="container">
+          {this.state.moods.map((mood, index) =>
+            <span className="tag is-warning" style={{ margin: '7px' }}>{mood}
+              <button onClick={this.handleDelete} value={index} className="delete"></button>
+            </span>)}
+        </div>
+
+        <div className="container">
+          <Results movies={this.state.movies} />
+        </div>
       </div>
     );
   }
