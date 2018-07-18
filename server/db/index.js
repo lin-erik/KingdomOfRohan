@@ -19,7 +19,10 @@ let signup = (info, cb) => {
     user.save();
     cb(null)
 }
-
+let moodSearch = (moodArr, cb) => {
+  Movie.find().
+  where(moodArr[0])
+}
 let save = (info, cb) => {
     delete info.user;
     Movie.findOne({title: info.title}, (err, docs) => {
