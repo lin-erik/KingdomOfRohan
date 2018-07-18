@@ -4,6 +4,8 @@ import MovieCard from './MovieCard.jsx';
 import TagMovie from './TagMovie.jsx';
 import Results from './Results.jsx'
 
+// "This is new branch"
+
 class Profile_Search extends React.Component {
   constructor(props) {
     super(props);
