@@ -7,9 +7,9 @@ class TagMovie extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dbMoods: ['happy', 'sad', 'uplifting', 'dark', 'tear-jerker'],
+      dbMoods: ['whimsical', 'intense', 'thriller', 'heartfelt', 'gripping', 'boring', 'thoughtProvoking', 'uplifting', 'light', 'tearJerker', 'challenging', 'mindScrew', 'nostalgic', 'powerful', 'despair', 'exhausting', 'paranoid', 'motivated', 'uncomfortable'],
       moods: [],
-      selected: 'happy',
+      selected: 'whimsical',
       //movie and user should eventually come from props after testing
       movie: dummyData[0],
       user: 'parker'
