@@ -40,8 +40,10 @@ app.post('/save', (req, res) => {
   save(req.body, (err) => {
     if (err) console.error(err)
     else {
-      //AND the users individual history
-      res.status(200).send(req.body);
+      histSave(req.body, (err) => {
+        if (err) console.error(err)
+        else res.status(200).send(req.body); 
+      })
     }
   })
 
@@ -86,7 +88,7 @@ app.post('/login', (req, res) => {
 })
 
 app.post('/signup', (req, res) => {
-  signup({username: req.body.username, password: req.body.password}, (err, response) => {
+  signup({username: req.body.username, password: req.body.password, history: {}}, (err, response) => {
     if (err) console.log(err)
     else {
       res.send()
