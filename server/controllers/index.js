@@ -5,6 +5,7 @@ const axios = require('axios');
 let db = require('./../db/connection').connection
 let authenticate = require('./../db/index').authenticate
 let signup = require('./../db/index').signup
+let save = require('./../db/index').save
 
 //********middleware and plugins*********
 app.use(parser.json());
@@ -36,10 +37,15 @@ app.post('/save', (req, res) => {
   console.log(req.body);
 
   //save data to both the global movie table
-  //AND the users individual history
+  save(req.body, (err) => {
+    if (err) console.error(err)
+    else {
+      //AND the users individual history
+      res.status(200).send(req.body);
+    }
+  })
 
   //placeholder for testing
-  res.status(200).send(req.body);
 });
 
 //*******Global Querying by Mood*******

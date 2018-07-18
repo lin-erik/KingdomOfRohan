@@ -19,8 +19,9 @@ let UserSchema = mongoose.Schema ({
 })
 
 let MovieSchema = mongoose.Schema ({
-  movieName: String,
-  posterURL: String,
+  title: String,
+  poster_path: String,
+  release_date: Number,
   whimsical: Number,
 	intense: Number,
 	thriller: Number,
