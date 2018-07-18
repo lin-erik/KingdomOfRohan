@@ -14,7 +14,7 @@ let signup = (info, cb) => {
     let user = new User({
         username: info.username,
         password: info.password,
-        history: {}
+        history: {null: null}
     });
     user.save();
     cb(null)
@@ -72,19 +72,17 @@ let updateMovie = (docs, info, cb) => {
 
 let histSave = (info, cb) => {
     console.log('in the db, saving to user history');
-    User.findOne({username: info.user}, (err, docs) => {
+    User.findOne({username: info.username}, (err, docs) => {
         if (err) cb(err)
         else {
             console.log('finding one by username: ', docs)
-            let un = info.user
+            if (docs.history.null) delete docs.history.null
+            let un = info.username
             delete info.user;
             docs.history[info.id] = info;
             User.findOneAndUpdate({username: un}, docs, (err, response) => {
                 if (err) cb(err)
-                else{
-                    console.log('updated user hist: ', response)
-                    cb(null)
-                } 
+                else cb(null) 
             })
         }
     })
@@ -93,3 +91,4 @@ let histSave = (info, cb) => {
 module.exports.authenticate = authenticate
 module.exports.signup = signup
 module.exports.save = save
+module.exports.histSave = histSave

@@ -6,6 +6,7 @@ let db = require('./../db/connection').connection
 let authenticate = require('./../db/index').authenticate
 let signup = require('./../db/index').signup
 let save = require('./../db/index').save
+let histSave = require('./../db/index').histSave
 
 //********middleware and plugins*********
 app.use(parser.json());
@@ -34,9 +35,8 @@ app.get('/search', (req, res) => {
 //profile save with tags
 app.post('/save', (req, res) => {
   //access the data that needs to be posted to db like this
-  console.log(req.body);
 
-  //save data to both the global movie table
+  // save data to both the global movie table
   save(req.body, (err) => {
     if (err) console.error(err)
     else {
