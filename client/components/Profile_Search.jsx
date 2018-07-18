@@ -59,16 +59,20 @@ class Profile_Search extends React.Component {
        
 
         After Search + Selection Render this:
+    <div className="container is-fluid">
+      <div className="columns is-multiline">
         {this.state.movies.map((movie, index) => {
           console.log('movie mapper: ', movie)
           return(
-            <div>
-              <MovieCard key={index} movie={movie}/>
+            <div className="column is-one-fifth">
+              <MovieCard key={index} movie={movie} />
               <button onClick={(event) => this.handleMoodClick(movie)}>Rate This Movie</button>
-              
+  
             </div>
           ) 
         })}
+    </div>
+      </div>
       
         
       </div>
