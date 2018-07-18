@@ -19,7 +19,20 @@ let signup = (info, cb) => {
     user.save();
     cb(null) 
 }
-
+//Basic moodSearch query that takes a set of moods,
+//queries the Movie database for the moods passed
+//in the moodArr and then passes the result into
+//the passed in callback cb
+let moodSearch = (moodArr, cb) => {
+  
+  Movie.find()
+  .where(moodArr[0]: {$not: undefined})
+  .where(moodArr[1]: {$not: undefined})
+  .where(moodArr[2]: {$not: undefined})
+  .then(function (response) {
+    cb (response);
+  })
+}
 let save = (info, cb) => {
     // delete info.current_user;
     Movie.findOne({title: info.title}, (err, docs) => {
@@ -100,3 +113,4 @@ module.exports.signup = signup
 module.exports.save = save
 module.exports.histSave = histSave
 module.exports.fetchHist = fetchHist
+module.exports.moodSearch = moodSearch
