@@ -20,6 +20,8 @@ class App extends React.Component {
     this.handleLogin = this.handleLogin.bind(this);
   }
 
+  
+
   handleSignUp(username, password) {
     console.log('signing up with: ', username, password);
     axios.post('/signup', {username: username, password: password})

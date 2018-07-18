@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import MovieCard from './MovieCard.jsx';
+import TagMovie from './TagMovie.jsx';
 
 class Profile_Search extends React.Component {
   constructor(props) {
@@ -20,33 +21,39 @@ class Profile_Search extends React.Component {
 
   handleSearch(e) {
     e.preventDefault();
-    this.setState({movie: e.target.value});
+    this.setState({ movie: e.target.value });
     console.log('onChange', this.state.movie);
   }
 
   handleClick(e) {
     e.preventDefault();
     console.log(this.state.movie);
-    // this.setState({ showMovie: true });
-    axios.get('/search', { params: { title: this.state.video }})
+    axios.get('/search', { params: { title: this.state.video } })
       .then((response) => {
+        console.log('Client Received: ', response)
         //skeleton!!
         //send info
         //render movieCard
-        this.setState({showMovie: true})
+        this.setState({ showMovie: true })
       })
       .catch((err) => console.error(err));
   }
 
+  
   render() {
     //form will get onChange prop(function)
     //button will get onSubmit prop(funtion)
     return (
-      <div>
-        <input onChange={(event) => this.handleSearch(event)} />
-        <button onClick={(event) => this.handleClick(event)}>Search</button>
-        {this.state.showMovie ? <MovieCard /> : null}
+      <div className="section">
+        <div className="container">
+          <input onChange={(event) => this.handleSearch(event)} />
+          <button onClick={(event) => this.handleClick(event)}>Search</button>
+        </div>
+
+        After Search + Selection Render this:
+        <TagMovie />
       </div>
+
     );
   }
 
