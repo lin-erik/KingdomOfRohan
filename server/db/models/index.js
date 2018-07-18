@@ -13,17 +13,19 @@ moodvie1
 */
 let UserSchema = mongoose.Schema ({
   username: {type: String,
-             uniq: true},
+             uniq: true}, 
   password: String,
   history: {type: Object,
 			default: {},
 			required: true}
-})
+}) 
 
 let MovieSchema = mongoose.Schema ({
-  title: String,
+  id: Number,
+  original_title: String,
   poster_path: String,
   release_date: Number,
+  overview: String,
   whimsical: Number,
 	intense: Number,
 	thriller: Number,

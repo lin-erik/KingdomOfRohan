@@ -17,14 +17,14 @@ let signup = (info, cb) => {
         history: {null: null}
     });
     user.save();
-    cb(null)
+    cb(null) 
 }
 let moodSearch = (moodArr, cb) => {
   Movie.find().
   where(moodArr[0])
 }
 let save = (info, cb) => {
-    delete info.user;
+    // delete info.current_user;
     Movie.findOne({title: info.title}, (err, docs) => {
         if (err) console.log('error retrieving movie', err)
         else {
@@ -51,8 +51,10 @@ let newMovie = (info, cb) => {
     info.moods.forEach((mood) => {
         spec[mood] = 1
     })
-    spec.title = info.title;
+    spec.original_title = info.original_title;
     spec.poster_path = info.poster_path;
+    spec.id = info.id;
+    spec.overview = info.overview;
     spec.release_date = JSON.parse(info.release_date);
     let movie = new Movie(spec)
     movie.save();
@@ -67,21 +69,21 @@ let updateMovie = (docs, info, cb) => {
         else docs[mood] = 1
     });
     // console.log('after the forEach: ', docs)
-    Movie.findOneAndUpdate({title: docs.title}, docs, {upsert: true}, (err, document) => {
+    Movie.findOneAndUpdate({id: docs.id}, docs, {upsert: true}, (err, document) => {
         if (err) cb(err)
         else cb(null)
     })
 }
 
 let histSave = (info, cb) => {
-    console.log('in the db, saving to user history');
-    User.findOne({username: info.username}, (err, docs) => {
+    console.log('in the db, saving to user history for user ', info.current_user);
+    User.findOne({username: info.current_user}, (err, docs) => {
         if (err) cb(err)
         else {
             console.log('finding one by username: ', docs)
             if (docs.history.null) delete docs.history.null
-            let un = info.username
-            delete info.user;
+            let un = info.current_user
+            delete info.current_user;
             docs.history[info.id] = info;
             User.findOneAndUpdate({username: un}, docs, (err, response) => {
                 if (err) cb(err)

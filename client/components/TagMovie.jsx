@@ -12,7 +12,7 @@ class TagMovie extends React.Component {
       selected: 'whimsical',
       //movie and user should eventually come from props after testing
       movie: dummyData[0],
-      user: 'parker'
+      username: 'p' 
     };
 
     this.handleChangeMood = this.handleChangeMood.bind(this);
@@ -39,7 +39,7 @@ class TagMovie extends React.Component {
     let { id, original_title, poster_path, overview, release_date } = movie;
     release_date = release_date.slice(0, 4);
     let moods = this.state.moods;
-    let user = this.state.user;
+    let current_user = this.state.username;
     return {
       id,
       original_title,
@@ -47,7 +47,7 @@ class TagMovie extends React.Component {
       overview,
       release_date,
       moods,
-      user
+      current_user
     };
   }
 
@@ -55,6 +55,8 @@ class TagMovie extends React.Component {
     console.log('Saving movie with ', this.state.moods);
     let movie = this.parseMovieHelper(this.state.movie);
     console.log('Saving movie ', movie);
+
+    
 
     axios
       .post('/save', movie)
