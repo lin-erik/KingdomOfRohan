@@ -91,7 +91,7 @@ let histSave = (info, cb) => {
         if (err) cb(err)
         else {
             console.log('finding one by username: ', docs)
-            if (docs.history.null) delete docs.history.null
+            if (docs.history.hasOwnProperty('null')) delete docs.history.null
             let un = info.current_user
             delete info.current_user;
             docs.history[info.id] = info;
@@ -103,7 +103,13 @@ let histSave = (info, cb) => {
     })
 }
 
+let fetchHist = async (un) => {
+    let data = await User.findOne({username: un})
+    return data.history
+}
+
 module.exports.authenticate = authenticate
 module.exports.signup = signup
 module.exports.save = save
 module.exports.histSave = histSave
+module.exports.fetchHist = fetchHist
