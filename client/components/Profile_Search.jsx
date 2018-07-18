@@ -10,10 +10,10 @@ class Profile_Search extends React.Component {
     this.state = {
       movies: [],
       movie: '',
-      showMovie: false
+      oneMovie: false
     };
     this.handleSearch = this.handleSearch.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleSearchClick = this.handleSearchClick.bind(this);
   }
 
   componentDidMount() {
@@ -26,7 +26,7 @@ class Profile_Search extends React.Component {
     console.log('onChange', this.state.movie);
   }
 
-  handleClick(e) {
+  handleSearchClick(e) {
     e.preventDefault();
     console.log(this.state.movie);
     axios.get('/search', { params: { title: this.state.movie } })
@@ -38,6 +38,13 @@ class Profile_Search extends React.Component {
       .catch((err) => console.error(err));
   }
 
+  handleMoodClick(movie) {
+    console.log('ClickableMovie', movie)
+    this.setState({movies: [movie]})
+    this.setState({oneMovie: true})
+  }
+
+
   
   render() {
     //form will get onChange prop(function)
@@ -46,13 +53,23 @@ class Profile_Search extends React.Component {
       <div className="section">
         <div className="container">
           <input onChange={(event) => this.handleSearch(event)} />
-          <button onClick={(event) => this.handleClick(event)}>Search</button>
+          <button onClick={(event) => this.handleSearchClick(event)}>Search</button>
         </div>
+
+       
 
         After Search + Selection Render this:
         {this.state.movies.map((movie, index) => {
-          return <MovieCard key={index} movie={movie}/>
+          console.log('movie mapper: ', movie)
+          return(
+            <div>
+              <MovieCard key={index} movie={movie}/>
+              <button onClick={(event) => this.handleMoodClick(movie)}>Rate This Movie</button>
+              
+            </div>
+          ) 
         })}
+      
         
       </div>
 

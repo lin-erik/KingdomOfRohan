@@ -6,11 +6,9 @@ let db = require('./../db/connection').connection
 let authenticate = require('./../db/index').authenticate
 let signup = require('./../db/index').signup
 let save = require('./../db/index').save
-<<<<<<< HEAD
-let { API_KEY } = require('../../config.js')
-=======
 let histSave = require('./../db/index').histSave
->>>>>>> myLocalDev
+let { API_KEY } = require('../../config.js');
+
 
 //********middleware and plugins*********
 app.use(parser.json());
