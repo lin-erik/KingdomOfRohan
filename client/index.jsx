@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import Login_Signup from './components/login_signup.jsx';
 import GlobalSearch from './components/GlobalSearch.jsx';
 import Profile_Search from './components/Profile_Search.jsx';
 import Nav from './components/Nav.jsx';
@@ -48,9 +47,9 @@ class App extends React.Component {
             loggedIn: true,
             user: username
           });
+          console.log('Current logged in User: ', this.state.user)
         } else {
           console.log('Login retrieval is ', response.data)
-          // alert('Incorrect Password or Username. Please try again or Sign Up for an account.');
         }
       })
       .catch((err) => {
@@ -64,10 +63,10 @@ class App extends React.Component {
         <div className="container">
           <Nav loggedIn={this.state.loggedIn} />
           <Switch>
-            <Route path="/global" render={() => <GlobalSearch />} />
+            <Route path="/global" render={() => <GlobalSearch user={this.state.user} />} />
             <Route path="/profile" render={() => (
               this.state.loggedIn ? (
-                <Profile_Search />
+                <Profile_Search user={this.state.user} />
               ) : (
                 <Redirect to="/login" />
               )

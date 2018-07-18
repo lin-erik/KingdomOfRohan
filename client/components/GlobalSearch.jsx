@@ -39,8 +39,8 @@ class GlobalSearch extends React.Component {
   }
 
   handleSearch() {
+    
     console.log('Querying server for ', this.state.moods);
-
     //create the search params by transfroming into string with spaces
     var params = { moods: this.state.moods.join(' ') };
 
