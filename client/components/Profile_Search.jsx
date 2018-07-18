@@ -4,7 +4,6 @@ import MovieCard from './MovieCard.jsx';
 import TagMovie from './TagMovie.jsx';
 import Results from './Results.jsx'
 
-// "This is new branch"
 
 class Profile_Search extends React.Component {
   constructor(props) {
@@ -12,7 +11,7 @@ class Profile_Search extends React.Component {
     this.state = {
       movies: [],
       movie: '',
-      oneMovie: false
+      giveMoodButtons: false
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.handleSearchClick = this.handleSearchClick.bind(this);
@@ -43,7 +42,7 @@ class Profile_Search extends React.Component {
   handleMoodClick(movie) {
     console.log('ClickableMovie', movie)
     this.setState({movies: [movie]})
-    this.setState({oneMovie: true})
+    this.setState({giveMoodButtons: true})
   }
 
 
@@ -58,14 +57,15 @@ class Profile_Search extends React.Component {
           <button onClick={(event) => this.handleSearchClick(event)}>Search</button>
         </div>
 
-       
+       {!this.state.giveMoodButtons ?
 
-        After Search + Selection Render this:
+        // After Search + Selection Render this:
     <div className="container is-fluid">
       <div className="columns is-multiline">
         {this.state.movies.map((movie, index) => {
           console.log('movie mapper: ', movie)
           return(
+            
             <div className="column is-one-fifth">
               <MovieCard key={index} movie={movie} />
               <button onClick={(event) => this.handleMoodClick(movie)}>Rate This Movie</button>
@@ -73,9 +73,10 @@ class Profile_Search extends React.Component {
             </div>
           ) 
         })}
-    </div>
       </div>
-      
+    </div>
+    
+      : <TagMovie movie={this.state.movies[0]}/>}
         
       </div>
 
