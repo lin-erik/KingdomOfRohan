@@ -26,10 +26,11 @@ class Profile_Search extends React.Component {
 
   handleClick(e) {
     e.preventDefault();
-    console.log(this.state.movie);
+    console.log('Movie: ', this.state.movie);
     // this.setState({ showMovie: true });
-    axios.get('/search', { params: { title: this.state.video }})
+    axios.get('/search', { params: { title: this.state.movie }})
       .then((response) => {
+        console.log('Client Received: ', response)
         //skeleton!!
         //send info
         //render movieCard
