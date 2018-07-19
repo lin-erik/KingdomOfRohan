@@ -64,7 +64,7 @@ let data = [
     "thoughtProvoking": 15,
 	"uplifting": 84,
 	"light": 312,
-	"tearJerker": 456,
+	"tearJerker": 456
   },
   {
     "id": 333339,
@@ -105,7 +105,7 @@ let data = [
     "thoughtProvoking": 56,
 	"uplifting": 43,
 	"light": 122,
-	"tearJerker": 16,
+	"tearJerker": 16
   },
   {
     "id": 447332,
@@ -150,7 +150,7 @@ let data = [
 	"uplifting": 45,
 	"light": 142,
 	"tearJerker": 46,
-	"challenging": 17,
+	"challenging": 17
   },
   {
     "id": 284054,
@@ -171,7 +171,7 @@ let data = [
     "thoughtProvoking": 75,
 	"uplifting": 74,
 	"light": 712,
-	"tearJerker": 76,
+	"tearJerker": 76
   },
   {
     "id": 383498,
@@ -184,7 +184,7 @@ let data = [
 	"uplifting": 14,
 	"light": 112,
 	"tearJerker": 16,
-	"challenging": 71,
+	"challenging": 71
   },
   {
     "id": 158015,
