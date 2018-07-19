@@ -29,9 +29,10 @@ app.get('/search', (req, res) => {
     .catch((err) => console.log(err)); 
 });
 
-//profile save with tags
+//takes in a movie object that contains an array of moods
+//saves that movie to both the user's history
+//and updates the movie's mood count on the global db
 app.post('/save', (req, res) => {
-  // save data to both the global movie table
   save(req.body, (err) => {
     if (err) console.error(err)
     else {
@@ -41,8 +42,6 @@ app.post('/save', (req, res) => {
       }) 
     }
   })
-
-  //placeholder for testing
 });
 
 //*******Global Querying by Mood*******
@@ -62,6 +61,7 @@ app.get('/results/:moods?', (req, res) => {
 
 //get history for dynamic username parameter
 //example url: localhost:8080/users/history/?username=parker
+//fetches the user's history array and sends back to client
 app.get('/users/history/:username?', (req, res) => {
   //this is how you grab the username from the url
   console.log('username searching for: ', req.query.username);
@@ -80,6 +80,9 @@ app.get('/users/recs.:username', (req, res) => {
 })
 
 //*******Authentication section*******
+//runs authenticate based on object containing un/pw from client
+//on the returned docs, compares against the docs password with provided password
+//sends back boolean to allow user access or not
 app.post('/login', (req, res) => {
   let username = req.body.username;
   authenticate(username, (err, data) => {
@@ -98,8 +101,10 @@ app.post('/login', (req, res) => {
   })
 })
 
+//runs the signup function with info provided from an object from client
+//sends back OK on success
 app.post('/signup', (req, res) => {
-  signup({username: req.body.username, password: req.body.password, history: {}}, (err, response) => {
+  signup({username: req.body.username, password: req.body.password}, (err, response) => {
     if (err) console.log(err)
     else {
       res.send()

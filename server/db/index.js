@@ -3,6 +3,7 @@ let db = require('./models/index').db
 let User = require('./models/index').User
 let Movie = require('./models/index').Movie
 
+//Queries db by username, fetches their password field, and hands off
 let authenticate = (username, cb) => {
     User.findOne({username: username}, `password`, (err, docs) => {
         if (err) cb(err)
@@ -10,6 +11,7 @@ let authenticate = (username, cb) => {
     })
 }
 
+//creates a new user in the User table, hands off
 let signup = (info, cb) => {
     let user = new User({
         username: info.username,
@@ -47,8 +49,12 @@ let moodSearch = (moodArr, cb) => {
 //  })
   
 }
+
+//Queries GlobalMovies db by title (info is object passed from server)
+//If null (movie not in database), runs newMovie function
+//If not null (movie is in database), runs updateMovie function
+//either way, hands off
 let save = (info, cb) => {
-    // delete info.current_user;
     Movie.findOne({title: info.original_title}, (err, docs) => {
         if (err) console.log('error retrieving movie', err)
         else {
@@ -69,6 +75,10 @@ let save = (info, cb) => {
     })
 }
 
+//takes in a movie object, and creates a blank object, 'spec'
+//attach each mood from movie object to the spec
+//then adds the other movie info to it
+//finally, saves this as a new Movie, and hands off
 let newMovie = (info, cb) => {
     console.log('we saving a new movie!')
     let spec = {};
@@ -85,6 +95,10 @@ let newMovie = (info, cb) => {
     cb(null)
 }
 
+//takes in docs (from parent function query) and a movie object (passed from server).
+//goes thru the moods array on the movie object, plussing their value on the docs
+//or setting to 1 (meaning this movie has not been tagged with that mood before).
+//finally, updates that movie's fields, and hands off
 let updateMovie = (docs, info, cb) => {
     info.moods.forEach((mood) => {
         if (docs[mood]) {
@@ -92,19 +106,19 @@ let updateMovie = (docs, info, cb) => {
         }
         else docs[mood] = 1
     });
-    // console.log('after the forEach: ', docs)
     Movie.findOneAndUpdate({id: docs.id}, docs, {upsert: true}, (err, document) => {
         if (err) cb(err)
         else cb(null)
     })
 }
 
+//takes in a movie object with username (passed from server) and queries db
+//pushes old history into new array. lops off null if present
+//updates the user's history array, and hands off
 let histSave = (info, cb) => {
-    console.log('in the db, saving to user history for user ', info.current_user);
     User.findOne({username: info.current_user}, (err, docs) => {
         if (err) cb(err)
         else {
-            console.log('inside hist save, here are the docs for that user: ', docs)
             let newHist = [];
             docs.history.forEach((hist) => newHist.push(hist))
             newHist.push(info)
@@ -117,6 +131,8 @@ let histSave = (info, cb) => {
     })
 }
 
+//takes in a username (passed from server) and quries the db
+//hands back the history array from the received docs
 let fetchHist = async (un) => {
     let data = await User.findOne({username: un})
     return data.history
