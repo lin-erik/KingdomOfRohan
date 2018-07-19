@@ -28,7 +28,7 @@ let moodSearch = (moodArr, cb) => {
   Movie
   .where(moodArr[0]).ne(undefined)
   .then(function (response) {
-    console.log (response.slice (0,4));
+    console.log ('Response: ', response.slice (0,4));
     cb (null, response.slice(0, 4));
   })
   .catch (function (err) {
