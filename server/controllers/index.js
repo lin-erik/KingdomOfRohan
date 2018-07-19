@@ -67,9 +67,10 @@ app.get('/users/history/:username?', (req, res) => {
 
 app.get('/users/recs.:username', (req, res) => {
   console.log('Getting recs for: ', req.query.username);
-
+  
   //use helper function here to filter rec list that comes from DB
-  helpers.filterRecs()
+  fetchHist(req.query.username).then(history => helpers.filterRecs(history, res.send))
+
 })
 
 //*******Authentication section*******
