@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import MovieCard from './MovieCard.jsx';
 import TagMovie from './TagMovie.jsx';
+import UserHistory from './UserHistory.jsx';
 
 
 class Profile_Search extends React.Component {
@@ -16,10 +17,6 @@ class Profile_Search extends React.Component {
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.handleSearchClick = this.handleSearchClick.bind(this);
-  }
-
-  componentDidMount() {
-    this.getUserHistory(this.props.user)
   }
 
   handleSearch(e) {
@@ -46,30 +43,6 @@ class Profile_Search extends React.Component {
     this.setState({giveMoodButtons: true})
   }
 
-  getUserHistory(username) {
-    let params = {username}
-    console.log('Sending get request for history with: ', {params})
-    axios.get('/users/history/', { params })
-      .then((response) => {
-        console.log(response)
-        //slice most recent 4-5 off response
-        this.setState({history: response.data})
-      })
-      .catch( err => console.log('Error getting user history: ', err));
-  }
-
-  getUserRecs(username) {
-    let params = {username}
-    console.log('Sending get request for recs with: ', {params})
-    axios.get('/users/recs/', { params })
-      .then((response) => {
-        console.log(response)
-        //slice most recent 4-5 off response
-        this.setState({recs: response.data})
-      })
-      .catch( err => console.log('Error getting user history: ', err));
-  }
-
   
   render() {
     //form will get onChange prop(function)
@@ -77,6 +50,7 @@ class Profile_Search extends React.Component {
     return (
       <div className="section">
         <div className="container">
+          <UserHistory user={this.props.user}/>
           <input onChange={(event) => this.handleSearch(event)} />
           <button onClick={(event) => this.handleSearchClick(event)}>Search</button>
         </div>
@@ -99,9 +73,9 @@ class Profile_Search extends React.Component {
         })}
       </div>
     </div>
-    
-      : <TagMovie movie={this.state.movies[0]} user={this.props.user}/>}
-        
+
+          : <TagMovie movie={this.state.movies[0]} user={this.props.user} />}
+
       </div>
 
     );
