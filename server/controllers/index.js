@@ -29,9 +29,10 @@ app.get('/search', (req, res) => {
     .catch((err) => console.log(err)); 
 });
 
-//profile save with tags
+//takes in a movie object that contains an array of moods
+//saves that movie to both the user's history
+//and updates the movie's mood count on the global db
 app.post('/save', (req, res) => {
-  // save data to both the global movie table
   save(req.body, (err) => {
     if (err) console.error(err)
     else {
@@ -41,8 +42,6 @@ app.post('/save', (req, res) => {
       }) 
     }
   })
-
-  //placeholder for testing
 });
 
 //*******Global Querying by Mood*******
