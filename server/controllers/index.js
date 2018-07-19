@@ -58,6 +58,7 @@ app.get('/results/:moods?', (req, res) => {
 
 //get history for dynamic username parameter
 //example url: localhost:8080/users/history/?username=parker
+//fetches the user's history array and sends back to client
 app.get('/users/history/:username?', (req, res) => {
   //this is how you grab the username from the url
   console.log('username searching for: ', req.query.username);
