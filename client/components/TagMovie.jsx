@@ -11,7 +11,8 @@ class TagMovie extends React.Component {
       selected: 'whimsical',
       //movie and user should eventually come from props after testing
       movie: this.props.movie,
-      user: this.props.user 
+      user: this.props.user, 
+      
     };
 
     this.handleChangeMood = this.handleChangeMood.bind(this);
@@ -42,6 +43,7 @@ class TagMovie extends React.Component {
         current_user: this.state.user
       }
     );
+    document.getElementById('movieCard').style.opacity = '0';
 
     axios
       .post('/save', movie)
@@ -60,7 +62,7 @@ class TagMovie extends React.Component {
 
   render() {
     return (
-      <div className="section">
+      <div className="section" id='movieCard'>
         <div className="columns">
           <div className="column is-two-fifths">
             <MovieCard movie={this.props.movie}/>
