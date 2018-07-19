@@ -53,7 +53,7 @@ class Profile_Search extends React.Component {
         let history = (response.data.slice(response.data.length - 4).reverse())
         //slice most recent 4-5 off response
         this.setState({ history })
-        console.log(this.state.history)
+        console.log(username, ' history: ', this.state.history)
       })
       .catch(err => console.log('Error getting user history: ', err));
   }

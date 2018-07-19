@@ -25,7 +25,7 @@ class GlobalSearch extends React.Component {
 
   handleChange(e) {
     this.setState({ selected: e.target.value });
-    console.log(this.state.selected);
+    console.log('selected mood', this.state.selected);
   }
 
   addMood() {
@@ -46,6 +46,8 @@ class GlobalSearch extends React.Component {
     axios.get('/results/', { params })
       .then((response) => {
         //do something
+        console.log('Movie State: ', response.data)
+        this.setState({movies: response.data})
       })
       .catch((err) => console.error(err));
   }

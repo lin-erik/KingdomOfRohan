@@ -22,7 +22,7 @@ class TagMovie extends React.Component {
 
   handleChangeMood(e) {
     this.setState({ selected: e.target.value });
-    console.log(this.state.selected);
+    console.log('selected state: ', this.state.selected);
   }
 
   addMood() {
