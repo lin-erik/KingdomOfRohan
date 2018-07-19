@@ -48,7 +48,8 @@ class App extends React.Component {
         if (response.data) {
           this.setState({
             loggedIn: true,
-            user: username
+            user: username,
+            loginError: false
           });
         } else {
           this.setState({
