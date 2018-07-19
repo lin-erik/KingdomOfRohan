@@ -9,8 +9,10 @@ let save = require('./../db/index').save
 let histSave = require('./../db/index').histSave
 let fetchHist = require('./../db/index').fetchHist
 let moodSearch = require('./../db/index').moodSearch
+
 let { API_KEY } = require('../../config.js');
-const helpers = require('./serverhelpers');
+const helpers = require('./serverhelpers.js');
+const refreshRouter = require('./refreshRouter.js')
 
 //********middleware and plugins*********
 app.use(parser.json());
@@ -112,6 +114,9 @@ app.post('/signup', (req, res) => {
   })
 })
 
+
+//refreshing a page breaks React Router front end, so this handles that
+app.use('/', refreshRouter);
 
 //*******server startup********
 let port = process.env.PORT || 8080;
