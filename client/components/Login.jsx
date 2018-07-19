@@ -40,20 +40,18 @@ class Login extends React.Component {
             className="username-container"
             onChange={this.handleUsernameChange}
           >
-            <span>Username: </span>
-            <input type="text" />
+            <input class='input is-info is-rounded is-hovered' type="text" placeholder="Username"/>
           </div>
           <div
             className="password-container"
             onChange={this.handlePasswordChange}
           >
-            <span>Password: </span>
-            <input type="text" />
+            <input class='input is-info is-rounded is-hovered' type="password" placeholder="Password" />
           </div>
         </div>
 
         <div className="button-container">
-          <button
+          <button class="button is-success is-link is-focused is-active is-rounded is-hovered"
             onClick={() => {
               this.setState({error: 'Incorrect username or password. Please signup or try again.' })
               this.props.login(this.state.username, this.state.password);

@@ -31,15 +31,16 @@ class Signup extends React.Component {
         <h3>Create a New Account</h3>
         <div className="signup-container">
           <div className="username-container" onChange={this.handleUsernameChange}>
-            <span>Username: </span><input type="text" />
+            <input class='input is-info is-rounded is-hovered' type="text" placeholder="Username"/>
           </div>
           <div className="password-container" onChange={this.handlePasswordChange}>
-            <span>Password: </span><input type="text" />
+            <input class='input is-info is-rounded is-hovered' type="password" placeholder="Password" />
           </div>
         </div>
 
         <div className="button-container">
-          <button to="/profile" onClick={() => {
+          <button class='button is-link is-focused is-active is-rounded is-hovered' 
+            to="/profile" onClick={() => {
             this.props.signup(this.state.username, this.state.password)
           }}
           >Register</button> <br/>
