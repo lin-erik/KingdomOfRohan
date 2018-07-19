@@ -77,7 +77,10 @@ class Profile_Search extends React.Component {
     return (
       <div className="section">
         <div className="container">
-          <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history}/>
+        {this.state.history.length > 0 ?
+        <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history}/>
+        : null
+      }
           <input onChange={(event) => this.handleSearch(event)} />
           <button onClick={(event) => this.handleSearchClick(event)}>Search</button>
         </div>
@@ -87,11 +90,11 @@ class Profile_Search extends React.Component {
         // After Search + Selection Render this:
     <div className="container is-fluid">
       <div className="columns is-multiline">
-        {this.state.movies.map((movie, index) => {
+        {this.state.movies.map((movie) => {
           return(
             
             <div className="column is-one-fifth">
-              <MovieCard key={movie.id} movie={movie} />
+              <MovieCard movie={movie} />
               <button onClick={(event) => this.handleMoodClick(movie)}>Rate This Movie</button>
   
             </div>
