@@ -68,7 +68,7 @@ class Profile_Search extends React.Component {
     return (
       <div className="section">
         <div className="container">
-          <UserHistory user={this.props.user} getUserHistory={this.getUserHistory}/>
+          <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history}/>
           <input onChange={(event) => this.handleSearch(event)} />
           <button onClick={(event) => this.handleSearchClick(event)}>Search</button>
         </div>
@@ -92,7 +92,7 @@ class Profile_Search extends React.Component {
       </div>
     </div>
 
-          : <TagMovie movie={this.state.movies[0]} user={this.props.user} />}
+          : <TagMovie movie={this.state.movies[0]} user={this.props.user} getUserHistory={this.getUserHistory} />}
 
       </div>
 

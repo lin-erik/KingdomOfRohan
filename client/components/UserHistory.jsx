@@ -6,7 +6,6 @@ class UserHistory extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      history: [],
       recs: []
     };
   }
@@ -29,7 +28,7 @@ class UserHistory extends React.Component {
       <p>Recently Tagged</p>
         <div className="container is-fluid">
           <div className="columns is-multiline">
-            {this.state.history.map((movie, index) => {
+            {this.props.history.map((movie, index) => {
               return (
                 <div className="column is-one-fifth">
                   <MovieCard key={index} movie={movie} />
