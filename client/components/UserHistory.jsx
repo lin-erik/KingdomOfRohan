@@ -11,24 +11,6 @@ class UserHistory extends React.Component {
     };
   }
 
-  componentDidMount() {
-    console.log('Mounted')
-    this.getUserHistory(this.props.user)
-  }
-
-  getUserHistory(username) {
-    let params = { username }
-    console.log('Sending get request for history with: ', { params })
-    axios.get('/users/history/', { params })
-      .then((response) => {
-        let history = (response.data.slice(response.data.length - 4))
-        //slice most recent 4-5 off response
-        this.setState({ history })
-        console.log(this.state.history)
-      })
-      .catch(err => console.log('Error getting user history: ', err));
-  }
-
   getUserRecs(username) {
     let params = { username }
     console.log('Sending get request for recs with: ', { params })

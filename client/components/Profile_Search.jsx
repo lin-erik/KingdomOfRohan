@@ -17,6 +17,12 @@ class Profile_Search extends React.Component {
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.handleSearchClick = this.handleSearchClick.bind(this);
+    this.getUserHistory = this.getUserHistory.bind(this);
+  }
+
+  componentDidMount() {
+    console.log('Mounted')
+    this.getUserHistory(this.props.user)
   }
 
   handleSearch(e) {
@@ -43,14 +49,26 @@ class Profile_Search extends React.Component {
     this.setState({giveMoodButtons: true})
   }
 
-  
+  getUserHistory(username) {
+    let params = { username }
+    console.log('Sending get request for history with: ', { params })
+    axios.get('/users/history/', { params })
+      .then((response) => {
+        let history = (response.data.slice(response.data.length - 4).reverse())
+        //slice most recent 4-5 off response
+        this.setState({ history })
+        console.log(this.state.history)
+      })
+      .catch(err => console.log('Error getting user history: ', err));
+  }
+
   render() {
     //form will get onChange prop(function)
     //button will get onSubmit prop(funtion)
     return (
       <div className="section">
         <div className="container">
-          <UserHistory user={this.props.user}/>
+          <UserHistory user={this.props.user} getUserHistory={this.getUserHistory}/>
           <input onChange={(event) => this.handleSearch(event)} />
           <button onClick={(event) => this.handleSearchClick(event)}>Search</button>
         </div>
