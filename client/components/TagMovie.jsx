@@ -42,13 +42,10 @@ class TagMovie extends React.Component {
         current_user: this.state.user
       }
     );
-    
-    console.log('Saving movie ', movie);
 
     axios
       .post('/save', movie)
       .then((response) => {
-        console.log('Server accepted movie submission', response);
       })
       .catch((err) => console.log('FrontEnd err sending movie to server', err));
   }
