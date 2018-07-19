@@ -15,8 +15,8 @@ var MovieCard = (props) => {
         <p className="is-size-7">{props.movie.release_date}</p>
         <div className="tags content">
           {/* <p>{props.movie.overview}</p> */}
-          {moods.map((mood, index) =>
-            <span className="tag is-warning" >{mood}
+          {moods.map((mood, index) => 
+            <span className="tag is-warning" key={mood} >{mood}
             </span>
           )}
         </div>

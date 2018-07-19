@@ -91,7 +91,7 @@ class Profile_Search extends React.Component {
           return(
             
             <div className="column is-one-fifth">
-              <MovieCard key={index} movie={movie} />
+              <MovieCard key={movie.id} movie={movie} />
               <button onClick={(event) => this.handleMoodClick(movie)}>Rate This Movie</button>
   
             </div>

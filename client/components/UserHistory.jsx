@@ -12,7 +12,7 @@ var UserHistory = (props) => {
             {props.history.map((movie, index) => {
               return (
                 <div className="column is-one-fifth">
-                  <MovieCard key={index} movie={movie} />
+                  <MovieCard key={movie.id} movie={movie} />
                 </div>
               )
             })}
