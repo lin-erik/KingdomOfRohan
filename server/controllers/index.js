@@ -53,7 +53,7 @@ app.post('/save', (req, res) => {
 app.get('/results/:moods?', (req, res) => {
   //creating an array with each mood that was sent with query
   var moods = req.query.moods.split(' ');
-  // console.log(moods);
+
   moodSearch(moods, res.send);
 });
 

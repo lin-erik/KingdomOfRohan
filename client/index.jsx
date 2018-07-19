@@ -19,6 +19,7 @@ class App extends React.Component {
 
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   
@@ -57,11 +58,15 @@ class App extends React.Component {
       })
   }
 
+  handleLogout() {
+    this.setState({loggedIn: false});
+  }
+
   render() {
     return (
       <BrowserRouter>
         <div className="container">
-          <Nav loggedIn={this.state.loggedIn} />
+          <Nav loggedIn={this.state.loggedIn} handleLogout={this.handleLogout}/>
           <Switch>
             <Route path="/global" render={() => <GlobalSearch user={this.state.user} />} />
             <Route path="/profile" render={() => (
@@ -79,6 +84,7 @@ class App extends React.Component {
               )
             )} />
             <Route path="/signup" render={() => <Signup signup={this.handleSignUp} login={this.handleLogin} />} />
+            <Route path="/logout" render={() => <Redirect to="/profile"/>} />
           </Switch>
         </div>
       </BrowserRouter>

@@ -91,7 +91,6 @@ let histSave = (info, cb) => {
     User.findOne({username: info.current_user}, (err, docs) => {
         if (err) cb(err)
         else {
-            console.log('finding one by username: ', docs)
             if (docs.history.hasOwnProperty('null')) delete docs.history.null
             let un = info.current_user
             delete info.current_user;
