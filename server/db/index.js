@@ -26,9 +26,9 @@ let signup = (info, cb) => {
 let moodSearch = (moodArr, cb) => {
   
   Movie
-  .where(moodArr[0]).not(undefined)
-  .where(moodArr[1]).not(undefined)
-  .where(moodArr[2]).not(undefined)
+  .where(moodArr[0]).ne(undefined)
+  .where(moodArr[1]).ne(undefined)
+  .where(moodArr[2]).ne(undefined)
   .then(function (response) {
     console.log (response);
     cb (response);
