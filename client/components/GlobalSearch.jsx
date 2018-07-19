@@ -40,7 +40,7 @@ class GlobalSearch extends React.Component {
     
     console.log('Querying server for ', this.state.moods);
     //create the search params by transfroming into string with spaces
-    var params = { moods: this.state.moods.join(' ') };
+    let params = { moods: this.state.moods.join(' ') };
 
     //send moods array to server and eventually query DB
     axios.get('/results/', { params })

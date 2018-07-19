@@ -10,14 +10,16 @@ class Profile_Search extends React.Component {
     this.state = {
       movies: [],
       movie: '',
-      giveMoodButtons: false
+      giveMoodButtons: false,
+      history: [],
+      recs: []
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.handleSearchClick = this.handleSearchClick.bind(this);
   }
 
   componentDidMount() {
-    //get movies
+    this.getUserHistory(this.props.user)
   }
 
   handleSearch(e) {
@@ -44,6 +46,29 @@ class Profile_Search extends React.Component {
     this.setState({giveMoodButtons: true})
   }
 
+  getUserHistory(username) {
+    let params = {username}
+    console.log('Sending get request for history with: ', {params})
+    axios.get('/users/history/', { params })
+      .then((response) => {
+        console.log(response)
+        //slice most recent 4-5 off response
+        this.setState({history: response.data})
+      })
+      .catch( err => console.log('Error getting user history: ', err));
+  }
+
+  getUserRecs(username) {
+    let params = {username}
+    console.log('Sending get request for recs with: ', {params})
+    axios.get('/users/recs/', { params })
+      .then((response) => {
+        console.log(response)
+        //slice most recent 4-5 off response
+        this.setState({recs: response.data})
+      })
+      .catch( err => console.log('Error getting user history: ', err));
+  }
 
   
   render() {

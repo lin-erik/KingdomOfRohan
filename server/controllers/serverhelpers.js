@@ -14,3 +14,11 @@ module.exports.filterResults = (results) => {
     };
   });
 };
+
+module.exports.filterRecs = (movies) => {
+  //do the special sauce here to filter out their recs
+
+
+
+  //return an array of movies as the final recs
+}
