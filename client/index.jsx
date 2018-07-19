@@ -14,7 +14,8 @@ class App extends React.Component {
 
     this.state = {
       loggedIn: false,
-      user: 'global'
+      user: 'global',
+      loginError: false
     };
 
     this.handleSignUp = this.handleSignUp.bind(this);
@@ -50,7 +51,9 @@ class App extends React.Component {
             user: username
           });
         } else {
-          console.log('Login retrieval is ', response.data)
+          this.setState({
+            loginError: true
+          })
         }
       })
       .catch((err) => {
@@ -80,7 +83,7 @@ class App extends React.Component {
               this.state.loggedIn ? (
                 <Redirect to="/profile" />
               ) : (
-                <Login signup={this.handleSignUp} login={this.handleLogin} />
+                <Login signup={this.handleSignUp} login={this.handleLogin} loginError = {this.state.loginError} />
               )
             )} />
             <Route path="/signup" render={() => (

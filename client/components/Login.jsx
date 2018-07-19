@@ -30,6 +30,11 @@ class Login extends React.Component {
     return (
       <div>
         <h3>Login</h3>
+        {
+          this.props.loginError ?
+          <span>Incorrect Username or Password.  Please try again</span>
+          : null
+        }
         <div className="login-container">
           <div
             className="username-container"
