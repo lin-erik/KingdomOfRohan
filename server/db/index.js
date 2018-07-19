@@ -14,7 +14,7 @@ let signup = (info, cb) => {
     let user = new User({
         username: info.username,
         password: info.password,
-        history: {null: null}
+        history: [null]
     });
     user.save();
     cb(null) 
@@ -91,11 +91,12 @@ let histSave = (info, cb) => {
     User.findOne({username: info.current_user}, (err, docs) => {
         if (err) cb(err)
         else {
-            if (docs.history.hasOwnProperty('null')) delete docs.history.null
-            let un = info.current_user
-            delete info.current_user;
-            docs.history[info.id] = info;
-            User.findOneAndUpdate({username: un}, docs, (err, response) => {
+            console.log('inside hist save, here are the docs for that user: ', docs)
+            let newHist = [];
+            docs.history.forEach((hist) => newHist.push(hist))
+            newHist.push(info)
+           if (newHist[0] === null) newHist = newHist.slice(1)
+            User.findOneAndUpdate({username: docs.username}, {history: newHist}, (err, response) => {
                 if (err) cb(err)
                 else cb(null) 
             })
