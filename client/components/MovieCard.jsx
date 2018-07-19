@@ -2,6 +2,7 @@ import React from 'react';
 
 //from props this needs a dynamic img src, title, year and (conditional) mood tags
 var MovieCard = (props) => {
+  if (props.movie === null) return (<div></div>)
   let moods = props.movie.moods || []
   return (
     <div className="card">

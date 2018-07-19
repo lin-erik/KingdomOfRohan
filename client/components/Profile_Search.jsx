@@ -51,6 +51,7 @@ class Profile_Search extends React.Component {
     axios.get('/users/history/', { params })
       .then((response) => {
         let history = (response.data.slice(response.data.length - 4).reverse())
+        if (history === null) history = [];
         //slice most recent 4-5 off response
         this.setState({ history })
         console.log(username, ' history: ', this.state.history)
@@ -79,8 +80,10 @@ class Profile_Search extends React.Component {
         <div className="is-size-3" >Welcome {this.props.user}, </div>
         <div className="container">
         <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history}/>
-          <input onChange={(event) => this.handleSearch(event)} />
-          <button onClick={(event) => this.handleSearchClick(event)}>Search</button>
+          <input class='input is-info' placeholder='Enter a Movie Name Here'
+            onChange={(event) => this.handleSearch(event)} />
+          <button class="button is-info is-hovered is-focused is-rounded is-hovered"
+            onClick={(event) => this.handleSearchClick(event)}>Search</button>
         </div>
 
        {!this.state.giveMoodButtons ?
@@ -93,7 +96,8 @@ class Profile_Search extends React.Component {
             
             <div className="column is-one-fifth">
               <MovieCard movie={movie} />
-              <button onClick={(event) => this.handleMoodClick(movie)}>Rate This Movie</button>
+              <button class="button is-info is-hovered is-focused"
+                onClick={(event) => this.handleMoodClick(movie)}>Rate This Movie</button>
   
             </div>
           ) 
