@@ -76,11 +76,9 @@ class Profile_Search extends React.Component {
     //button will get onSubmit prop(funtion)
     return (
       <div className="section">
+        <div className="is-size-3" >Welcome {this.props.user}, </div>
         <div className="container">
-        {this.state.history.length > 0 ?
         <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history}/>
-        : null
-      }
           <input onChange={(event) => this.handleSearch(event)} />
           <button onClick={(event) => this.handleSearchClick(event)}>Search</button>
         </div>
