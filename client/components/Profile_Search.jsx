@@ -32,6 +32,7 @@ class Profile_Search extends React.Component {
 
   handleSearchClick(e) {
     e.preventDefault();
+    this.setState({giveMoodButtons: false})
     axios.get('/search', { params: { title: this.state.movie } })
       .then((response) => {
        this.setState({movies: response.data})
@@ -52,7 +53,7 @@ class Profile_Search extends React.Component {
         let history = (response.data.slice(response.data.length - 4).reverse())
         //slice most recent 4-5 off response
         this.setState({ history })
-        console.log(this.state.history)
+        console.log(username, ' history: ', this.state.history)
       })
       .catch(err => console.log('Error getting user history: ', err));
   }
@@ -75,8 +76,9 @@ class Profile_Search extends React.Component {
     //button will get onSubmit prop(funtion)
     return (
       <div className="section">
+        <div className="is-size-3" >Welcome {this.props.user}, </div>
         <div className="container">
-          <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history}/>
+        <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history}/>
           <input onChange={(event) => this.handleSearch(event)} />
           <button onClick={(event) => this.handleSearchClick(event)}>Search</button>
         </div>
@@ -86,11 +88,11 @@ class Profile_Search extends React.Component {
         // After Search + Selection Render this:
     <div className="container is-fluid">
       <div className="columns is-multiline">
-        {this.state.movies.map((movie, index) => {
+        {this.state.movies.map((movie) => {
           return(
             
             <div className="column is-one-fifth">
-              <MovieCard key={index} movie={movie} />
+              <MovieCard movie={movie} />
               <button onClick={(event) => this.handleMoodClick(movie)}>Rate This Movie</button>
   
             </div>
