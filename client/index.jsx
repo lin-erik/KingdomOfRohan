@@ -14,7 +14,7 @@ class App extends React.Component {
 
     this.state = {
       loggedIn: false,
-      user: 'test'
+      user: 'global'
     };
 
     this.handleSignUp = this.handleSignUp.bind(this);
@@ -33,6 +33,7 @@ class App extends React.Component {
           loggedIn: true,
           user: username
         });
+        console.log('Current logged in User: ', this.state.user, 'bool', this.state.loggedIn)
       })
       .catch((err) => {
         console.error('something went wrong on signup: ', err);
@@ -48,7 +49,6 @@ class App extends React.Component {
             loggedIn: true,
             user: username
           });
-          console.log('Current logged in User: ', this.state.user)
         } else {
           console.log('Login retrieval is ', response.data)
         }
@@ -83,8 +83,12 @@ class App extends React.Component {
                 <Login signup={this.handleSignUp} login={this.handleLogin} />
               )
             )} />
-            <Route path="/signup" render={() => <Signup signup={this.handleSignUp} login={this.handleLogin} />} />
-            <Route path="/logout" render={() => <Redirect to="/profile"/>} />
+            <Route path="/signup" render={() => (
+              this.state.loggedIn ? (
+                <Redirect to="/profile" />
+              ) : (
+                <Signup signup={this.handleSignUp} login={this.handleLogin} />))} />
+            <Route path="/logout" render={() => <Redirect to="/profile" />} />
           </Switch>
         </div>
       </BrowserRouter>
