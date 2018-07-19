@@ -3,7 +3,8 @@ import MovieCard from './MovieCard.jsx';
 
 var UserHistory = (props) => {
   //account for a blank profile with no history here before render
-  if (props.history.length > 0) {
+  console.log('history length: ', props.history)
+  if (props.history[0] !== null) {
     return (
       <div className="container">
         <p>Recently Tagged</p>

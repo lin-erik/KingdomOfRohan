@@ -51,6 +51,7 @@ class Profile_Search extends React.Component {
     axios.get('/users/history/', { params })
       .then((response) => {
         let history = (response.data.slice(response.data.length - 4).reverse())
+        if (history === null) history = [];
         //slice most recent 4-5 off response
         this.setState({ history })
         console.log(username, ' history: ', this.state.history)
