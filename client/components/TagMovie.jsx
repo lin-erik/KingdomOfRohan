@@ -46,6 +46,7 @@ class TagMovie extends React.Component {
     axios
       .post('/save', movie)
       .then((response) => {
+        this.props.getUserHistory(this.props.user)
       })
       .catch((err) => console.log('FrontEnd err sending movie to server', err));
   }
