@@ -52,10 +52,7 @@ app.get('/results/:moods?', (req, res) => {
   //creating an array with each mood that was sent with query
   var moods = req.query.moods.split(' ');
   
-  moodSearch(moods, function (err, data) {
-    if (err) throw (err);
-    res.send(data);
-  });
+  moodSearch(moods, res.send)
 });
 
 //*****Single User Functionality ******/
@@ -72,7 +69,10 @@ app.get('/users/recs.:username', (req, res) => {
   console.log('Getting recs for: ', req.query.username);
   
   //use helper function here to filter rec list that comes from DB
-  fetchHist(req.query.username).then(history => helpers.filterRecs(history, res.send))
+  fetchHist(req.query.username).then(history => helpers.filterRecs(history, function (err, data) {
+    if (err) throw (err);
+    res.send(data);
+  }))
 
 })
 

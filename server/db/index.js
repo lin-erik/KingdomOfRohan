@@ -25,16 +25,30 @@ let signup = (info, cb) => {
 //the passed in callback cb
 let moodSearch = (moodArr, cb) => {
   console.log ('moodArr: ', moodArr);
+  if (!moodArr [1]) {moodArr[1] = moodArr[0]}
+  if (!moodArr [2]) {moodArr[2] = moodArr[1]}
   Movie
-  .where(moodArr[0]).ne(undefined)
+  .where(moodArr[0]).ne(undefined).sort({test: -1})
+  .where(moodArr[1]).ne(undefined).sort({test: -1})
+  .where(moodArr[2]).ne(undefined).sort({test: -1})
   .then(function (response) {
     console.log (response.slice (0,4));
-    cb (null, response.slice(0, 4));
+    if (moodArr[1]) {
+      return response;
+    }
+    cb (response.slice(0, 4));
   })
-  .catch (function (err) {
-    console.log (err);
-    cb (err, null);
-  })
+//  .catch (function (err) {
+//    console.log (err);
+//  }).where (moodArr[1]).ne(undefined)
+//  .then(function (response) {
+//    console.log (response.slice (0,4));
+//    if (moodArr[2]) {
+//      return response;
+//    }
+//    cb (response.slice(0, 4));
+//  })
+  
 }
 let save = (info, cb) => {
     // delete info.current_user;

@@ -31,7 +31,9 @@ module.exports.filterRecs = (history, resSend) => {
           var watchedMovie = watchedMovies[j];
           queuedMovies = queuedMovies.filter(movie => movie.movieId !== watchedMovie.movieId);
         }
-        resSend(queriedMovies);
+        console.log (queriedMovies);
+        resSend(null, queriedMovies);
+        
       })
 
   
