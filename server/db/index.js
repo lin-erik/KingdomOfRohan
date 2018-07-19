@@ -24,14 +24,16 @@ let signup = (info, cb) => {
 //in the moodArr and then passes the result into
 //the passed in callback cb
 let moodSearch = (moodArr, cb) => {
-  
+  console.log ('moodArr: ', moodArr);
   Movie
   .where(moodArr[0]).ne(undefined)
-  .where(moodArr[1]).ne(undefined)
-  .where(moodArr[2]).ne(undefined)
   .then(function (response) {
-    console.log (response);
-    cb (response);
+    console.log (response.slice (0,4));
+    cb (null, response.slice(0, 4));
+  })
+  .catch (function (err) {
+    console.log (err);
+    cb (err, null);
   })
 }
 let save = (info, cb) => {
