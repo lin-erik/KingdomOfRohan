@@ -72,6 +72,9 @@ app.get('/users/recs.:username', (req, res) => {
 })
 
 //*******Authentication section*******
+//runs authenticate based on object containing un/pw from client
+//on the returned docs, compares against the docs password with provided password
+//sends back boolean to allow user access or not
 app.post('/login', (req, res) => {
   let username = req.body.username;
   authenticate(username, (err, data) => {
@@ -90,8 +93,10 @@ app.post('/login', (req, res) => {
   })
 })
 
+//runs the signup function with info provided from an object from client
+//sends back OK on success
 app.post('/signup', (req, res) => {
-  signup({username: req.body.username, password: req.body.password, history: {}}, (err, response) => {
+  signup({username: req.body.username, password: req.body.password}, (err, response) => {
     if (err) console.log(err)
     else {
       res.send()
