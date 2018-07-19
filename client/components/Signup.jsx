@@ -1,5 +1,4 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React from 'react';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -40,12 +39,10 @@ class Signup extends React.Component {
         </div>
 
         <div className="button-container">
-          <Link to="/profile" onClick={() => {
-            let un = this.state.username;
-            let pw = this.state.password;
-            this.props.signup(un, pw);
+          <button to="/profile" onClick={() => {
+            this.props.signup(this.state.username, this.state.password)
           }}
-          >Register</Link> <br/>
+          >Register</button> <br/>
         </div>
       </div>
     )

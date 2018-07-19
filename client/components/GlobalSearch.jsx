@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import Results from './Results.jsx';
-const dummyData = require('./DummyData').dummyData;
 
 class GlobalSearch extends React.Component {
   constructor(props) {
@@ -11,7 +10,7 @@ class GlobalSearch extends React.Component {
       dbMoods: ['whimsical', 'intense', 'thriller', 'heartfelt', 'gripping', 'boring', 'thoughtProvoking', 'uplifting', 'light', 'tearJerker', 'challenging', 'mindScrew', 'nostalgic', 'powerful', 'despair', 'exhausting', 'paranoid', 'motivated', 'uncomfortable'],
       moods: [],
       selected: 'whimsical',
-      movies: dummyData
+      movies: []
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -21,7 +20,6 @@ class GlobalSearch extends React.Component {
   }
 
   componentDidMount() {
-    console.log(dummyData);
     //update genre list from db
   }
 
@@ -39,8 +37,8 @@ class GlobalSearch extends React.Component {
   }
 
   handleSearch() {
+    
     console.log('Querying server for ', this.state.moods);
-
     //create the search params by transfroming into string with spaces
     var params = { moods: this.state.moods.join(' ') };
 

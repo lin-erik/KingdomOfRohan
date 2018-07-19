@@ -1,7 +1,6 @@
 import React from 'react';
 import MovieCard from './MovieCard.jsx';
 const axios = require('axios');
-const dummyData = require('./DummyData').dummyData;
 
 class TagMovie extends React.Component {
   constructor(props) {
@@ -12,7 +11,7 @@ class TagMovie extends React.Component {
       selected: 'whimsical',
       //movie and user should eventually come from props after testing
       movie: this.props.movie,
-      username: 'p' 
+      user: this.props.user 
     };
 
     this.handleChangeMood = this.handleChangeMood.bind(this);
@@ -39,7 +38,7 @@ class TagMovie extends React.Component {
     let { id, original_title, poster_path, overview, release_date } = movie;
     release_date = release_date.slice(0, 4);
     let moods = this.state.moods;
-    let current_user = this.state.username;
+    let current_user = this.props.user;
     return {
       id,
       original_title,
@@ -52,11 +51,16 @@ class TagMovie extends React.Component {
   }
 
   handleSaveMovie() {
-    console.log('Saving movie with ', this.state.moods);
-    let movie = this.parseMovieHelper(this.state.movie);
-    console.log('Saving movie ', movie);
-
+    let movie = this.state.movie
+    movie = Object.assign(
+      movie,
+      {
+        moods: this.state.moods,
+        current_user: this.state.user
+      }
+    );
     
+    console.log('Saving movie ', movie);
 
     axios
       .post('/save', movie)

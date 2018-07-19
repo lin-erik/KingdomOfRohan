@@ -7,7 +7,8 @@ class Login extends React.Component {
 
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      error: '',
     };
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -47,16 +48,14 @@ class Login extends React.Component {
         </div>
 
         <div className="button-container">
-          <Link to="/profile"
+          <button
             onClick={() => {
-              let un = this.state.username;
-              let pw = this.state.password;
-              console.log('Link> ', un, pw);
-              this.props.login(un, pw);
+              this.setState({error: 'Incorrect username or password. Please signup or try again.' })
+              this.props.login(this.state.username, this.state.password);
             }}
           >
             Login
-          </Link>
+          </button>
         </div>
       </div>
     );

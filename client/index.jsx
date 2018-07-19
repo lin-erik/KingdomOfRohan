@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import Login_Signup from './components/login_signup.jsx';
 import GlobalSearch from './components/GlobalSearch.jsx';
 import Profile_Search from './components/Profile_Search.jsx';
 import Nav from './components/Nav.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
-import {BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
+import {BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,11 +14,12 @@ class App extends React.Component {
 
     this.state = {
       loggedIn: false,
-      user: 'test'
+      user: 'global'
     };
 
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   
@@ -33,6 +33,7 @@ class App extends React.Component {
           loggedIn: true,
           user: username
         });
+        console.log('Current logged in User: ', this.state.user, 'bool', this.state.loggedIn)
       })
       .catch((err) => {
         console.error('something went wrong on signup: ', err);
@@ -49,7 +50,7 @@ class App extends React.Component {
             user: username
           });
         } else {
-          alert('Incorrect Password or Username. Please try again or Sign Up for an account.');
+          console.log('Login retrieval is ', response.data)
         }
       })
       .catch((err) => {
@@ -57,16 +58,37 @@ class App extends React.Component {
       })
   }
 
+  handleLogout() {
+    this.setState({loggedIn: false});
+  }
+
   render() {
     return (
       <BrowserRouter>
         <div className="container">
-          <Nav loggedIn={this.state.loggedIn}/>
+          <Nav loggedIn={this.state.loggedIn} handleLogout={this.handleLogout}/>
           <Switch>
-            <Route path="/global" render={() => <GlobalSearch />} />
-            <Route path="/profile" render={() => <Profile_Search />} />
-            <Route path="/login" render={() => <Login signup={this.handleSignUp} login={this.handleLogin}/>} />
-            <Route path="/signup" render={() => <Signup signup={this.handleSignUp} login={this.handleLogin}/>} />
+            <Route path="/global" render={() => <GlobalSearch user={this.state.user} />} />
+            <Route path="/profile" render={() => (
+              this.state.loggedIn ? (
+                <Profile_Search user={this.state.user} />
+              ) : (
+                <Redirect to="/login" />
+              )
+            )} />
+            <Route path="/login" render={() => (
+              this.state.loggedIn ? (
+                <Redirect to="/profile" />
+              ) : (
+                <Login signup={this.handleSignUp} login={this.handleLogin} />
+              )
+            )} />
+            <Route path="/signup" render={() => (
+              this.state.loggedIn ? (
+                <Redirect to="/profile" />
+              ) : (
+                <Signup signup={this.handleSignUp} login={this.handleLogin} />))} />
+            <Route path="/logout" render={() => <Redirect to="/profile" />} />
           </Switch>
         </div>
       </BrowserRouter>

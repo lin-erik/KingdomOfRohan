@@ -23,7 +23,6 @@ app.use(express.static(__dirname + '/../../dist'));
 //profile search - example url: localhost:8080/search/?input=batman+begins
 app.get('/search', (req, res) => {
   let movie = req.query.title
-  console.log('movie: ', movie)
   axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${ API_KEY }&language=en-US&page=1&include_adult=false&query=${movie}`)
     .then((response) => {
       let filtered = helpers.filterResults(response.data.results);
@@ -54,7 +53,7 @@ app.post('/save', (req, res) => {
 app.get('/results/:moods?', (req, res) => {
   //creating an array with each mood that was sent with query
   var moods = req.query.moods.split(' ');
-  // console.log(moods);
+
   moodSearch(moods, res.send);
 });
 
@@ -72,13 +71,17 @@ app.get('/users/history/:username?', (req, res) => {
 app.post('/login', (req, res) => {
   let username = req.body.username;
   authenticate(username, (err, data) => {
-    if (err) console.error(err)
+    if (err) {
+      console.log('Error in the db retrieval '. err)
+    }
     else {
-      let allowedAccess = false
-      if (Object.keys(data).length > 1 && data.password === req.body.password) {
-        allowedAccess = true
+      if (data === null) {
+        res.send(false)
+      } else if (Object.keys(data).length > 1 && data.password === req.body.password) {
+        res.send(true)
+      } else {
+        res.send(false)
       }
-      res.send(allowedAccess)
     }
   })
 })

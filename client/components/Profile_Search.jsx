@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import MovieCard from './MovieCard.jsx';
 import TagMovie from './TagMovie.jsx';
-import Results from './Results.jsx'
 
 
 class Profile_Search extends React.Component {
@@ -76,7 +75,7 @@ class Profile_Search extends React.Component {
       </div>
     </div>
     
-      : <TagMovie movie={this.state.movies[0]}/>}
+      : <TagMovie movie={this.state.movies[0]} user={this.props.user}/>}
         
       </div>
 
