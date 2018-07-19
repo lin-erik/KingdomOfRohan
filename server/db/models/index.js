@@ -15,8 +15,8 @@ let UserSchema = mongoose.Schema ({
   username: {type: String,
              uniq: true}, 
   password: String,
-  history: {type: Object,
-			default: {},
+  history: {type: Array,
+			default: [],
 			required: true}
 }) 
 
