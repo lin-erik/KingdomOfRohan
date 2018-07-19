@@ -36,7 +36,7 @@ let moodSearch = (moodArr, cb) => {
 }
 let save = (info, cb) => {
     // delete info.current_user;
-    Movie.findOne({title: info.title}, (err, docs) => {
+    Movie.findOne({title: info.original_title}, (err, docs) => {
         if (err) console.log('error retrieving movie', err)
         else {
             if (docs === null) {
