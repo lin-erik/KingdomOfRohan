@@ -33,23 +33,6 @@ class TagMovie extends React.Component {
     this.setState({ moods: temp });
   }
 
-  parseMovieHelper(movie) {
-    //eventually move this function somewher else imo
-    let { id, original_title, poster_path, overview, release_date } = movie;
-    release_date = release_date.slice(0, 4);
-    let moods = this.state.moods;
-    let current_user = this.props.user;
-    return {
-      id,
-      original_title,
-      poster_path,
-      overview,
-      release_date,
-      moods,
-      current_user
-    };
-  }
-
   handleSaveMovie() {
     let movie = this.state.movie
     movie = Object.assign(

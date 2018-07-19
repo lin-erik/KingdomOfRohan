@@ -10,8 +10,6 @@ let histSave = require('./../db/index').histSave
 let fetchHist = require('./../db/index').fetchHist
 let moodSearch = require('./../db/index').moodSearch
 let { API_KEY } = require('../../config.js');
-
-
 const helpers = require('./serverhelpers');
 
 //********middleware and plugins*********
@@ -66,6 +64,13 @@ app.get('/users/history/:username?', (req, res) => {
   console.log('username searching for: ', req.query.username);
   fetchHist(req.query.username).then(history => res.send(history))
 });
+
+app.get('/users/recs.:username', (req, res) => {
+  console.log('Getting recs for: ', req.query.username);
+
+  //use helper function here to filter rec list that comes from DB
+  helpers.filterRecs()
+})
 
 //*******Authentication section*******
 app.post('/login', (req, res) => {
