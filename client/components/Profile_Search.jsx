@@ -32,6 +32,7 @@ class Profile_Search extends React.Component {
 
   handleSearchClick(e) {
     e.preventDefault();
+    this.setState({giveMoodButtons: false})
     axios.get('/search', { params: { title: this.state.movie } })
       .then((response) => {
        this.setState({movies: response.data})
