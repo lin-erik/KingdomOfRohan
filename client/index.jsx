@@ -6,7 +6,7 @@ import Profile_Search from './components/Profile_Search.jsx';
 import Nav from './components/Nav.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
-import {BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
+import {BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 class App extends React.Component {
   constructor(props) {
