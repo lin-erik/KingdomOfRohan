@@ -52,7 +52,10 @@ app.get('/results/:moods?', (req, res) => {
   //creating an array with each mood that was sent with query
   var moods = req.query.moods.split(' ');
   
-  moodSearch(moods, res.send)
+  moodSearch(moods, function (err, data) {
+    if (err) throw (err);
+    res.send(data);
+  })
 });
 
 //*****Single User Functionality ******/

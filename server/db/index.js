@@ -33,10 +33,7 @@ let moodSearch = (moodArr, cb) => {
   .where(moodArr[2]).ne(undefined).sort({test: -1})
   .then(function (response) {
     console.log (response.slice (0,4));
-    if (moodArr[1]) {
-      return response;
-    }
-    cb (response.slice(0, 4));
+    cb (null, response.slice(0, 4));
   })
 //  .catch (function (err) {
 //    console.log (err);
