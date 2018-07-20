@@ -61,30 +61,12 @@ class TagMovie extends React.Component {
 
   render() {
     return (
-      <div className="container" id='movieCard'>
-        {/* <div className="columns"> */}
-        <div className="column is-one-third">
-          <MovieCard movie={this.props.movie} />
-          <div className="container">
-            {this.state.moods.map((mood, index) => (
-              <span className="tag is-primary is-medium" style={{ margin: '7px' }}>
-                {mood}
-                <button
-                  onClick={this.handleDeleteMood}
-                  value={index}
-                  className="delete"
-                />
-              </span>
-            ))}
-          </div>
-          {/* </div> */}
-        </div>
-
+      <div className="container">
         <div className="container">
-          <div className="title is-title-4">Add Moods:</div>
-          <div className="field">
-            <div className="control">
-              <div className="select is-primary">
+          <div className="is-title-6">How did you feel about {this.state.movie.original_title}?</div>
+          <div className="field has-addons">
+            <p className="control">
+              <span className="select is-primary">
                 <select
                   onChange={this.handleChangeMood}
                   className="select is-multiple"
@@ -97,10 +79,27 @@ class TagMovie extends React.Component {
                     );
                   })}
                 </select>
-                <button onClick={this.handleSaveMovie} className="button is-primary" >Submit Moodvie</button>
-              </div>
-            </div>
+              </span>
+            </p>
+              <p className="control">
+                <button onClick={this.handleSaveMovie} className="button is-primary" style={{ marginLeft: '10px' }} >Submit Moodvie</button>
+                </p>
           </div>
+          <div className="container">
+            {this.state.moods.map((mood, index) => (
+              <span className="tag is-primary is-medium" style={{ margin: '7px' }}>
+                {mood}
+                <button
+                  onClick={this.handleDeleteMood}
+                  value={index}
+                  className="delete"
+                />
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="column is-one-fifth">
+        <MovieCard movie={this.props.movie} />
         </div>
       </div>
     );
