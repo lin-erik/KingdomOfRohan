@@ -32,7 +32,9 @@ class TagMovie extends React.Component {
   }
 
   handleSaveMovie() {
+    console.log('handle save movie running')
     let movie = this.state.movie
+    
     window.scrollTo(0, 0);
     movie = Object.assign(
       movie,
@@ -41,7 +43,9 @@ class TagMovie extends React.Component {
         current_user: this.state.user
       }
     );
-    document.getElementById('movieCard').style.opacity = '0';
+    
+    console.log('saving movie ', movie)
+    // document.getElementById('movieCard').style.opacity = '0';
 
     axios
       .post('/save', movie)
@@ -62,42 +66,43 @@ class TagMovie extends React.Component {
     return (
       <div className="container" id='movieCard'>
         {/* <div className="columns"> */}
-          <div className="column is-one-third">
-            <MovieCard movie={this.props.movie}/>
-            <div className="container">
-              {this.state.moods.map((mood, index) => (
-                <span className="tag is-primary is-medium" style={{ margin: '7px' }}>
-                  {mood}
-                  <button
-                    onClick={this.handleDeleteMood}
-                    value={index}
-                    className="delete"
-                  />
-                </span>
-              ))}
-            </div>
+        <div className="column is-one-third">
+          <MovieCard movie={this.props.movie} />
+          <div className="container">
+            {this.state.moods.map((mood, index) => (
+              <span className="tag is-primary is-medium" style={{ margin: '7px' }}>
+                {mood}
+                <button
+                  onClick={this.handleDeleteMood}
+                  value={index}
+                  className="delete"
+                />
+              </span>
+            ))}
+          </div>
           {/* </div> */}
         </div>
 
         <div className="container">
           <div className="title is-title-4">Add Moods:</div>
           <div className="field">
-          <div className="control">
-          <div className="select is-primary">
-          <select
-            onChange={this.handleChangeMood}
-            className="select is-multiple"
-          >
-            {this.state.dbMoods.map((option, index) => {
-              return (
-                <option value={option} key={index}>
-                  {option}
-                </option>
-              );
-            })}
-          </select>
-          </div>
-          </div>
+            <div className="control">
+              <div className="select is-primary">
+                <select
+                  onChange={this.handleChangeMood}
+                  className="select is-multiple"
+                >
+                  {this.state.dbMoods.map((option, index) => {
+                    return (
+                      <option value={option} key={index}>
+                        {option}
+                      </option>
+                    );
+                  })}
+                </select>
+                <button onClick={this.handleSaveMovie} className="button is-primary" >Submit Moodvie</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
