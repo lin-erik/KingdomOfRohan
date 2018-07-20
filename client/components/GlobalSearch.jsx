@@ -26,6 +26,7 @@ class GlobalSearch extends React.Component {
   handleChange(e) {
     this.setState({ selected: e.target.value });
     console.log('selected mood', this.state.selected);
+    this.addMood()
   }
 
   addMood() {
@@ -64,19 +65,21 @@ class GlobalSearch extends React.Component {
     return (
       <div className="section">
         <div className="title is-title-4">Find a Moodvie to watch</div>
-        <div class='select is-multiple is-primary is-hovered'>
-          <select
-            onChange={this.handleChange} className="select is-multiple">
-            {this.state.dbMoods.map((option, index) => {
-              return <option value={option} key={index}>{option}</option>;
-            })}
-          </select>
+        <div className="field">
+          <div className="control">
+            <div className="select is-primary">
+              <select
+                onChange={this.handleChange} className="select is-multiple">
+                {this.state.dbMoods.map((option, index) => {
+                  return <option value={option} key={index}>{option}</option>;
+                })}
+              </select>
+            </div>
+          </div>
         </div>
-        <button class="button is-info is-hovered is-focused"
-          onClick={this.addMood}>Add Mood</button>
-        <div className="container">
+        <div className="container" style={{ margin: '15px' }} >
           {this.state.moods.map((mood, index) =>
-            <span className="tag is-warning" style={{ margin: '7px' }}>{mood}
+            <span className="tag is-primary is-large" style={{ margin: '7px' }}>{mood}
               <button onClick={this.handleDelete} value={index} className="delete"></button>
             </span>)}
         </div>
