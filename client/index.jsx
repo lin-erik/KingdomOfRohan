@@ -70,22 +70,23 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div className="container">
-          <Nav loggedIn={this.state.loggedIn} handleLogout={this.handleLogout}/>
+          <Nav loggedIn={this.state.loggedIn} handleLogout={this.handleLogout} />
           <Switch>
+            <Route exact path="/" render={() => <Redirect to="/global" />} />
             <Route path="/global" render={() => <GlobalSearch user={this.state.user} />} />
             <Route path="/profile" render={() => (
               this.state.loggedIn ? (
                 <Profile_Search user={this.state.user} />
               ) : (
-                <Redirect to="/login" />
-              )
+                  <Redirect to="/login" />
+                )
             )} />
             <Route path="/login" render={() => (
               this.state.loggedIn ? (
                 <Redirect to="/profile" />
               ) : (
-                <Login signup={this.handleSignUp} login={this.handleLogin} loginError = {this.state.loginError} />
-              )
+                  <Login signup={this.handleSignUp} login={this.handleLogin} loginError={this.state.loginError} />
+                )
             )} />
             <Route path="/signup" render={() => (
               this.state.loggedIn ? (
