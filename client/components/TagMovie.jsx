@@ -38,6 +38,7 @@ class TagMovie extends React.Component {
 
   handleSaveMovie() {
     let movie = this.state.movie
+    window.scrollTo(0, 0);
     movie = Object.assign(
       movie,
       {

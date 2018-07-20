@@ -21,17 +21,21 @@ class Profile_Search extends React.Component {
     this.getUserRecs = this.getUserRecs.bind(this);
   }
 
+  //display User History after logging in
   componentDidMount() {
     this.getUserHistory(this.props.user)
   }
 
+  //change state of movie to search input on Change
   handleSearch(e) {
     e.preventDefault();
     this.setState({ movie: e.target.value });
   }
 
+  //after clicking search the corresponding array of movie 
   handleSearchClick(e) {
     e.preventDefault();
+    //change movieCard display to change back to original search display
     this.setState({giveMoodButtons: false, movie: ''})
     axios.get('/search', { params: { title: this.state.movie } })
       .then((response) => {
@@ -41,11 +45,15 @@ class Profile_Search extends React.Component {
       .catch((err) => console.error(err));
   }
 
+   //once you get the list of search results, clicking Rate This Movie makes Movies State set to the corresponding movie object wrapped as an array
+   //this makes the mapping of movieCard easily return just this one movie
   handleMoodClick(movie) {
     this.setState({movies: [movie]})
+    //change movieCard display to give option for tagging with moods
     this.setState({giveMoodButtons: true})
   }
 
+   //calls for the users 4 most recently tagged movies
   getUserHistory(username) {
     let params = { username }
     axios.get('/users/history/', { params })
