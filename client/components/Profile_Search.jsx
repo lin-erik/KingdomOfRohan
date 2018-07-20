@@ -85,9 +85,9 @@ class Profile_Search extends React.Component {
             </div>
               {/* <div className="level-right"> */}
             <div className="level-item" style={{ marginLeft: '70px' }} >
-                <input class='input is-info' placeholder='What have you watched recently?'
+                <input class='input is-primary' placeholder='What have you watched recently?'
                   onChange={(event) => this.handleSearch(event)} />
-                <button class="button is-info is-hovered is-focused is-rounded is-hovered"
+                <button class="button is-primary" style={{ marginLeft: '10px' }}
                   onClick={(event) => this.handleSearchClick(event)}>Search</button>
             {/* </div> */}
           </div>
