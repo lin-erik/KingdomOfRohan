@@ -106,7 +106,6 @@ let updateMovie = (docs, info, cb) => {
         }
         else docs[mood] = 1
     });
-    console.log('in the db.  making a movie with the following docs: ', docs)
     Movie.findOneAndUpdate({id: docs.id}, docs, {upsert: true}, (err, document) => {
         if (err) cb(err)
         else cb(null, document)
