@@ -19,7 +19,7 @@ class Profile_Search extends React.Component {
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.getUserHistory = this.getUserHistory.bind(this);
     this.getUserRecs = this.getUserRecs.bind(this);
-    this.changeGiveMoodButtons = this.changeGiveMoodButtons.bind(this);
+    this.hideTagging = this.hideTagging.bind(this);
   }
 
   //display User History after logging in
@@ -55,8 +55,8 @@ class Profile_Search extends React.Component {
   }
 
   //hide the tag movie functionality after the user submits the movie
-  changeGiveMoodButtons() {
-    this.setState({giveMoodButtons: false})
+  hideTagging() {
+    this.setState({giveMoodButtons: false, movies: []})
   }
 
    //calls for the users 4 most recently tagged movies
@@ -119,7 +119,7 @@ class Profile_Search extends React.Component {
 
                       <div className="column is-one-fourth">
                         <MovieCard movie={movie} />
-                        <button class="button is-primary"
+                        <button className="button is-primary"
                           onClick={(event) => this.handleMoodClick(movie)}>Add Moods</button>
 
                       </div>
@@ -128,7 +128,7 @@ class Profile_Search extends React.Component {
                 </div>
               </div>
 
-              : <TagMovie movie={this.state.movies[0]} user={this.props.user} getUserHistory={this.getUserHistory} hideTagging={this.changeGiveMoodButtons} />}
+              : <TagMovie movie={this.state.movies[0]} user={this.props.user} getUserHistory={this.getUserHistory} hideTagging={this.hideTagging} />}
 
           </div>
         </div>
