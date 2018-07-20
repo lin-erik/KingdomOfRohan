@@ -120,8 +120,21 @@ let histSave = (info, cb) => {
         if (err) cb(err)
         else {
             let newHist = [];
-            docs.history.forEach((hist) => newHist.push(hist))
-            newHist.push(info)
+            let dupeFound = false
+            docs.history.forEach((hist) => {
+                if (hist.original_title !== info.original_title) {
+                    newHist.push(hist)
+                } else {
+                    info.moods.forEach((mood) => {
+                        if (!hist.moods.includes(mood)) hist.moods.push(mood)
+                    })
+                    newHist.push(hist)
+                    dupeFound = true
+                }
+            })
+            if (!dupeFound) {
+                newHist.push(info)
+            } 
            if (newHist[0] === null) newHist = newHist.slice(1)
             User.findOneAndUpdate({username: docs.username}, {history: newHist}, (err, response) => {
                 if (err) cb(err)
