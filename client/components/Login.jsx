@@ -35,6 +35,11 @@ class Login extends React.Component {
           <span>Incorrect Username or Password.  Please try again</span>
           : null
         }
+        <form onSubmit = {(e) => {
+              e.preventDefault();
+              this.setState({error: 'Incorrect username or password. Please signup or try again.' })
+              this.props.login(this.state.username, this.state.password);
+            }}>
         <div className="login-container">
           <div
             className="username-container"
@@ -60,6 +65,7 @@ class Login extends React.Component {
             Login
           </button>
         </div>
+        </form>
       </div>
     );
   }
