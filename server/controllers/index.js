@@ -9,8 +9,12 @@ let save = require('./../db/index').save
 let histSave = require('./../db/index').histSave
 let fetchHist = require('./../db/index').fetchHist
 let moodSearch = require('./../db/index').moodSearch
-
-let { API_KEY } = require('../../config.js');
+let API_KEY
+try {
+  API_KEY = require('../../config.js').API_KEY
+} catch(err) {
+  API_KEY = process.env.API_KEY
+}
 const helpers = require('./serverhelpers.js');
 const refreshRouter = require('./refreshRouter.js')
 
