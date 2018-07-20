@@ -6,19 +6,13 @@ var UserHistory = (props) => {
   console.log('history length: ', props.history)
   if (props.history[0] !== null) {
     return (
-      <div className="container">
-        <p>Recently Tagged</p>
-        <div className="container is-fluid">
-          <div className="columns is-multiline">
+      <div className="column is-one-fifth">
+        <p className="has-text-grey">Recently Added</p>
             {props.history.map((movie, index) => {
               return (
-                <div className="column is-one-fifth">
                   <MovieCard movie={movie} />
-                </div>
               )
             })}
-          </div>
-        </div>
       </div>
     )
   } else {
