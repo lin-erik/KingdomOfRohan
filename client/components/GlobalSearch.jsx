@@ -24,9 +24,16 @@ class GlobalSearch extends React.Component {
   }
 
   handleChange(e) {
-    this.setState({ selected: e.target.value });
-    console.log('selected mood', this.state.selected);
-    this.addMood()
+    console.log('you selected ', e.target.value)
+    let temp = this.state.moods;
+    if (temp.length < 3 && !temp.includes(this.state.selected)) {
+      temp.push(e.target.value);
+    }
+    this.setState({ moods: temp });
+    this.handleSearch()
+    // this.setState({ selected: e.target.value });
+    // console.log('selected mood', this.state.selected);
+    // this.addMood()
 
   }
 
@@ -70,7 +77,7 @@ class GlobalSearch extends React.Component {
           <div className="control">
             <div className="select is-primary">
               <select
-                onInput={this.handleChange} className="select is-multiple">
+                onChange={this.handleChange} className="select is-multiple">
                 {this.state.dbMoods.map((option, index) => {
                   return <option value={option} key={index}>{option}</option>;
                 })}

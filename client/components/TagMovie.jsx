@@ -23,12 +23,10 @@ class TagMovie extends React.Component {
   handleChangeMood(e) {
     console.log('push to state: ', e.target.value)
     let temp = this.state.moods;
-    if (!temp.includes(this.state.selected)) {
+    if (!temp.includes(e.target.value)) {
       temp.push(e.target.value);
     }
     this.setState({ moods: temp });
-
-
   }
 
   handleSaveMovie() {
@@ -41,6 +39,7 @@ class TagMovie extends React.Component {
         current_user: this.state.user
       }
     );
+
     document.getElementById('movieCard').style.opacity = '0';
 
     axios
