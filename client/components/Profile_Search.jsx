@@ -19,6 +19,7 @@ class Profile_Search extends React.Component {
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.getUserHistory = this.getUserHistory.bind(this);
     this.getUserRecs = this.getUserRecs.bind(this);
+    this.changeGiveMoodButtons = this.changeGiveMoodButtons.bind(this);
   }
 
   //display User History after logging in
@@ -53,6 +54,11 @@ class Profile_Search extends React.Component {
     this.setState({giveMoodButtons: true})
   }
 
+  //hide the tag movie functionality after the user submits the movie
+  changeGiveMoodButtons() {
+    this.setState({giveMoodButtons: false})
+  }
+
    //calls for the users 4 most recently tagged movies
   getUserHistory(username) {
     let params = { username }
@@ -62,7 +68,6 @@ class Profile_Search extends React.Component {
         if (history === null) history = [];
         //slice most recent 4-5 off response
         this.setState({ history })
-        console.log(username, ' history: ', this.state.history)
       })
       .catch(err => console.log('Error getting user history: ', err));
   }
@@ -123,7 +128,7 @@ class Profile_Search extends React.Component {
                 </div>
               </div>
 
-              : <TagMovie movie={this.state.movies[0]} user={this.props.user} getUserHistory={this.getUserHistory} />}
+              : <TagMovie movie={this.state.movies[0]} user={this.props.user} getUserHistory={this.getUserHistory} hideTagging={this.changeGiveMoodButtons} />}
 
           </div>
         </div>
