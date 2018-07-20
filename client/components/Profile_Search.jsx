@@ -76,43 +76,58 @@ class Profile_Search extends React.Component {
     //form will get onChange prop(function)
     //button will get onSubmit prop(funtion)
     return (
-      <div className="columns">
-        {/* <div className="column is-one-fourth"> */}
-          <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history} />
-        {/* </div> */}
-
-        <div className="section">
-
-          <div className="is-size-3" >Welcome {this.props.user}, </div>
-          <div className="column is-four-fifths">
-
-            <input class='input is-info' placeholder='Enter a Movie Name Here'
-              onChange={(event) => this.handleSearch(event)} />
-            <button class="button is-info is-hovered is-focused is-rounded is-hovered"
-              onClick={(event) => this.handleSearchClick(event)}>Search</button>
+      <div className="container">
+        <div className="level">
+          <div className="level-item">
+          <div className="level-left"></div>
+            <p className="subtitle is-5">Welcome, {this.props.user}</p>
           </div>
+        <div className="level-item">
+          <input class='input is-info' placeholder='Enter a Movie Name Here'
+            onChange={(event) => this.handleSearch(event)} />
+          <button class="button is-info is-hovered is-focused is-rounded is-hovered"
+            onClick={(event) => this.handleSearchClick(event)}>Search</button>
+        </div>
+        </div>
 
-          {!this.state.giveMoodButtons ?
+        <div className="columns">
+          {/* <div className="column is-one-fourth"> */}
+          <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history} />
+          {/* </div> */}
 
-            // After Search + Selection Render this:
-            <div className="container">
-              <div className="columns is-multiline">
-                {this.state.movies.map((movie) => {
-                  return (
+          <div className="section">
 
-                    <div className="column is-one-fourth">
-                      <MovieCard movie={movie} />
-                      <button class="button is-info is-hovered is-focused"
-                        onClick={(event) => this.handleMoodClick(movie)}>Add Moods</button>
+            {/* <div className="is-size-3" >Welcome {this.props.user}, </div> */}
+            {/* <div className="column is-four-fifths">
 
-                    </div>
-                  )
-                })}
+              <input class='input is-info' placeholder='Enter a Movie Name Here'
+                onChange={(event) => this.handleSearch(event)} />
+              <button class="button is-info is-hovered is-focused is-rounded is-hovered"
+                onClick={(event) => this.handleSearchClick(event)}>Search</button>
+            </div> */}
+
+            {!this.state.giveMoodButtons ?
+
+              // After Search + Selection Render this:
+              <div className="container">
+                <div className="columns is-multiline">
+                  {this.state.movies.map((movie) => {
+                    return (
+
+                      <div className="column is-one-fourth">
+                        <MovieCard movie={movie} />
+                        <button class="button is-info is-hovered is-focused"
+                          onClick={(event) => this.handleMoodClick(movie)}>Add Moods</button>
+
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
-            </div>
 
-            : <TagMovie movie={this.state.movies[0]} user={this.props.user} getUserHistory={this.getUserHistory} />}
+              : <TagMovie movie={this.state.movies[0]} user={this.props.user} getUserHistory={this.getUserHistory} />}
 
+          </div>
         </div>
       </div>
     );
