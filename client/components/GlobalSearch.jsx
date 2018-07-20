@@ -86,6 +86,11 @@ class GlobalSearch extends React.Component {
           </div>
         </div>
         <div className="container" style={{ margin: '15px' }} >
+          
+          { this.state.moods.length > 0 ? 
+            <span className="subtitle">Our users found these movies to be </span> : null
+          }
+
           {this.state.moods.map((mood, index) =>
             <span className="tag is-primary is-large" style={{ margin: '7px' }}>{mood}
               <button onClick={this.handleDelete} value={index} className="delete"></button>
