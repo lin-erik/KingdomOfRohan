@@ -15,6 +15,7 @@ class Profile_Search extends React.Component {
       history: [],
       recs: []
     };
+    this.formRef = null;
     this.handleSearch = this.handleSearch.bind(this);
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.getUserHistory = this.getUserHistory.bind(this);
@@ -33,9 +34,10 @@ class Profile_Search extends React.Component {
     this.setState({ movie: e.target.value });
   }
 
-  //after clicking search the corresponding array of movie 
+  //after clicking search the corresponding array of movie objects (results) is sent to state in movies
   handleSearchClick(e) {
     e.preventDefault();
+    this.formRef.reset();
     //change movieCard display to change back to original search display
     this.setState({giveMoodButtons: false})
     axios.get('/search', { params: { title: this.state.movie } })
@@ -96,7 +98,8 @@ class Profile_Search extends React.Component {
               <p className="subtitle is-5">Welcome, {this.props.user}</p>
             </div>
             </div>
-          <form onSubmit={(event) => this.handleSearchClick(event)}>
+              {/* <div className="level-right"> */}
+          <form ref={(ref) => this.formRef = ref} onSubmit={(event) => this.handleSearchClick(event)}>
             <div className="level-item" style={{ marginLeft: '70px' }} >
                 <input className='input is-primary' placeholder='Tag a movie...'
                   onChange={(event) => this.handleSearch(event)} />
