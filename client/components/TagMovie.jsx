@@ -8,7 +8,7 @@ class TagMovie extends React.Component {
     this.state = {
       dbMoods: ['whimsical', 'intense', 'thriller', 'heartfelt', 'gripping', 'boring', 'thoughtProvoking', 'uplifting', 'light', 'tearJerker', 'challenging', 'mindScrew', 'nostalgic', 'powerful', 'despair', 'exhausting', 'paranoid', 'motivated', 'uncomfortable'],
       moods: [],
-      selected: '',
+      selected: 'whimsical',
       //movie and user should eventually come from props after testing
       movie: this.props.movie,
       user: this.props.user, 
@@ -16,24 +16,19 @@ class TagMovie extends React.Component {
     };
 
     this.handleChangeMood = this.handleChangeMood.bind(this);
-    this.addMood = this.addMood.bind(this);
     this.handleSaveMovie = this.handleSaveMovie.bind(this);
     this.handleDeleteMood = this.handleDeleteMood.bind(this);
   }
 
   handleChangeMood(e) {
-    console.log('adding this to state; ', e.target.value)
-    this.setState({ selected: e.target.value });
-    console.log('selected state: ', this.state.selected);
-    this.addMood();
-  }
-
-  addMood() {
+    console.log('push to state: ', e.target.value)
     let temp = this.state.moods;
     if (!temp.includes(this.state.selected)) {
-      temp.push(this.state.selected);
+      temp.push(e.target.value);
     }
     this.setState({ moods: temp });
+
+
   }
 
   handleSaveMovie() {

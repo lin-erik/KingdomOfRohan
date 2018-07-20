@@ -114,7 +114,7 @@ class Profile_Search extends React.Component {
 
                       <div className="column is-one-fourth">
                         <MovieCard movie={movie} />
-                        <button class="button is-primary is-hovered"
+                        <button class="button is-primary"
                           onClick={(event) => this.handleMoodClick(movie)}>Add Moods</button>
 
                       </div>
