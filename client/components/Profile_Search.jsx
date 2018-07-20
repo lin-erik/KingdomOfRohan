@@ -20,6 +20,7 @@ class Profile_Search extends React.Component {
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.getUserHistory = this.getUserHistory.bind(this);
     this.getUserRecs = this.getUserRecs.bind(this);
+    this.hideTagging = this.hideTagging.bind(this);
   }
 
   //display User History after logging in
@@ -55,6 +56,11 @@ class Profile_Search extends React.Component {
     this.setState({giveMoodButtons: true})
   }
 
+  //hide the tag movie functionality after the user submits the movie
+  hideTagging() {
+    this.setState({giveMoodButtons: false, movies: []})
+  }
+
    //calls for the users 4 most recently tagged movies
   getUserHistory(username) {
     let params = { username }
@@ -64,7 +70,6 @@ class Profile_Search extends React.Component {
         if (history === null) history = [];
         //slice most recent 4-5 off response
         this.setState({ history })
-        console.log(username, ' history: ', this.state.history)
       })
       .catch(err => console.log('Error getting user history: ', err));
   }
@@ -96,17 +101,16 @@ class Profile_Search extends React.Component {
               {/* <div className="level-right"> */}
           <form ref={(ref) => this.formRef = ref} onSubmit={(event) => this.handleSearchClick(event)}>
             <div className="level-item" style={{ marginLeft: '70px' }} >
-                <input class='input is-primary' placeholder='What have you watched recently?'
+                <input className='input is-primary' placeholder='Tag a movie...'
                   onChange={(event) => this.handleSearch(event)} />
-                <button class="button is-primary" style={{ marginLeft: '10px' }}
+                <button className="button is-primary" style={{ marginLeft: '10px' }}
                   onClick={(event) => this.handleSearchClick(event)}>Search</button>
-            {/* </div> */}
             </div>
           </form>
         </div>
-        <div className="columns">
+        <div className="columns is-fixed">
           <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history} />
-          <div className="section">
+          <div className="column is-one-fifth">
 
             {!this.state.giveMoodButtons ?
 
@@ -118,7 +122,7 @@ class Profile_Search extends React.Component {
 
                       <div className="column is-one-fourth">
                         <MovieCard movie={movie} />
-                        <button class="button is-primary"
+                        <button className="button is-primary"
                           onClick={(event) => this.handleMoodClick(movie)}>Add Moods</button>
 
                       </div>
@@ -127,7 +131,7 @@ class Profile_Search extends React.Component {
                 </div>
               </div>
 
-              : <TagMovie movie={this.state.movies[0]} user={this.props.user} getUserHistory={this.getUserHistory} />}
+              : <TagMovie movie={this.state.movies[0]} user={this.props.user} getUserHistory={this.getUserHistory} hideTagging={this.hideTagging} />}
 
           </div>
         </div>
