@@ -34,10 +34,10 @@ class GlobalSearch extends React.Component {
       temp.push(this.state.selected);
     }
     this.setState({ moods: temp });
+    this.handleSearch()
   }
 
   handleSearch() {
-    
     console.log('Querying server for ', this.state.moods);
     //create the search params by transfroming into string with spaces
     let params = { moods: this.state.moods.join(' ') };
@@ -57,12 +57,13 @@ class GlobalSearch extends React.Component {
     let temp = this.state.moods;
     temp.splice(index, 1);
     this.setState({ moods: temp });
+    this.handleSearch()
   }
 
   render() {
     return (
       <div className="section">
-        <div className="title is-title-4">Search for These Moods:</div>
+        <div className="title is-title-4">Find a Moodvie to watch</div>
         <div class='select is-multiple is-primary is-hovered'>
           <select
             onChange={this.handleChange} className="select is-multiple">
@@ -73,8 +74,6 @@ class GlobalSearch extends React.Component {
         </div>
         <button class="button is-info is-hovered is-focused"
           onClick={this.addMood}>Add Mood</button>
-        <button class="button is-success is-hovered is-focused"
-          onClick={this.handleSearch}>Find Me Movies</button>
         <div className="container">
           {this.state.moods.map((mood, index) =>
             <span className="tag is-warning" style={{ margin: '7px' }}>{mood}
@@ -83,7 +82,7 @@ class GlobalSearch extends React.Component {
         </div>
 
         <div className="container">
-          <Results movies={this.state.movies} />
+          {this.state.moods.length === 0 ? <div></div> : <Results movies={this.state.movies} />}
         </div>
       </div>
     );
