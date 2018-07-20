@@ -38,7 +38,7 @@ app.post('/save', (req, res) => {
   save(req.body, (err) => {
     if (err) console.error(err)
     else {
-      histSave(req.body, (err) => {
+      histSave(req.body, (err, response) => {
         if (err) console.error(err)
         else res.status(200).send(req.body); 
       }) 

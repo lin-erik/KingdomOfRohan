@@ -55,7 +55,7 @@ let moodSearch = (moodArr, cb) => {
 //If not null (movie is in database), runs updateMovie function
 //either way, hands off
 let save = (info, cb) => {
-    Movie.findOne({title: info.original_title}, (err, docs) => {
+    Movie.findOne({original_title: info.original_title}, (err, docs) => {
         if (err) console.log('error retrieving movie', err)
         else {
             if (docs === null) {
@@ -106,9 +106,10 @@ let updateMovie = (docs, info, cb) => {
         }
         else docs[mood] = 1
     });
+    console.log('in the db.  making a movie with the following docs: ', docs)
     Movie.findOneAndUpdate({id: docs.id}, docs, {upsert: true}, (err, document) => {
         if (err) cb(err)
-        else cb(null)
+        else cb(null, document)
     })
 }
 
