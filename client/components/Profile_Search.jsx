@@ -102,9 +102,9 @@ class Profile_Search extends React.Component {
             </div>
           </form>
         </div>
-        <div className="columns">
+        <div className="columns is-fixed">
           <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history} />
-          <div className="section">
+          <div className="column is-one-fifth">
 
             {!this.state.giveMoodButtons ?
 

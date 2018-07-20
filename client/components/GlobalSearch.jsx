@@ -27,6 +27,7 @@ class GlobalSearch extends React.Component {
     this.setState({ selected: e.target.value });
     console.log('selected mood', this.state.selected);
     this.addMood()
+
   }
 
   addMood() {
@@ -69,7 +70,7 @@ class GlobalSearch extends React.Component {
           <div className="control">
             <div className="select is-primary">
               <select
-                onChange={this.handleChange} className="select is-multiple">
+                onInput={this.handleChange} className="select is-multiple">
                 {this.state.dbMoods.map((option, index) => {
                   return <option value={option} key={index}>{option}</option>;
                 })}
