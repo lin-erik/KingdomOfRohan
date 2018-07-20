@@ -16,22 +16,19 @@ class TagMovie extends React.Component {
     };
 
     this.handleChangeMood = this.handleChangeMood.bind(this);
-    this.addMood = this.addMood.bind(this);
     this.handleSaveMovie = this.handleSaveMovie.bind(this);
     this.handleDeleteMood = this.handleDeleteMood.bind(this);
   }
 
   handleChangeMood(e) {
-    this.setState({ selected: e.target.value });
-    console.log('selected state: ', this.state.selected);
-  }
-
-  addMood() {
+    console.log('push to state: ', e.target.value)
     let temp = this.state.moods;
     if (!temp.includes(this.state.selected)) {
-      temp.push(this.state.selected);
+      temp.push(e.target.value);
     }
     this.setState({ moods: temp });
+
+
   }
 
   handleSaveMovie() {
@@ -69,7 +66,7 @@ class TagMovie extends React.Component {
             <MovieCard movie={this.props.movie}/>
             <div className="container">
               {this.state.moods.map((mood, index) => (
-                <span className="tag is-warning" style={{ margin: '7px' }}>
+                <span className="tag is-primary is-medium" style={{ margin: '7px' }}>
                   {mood}
                   <button
                     onClick={this.handleDeleteMood}
@@ -84,6 +81,9 @@ class TagMovie extends React.Component {
 
         <div className="container">
           <div className="title is-title-4">Add Moods:</div>
+          <div className="field">
+          <div className="control">
+          <div className="select is-primary">
           <select
             onChange={this.handleChangeMood}
             className="select is-multiple"
@@ -96,8 +96,9 @@ class TagMovie extends React.Component {
               );
             })}
           </select>
-          <button onClick={this.addMood}>Add Mood</button>
-          <button onClick={this.handleSaveMovie}>Submit</button>
+          </div>
+          </div>
+          </div>
         </div>
       </div>
     );

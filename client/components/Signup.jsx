@@ -29,6 +29,10 @@ class Signup extends React.Component {
     return (
       <div>
         <h3>Create a New Account</h3>
+        <form onSubmit={(e) => {
+            e.preventDefault();
+            this.props.signup(this.state.username, this.state.password)
+          }}>
         <div className="signup-container">
           <div className="username-container" onChange={this.handleUsernameChange}>
             <input class='input is-info is-rounded is-hovered' type="text" placeholder="Username"/>
@@ -45,6 +49,7 @@ class Signup extends React.Component {
           }}
           >Register</button> <br/>
         </div>
+        </form>
       </div>
     )
   }

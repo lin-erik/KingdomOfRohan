@@ -92,13 +92,15 @@ class Profile_Search extends React.Component {
             </div>
             </div>
               {/* <div className="level-right"> */}
+          <form onSubmit={(event) => this.handleSearchClick(event)}>
             <div className="level-item" style={{ marginLeft: '70px' }} >
-                <input class='input is-info' placeholder='What have you watched recently?'
+                <input class='input is-primary' placeholder='What have you watched recently?'
                   onChange={(event) => this.handleSearch(event)} />
-                <button class="button is-info is-hovered is-focused is-rounded is-hovered"
+                <button class="button is-primary" style={{ marginLeft: '10px' }}
                   onClick={(event) => this.handleSearchClick(event)}>Search</button>
             {/* </div> */}
-          </div>
+            </div>
+          </form>
         </div>
         <div className="columns">
           <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history} />
@@ -114,7 +116,7 @@ class Profile_Search extends React.Component {
 
                       <div className="column is-one-fourth">
                         <MovieCard movie={movie} />
-                        <button class="button is-info is-hovered is-focused"
+                        <button class="button is-primary"
                           onClick={(event) => this.handleMoodClick(movie)}>Add Moods</button>
 
                       </div>
