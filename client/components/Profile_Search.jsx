@@ -37,7 +37,7 @@ class Profile_Search extends React.Component {
   handleSearchClick(e) {
     e.preventDefault();
     //change movieCard display to change back to original search display
-    this.setState({giveMoodButtons: false, movie: ''})
+    this.setState({giveMoodButtons: false})
     axios.get('/search', { params: { title: this.state.movie } })
       .then((response) => {
        this.setState({movies: response.data})
