@@ -29,7 +29,7 @@ class Signup extends React.Component {
     return (
       <div>
         <h3>Create a New Account</h3>
-        <form onSubmit={(e) => {
+        <form to="/profile"  onSubmit={(e) => {
             e.preventDefault();
             this.props.signup(this.state.username, this.state.password)
           }}>
@@ -43,10 +43,7 @@ class Signup extends React.Component {
         </div>
 
         <div className="button-container">
-          <button class='button is-link is-focused is-active is-rounded is-hovered' 
-            to="/profile" onClick={() => {
-            this.props.signup(this.state.username, this.state.password)
-          }}
+          <button class='button is-link is-focused is-active is-rounded is-hovered'
           >Register</button> <br/>
         </div>
         </form>
