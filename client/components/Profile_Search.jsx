@@ -78,33 +78,23 @@ class Profile_Search extends React.Component {
     return (
       <div className="container">
         <div className="level">
+            <div className="level-left">
           <div className="level-item">
-          <div className="level-left"></div>
-            <p className="subtitle is-5">Welcome, {this.props.user}</p>
+              <p className="subtitle is-5">Welcome, {this.props.user}</p>
+            </div>
+            </div>
+              {/* <div className="level-right"> */}
+            <div className="level-item" style={{ marginLeft: '70px' }} >
+                <input class='input is-info' placeholder='What have you watched recently?'
+                  onChange={(event) => this.handleSearch(event)} />
+                <button class="button is-info is-hovered is-focused is-rounded is-hovered"
+                  onClick={(event) => this.handleSearchClick(event)}>Search</button>
+            {/* </div> */}
           </div>
-        <div className="level-item">
-          <input class='input is-info' placeholder='Enter a Movie Name Here'
-            onChange={(event) => this.handleSearch(event)} />
-          <button class="button is-info is-hovered is-focused is-rounded is-hovered"
-            onClick={(event) => this.handleSearchClick(event)}>Search</button>
         </div>
-        </div>
-
         <div className="columns">
-          {/* <div className="column is-one-fourth"> */}
           <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history} />
-          {/* </div> */}
-
           <div className="section">
-
-            {/* <div className="is-size-3" >Welcome {this.props.user}, </div> */}
-            {/* <div className="column is-four-fifths">
-
-              <input class='input is-info' placeholder='Enter a Movie Name Here'
-                onChange={(event) => this.handleSearch(event)} />
-              <button class="button is-info is-hovered is-focused is-rounded is-hovered"
-                onClick={(event) => this.handleSearchClick(event)}>Search</button>
-            </div> */}
 
             {!this.state.giveMoodButtons ?
 
