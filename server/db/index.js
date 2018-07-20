@@ -122,6 +122,7 @@ let histSave = (info, cb) => {
             let newHist = [];
             let dupeFound = false
             docs.history.forEach((hist) => {
+                if (hist === null) continue
                 if (hist.original_title !== info.original_title) {
                     newHist.push(hist)
                 } else {
