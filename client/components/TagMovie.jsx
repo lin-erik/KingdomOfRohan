@@ -62,9 +62,9 @@ class TagMovie extends React.Component {
 
   render() {
     return (
-      <div className="section" id='movieCard'>
-        <div className="columns">
-          <div className="column is-two-fifths">
+      <div className="container" id='movieCard'>
+        {/* <div className="columns"> */}
+          <div className="column is-one-third">
             <MovieCard movie={this.props.movie}/>
             <div className="container">
               {this.state.moods.map((mood, index) => (
@@ -78,7 +78,7 @@ class TagMovie extends React.Component {
                 </span>
               ))}
             </div>
-          </div>
+          {/* </div> */}
         </div>
 
         <div className="container">

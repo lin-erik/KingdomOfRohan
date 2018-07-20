@@ -32,7 +32,7 @@ class Profile_Search extends React.Component {
 
   handleSearchClick(e) {
     e.preventDefault();
-    this.setState({giveMoodButtons: false})
+    this.setState({giveMoodButtons: false, movie: ''})
     axios.get('/search', { params: { title: this.state.movie } })
       .then((response) => {
        this.setState({movies: response.data})
@@ -76,39 +76,50 @@ class Profile_Search extends React.Component {
     //form will get onChange prop(function)
     //button will get onSubmit prop(funtion)
     return (
-      <div className="section">
-        <div className="is-size-3" >Welcome {this.props.user}, </div>
-        <div className="container">
-        <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history}/>
-          <input class='input is-info' placeholder='Enter a Movie Name Here'
-            onChange={(event) => this.handleSearch(event)} />
-          <button class="button is-info is-hovered is-focused is-rounded is-hovered"
-            onClick={(event) => this.handleSearchClick(event)}>Search</button>
-        </div>
-
-       {!this.state.giveMoodButtons ?
-
-        // After Search + Selection Render this:
-    <div className="container is-fluid">
-      <div className="columns is-multiline">
-        {this.state.movies.map((movie) => {
-          return(
-            
-            <div className="column is-one-fifth">
-              <MovieCard movie={movie} />
-              <button class="button is-info is-hovered is-focused"
-                onClick={(event) => this.handleMoodClick(movie)}>Rate This Movie</button>
-  
+      <div className="container">
+        <div className="level">
+            <div className="level-left">
+          <div className="level-item">
+              <p className="subtitle is-5">Welcome, {this.props.user}</p>
             </div>
-          ) 
-        })}
+            </div>
+              {/* <div className="level-right"> */}
+            <div className="level-item" style={{ marginLeft: '70px' }} >
+                <input class='input is-info' placeholder='What have you watched recently?'
+                  onChange={(event) => this.handleSearch(event)} />
+                <button class="button is-info is-hovered is-focused is-rounded is-hovered"
+                  onClick={(event) => this.handleSearchClick(event)}>Search</button>
+            {/* </div> */}
+          </div>
+        </div>
+        <div className="columns">
+          <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history} />
+          <div className="section">
+
+            {!this.state.giveMoodButtons ?
+
+              // After Search + Selection Render this:
+              <div className="container">
+                <div className="columns is-multiline">
+                  {this.state.movies.map((movie) => {
+                    return (
+
+                      <div className="column is-one-fourth">
+                        <MovieCard movie={movie} />
+                        <button class="button is-info is-hovered is-focused"
+                          onClick={(event) => this.handleMoodClick(movie)}>Add Moods</button>
+
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+
+              : <TagMovie movie={this.state.movies[0]} user={this.props.user} getUserHistory={this.getUserHistory} />}
+
+          </div>
+        </div>
       </div>
-    </div>
-
-          : <TagMovie movie={this.state.movies[0]} user={this.props.user} getUserHistory={this.getUserHistory} />}
-
-      </div>
-
     );
   }
 
