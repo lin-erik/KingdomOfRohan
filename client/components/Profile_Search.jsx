@@ -91,14 +91,12 @@ class Profile_Search extends React.Component {
               <p className="subtitle is-5">Welcome, {this.props.user}</p>
             </div>
             </div>
-              {/* <div className="level-right"> */}
           <form onSubmit={(event) => this.handleSearchClick(event)}>
             <div className="level-item" style={{ marginLeft: '70px' }} >
-                <input class='input is-primary' placeholder='What have you watched recently?'
+                <input className='input is-primary' placeholder='What have you watched recently?'
                   onChange={(event) => this.handleSearch(event)} />
-                <button class="button is-primary" style={{ marginLeft: '10px' }}
+                <button className="button is-primary" style={{ marginLeft: '10px' }}
                   onClick={(event) => this.handleSearchClick(event)}>Search</button>
-            {/* </div> */}
             </div>
           </form>
         </div>

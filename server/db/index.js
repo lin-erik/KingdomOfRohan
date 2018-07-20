@@ -122,14 +122,16 @@ let histSave = (info, cb) => {
             let newHist = [];
             let dupeFound = false
             docs.history.forEach((hist) => {
-                if (hist.original_title !== info.original_title) {
-                    newHist.push(hist)
-                } else {
-                    info.moods.forEach((mood) => {
-                        if (!hist.moods.includes(mood)) hist.moods.push(mood)
-                    })
-                    newHist.push(hist)
-                    dupeFound = true
+                if (hist !== null) {
+                    if (hist.original_title !== info.original_title) {
+                        newHist.push(hist)
+                    } else {
+                        info.moods.forEach((mood) => {
+                            if (!hist.moods.includes(mood)) hist.moods.push(mood)
+                        })
+                        newHist.push(hist)
+                        dupeFound = true
+                    }
                 }
             })
             if (!dupeFound) {

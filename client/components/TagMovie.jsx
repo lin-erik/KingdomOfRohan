@@ -30,7 +30,9 @@ class TagMovie extends React.Component {
   }
 
   handleSaveMovie() {
+    console.log('handle save movie running')
     let movie = this.state.movie
+    
     window.scrollTo(0, 0);
     movie = Object.assign(
       movie,
@@ -39,8 +41,14 @@ class TagMovie extends React.Component {
         current_user: this.state.user
       }
     );
+<<<<<<< HEAD
 
     document.getElementById('movieCard').style.opacity = '0';
+=======
+    
+    console.log('saving movie ', movie)
+    // document.getElementById('movieCard').style.opacity = '0';
+>>>>>>> dev
 
     axios
       .post('/save', movie)
@@ -61,7 +69,11 @@ class TagMovie extends React.Component {
     return (
       <div className="container" id='movieCard'>
         {/* <div className="columns"> */}
+<<<<<<< HEAD
         <div>
+=======
+        <div className="column is-one-third">
+>>>>>>> dev
           <MovieCard movie={this.props.movie} />
           <div className="container">
             {this.state.moods.map((mood, index) => (
@@ -95,9 +107,15 @@ class TagMovie extends React.Component {
                     );
                   })}
                 </select>
+<<<<<<< HEAD
               </div>
             </div>
             <a className="button is-primary" onClick={this.handleSaveMovie}>Submit</a>
+=======
+                <button onClick={this.handleSaveMovie} className="button is-primary" >Submit Moodvie</button>
+              </div>
+            </div>
+>>>>>>> dev
           </div>
         </div>
       </div>
