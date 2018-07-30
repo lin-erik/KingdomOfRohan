@@ -2,7 +2,6 @@ const express = require('express');
 let app = express();
 const parser = require('body-parser');
 const axios = require('axios');
-let db = require('./../db/connection').connection
 let authenticate = require('./../db/index').authenticate
 let signup = require('./../db/index').signup
 let save = require('./../db/index').save
