@@ -28,6 +28,8 @@ class Login extends React.Component {
     });
   }
 
+  
+  // Has an input text field for Username and Password, wrapped in a form tag that allows for submission with the enter-key
   render() {
     return (
       <div>
