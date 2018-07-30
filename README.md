@@ -10,13 +10,12 @@ Serving you movies based on your mood
 
 ## Table of Contents
 
+1. [Team](#team)
 1. [Usage](#Usage)
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
     1. [Tasks](#tasks)
-1. [Team](#team)
-1. [Contributing](#contributing)
 
 ## Usage
 
@@ -38,7 +37,14 @@ This movie will then be saved to your history of movies, and your tags added to 
 
 ## Requirements
 
-- ????
+- Axios
+- Body-Parser
+- Express
+- Mongoose
+- React 
+- React-dom
+- React-router-dom
+
 
 ## Development
 
@@ -49,12 +55,3 @@ From within the root directory:
 ```sh
 npm install
 ```
-
-### Roadmap
-
-View the project roadmap [here](www.google.com)
-
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
