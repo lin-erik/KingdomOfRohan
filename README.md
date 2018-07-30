@@ -73,6 +73,8 @@ BrowserRouter (inside index.js) - The Nav bar is always displayed outside of the
 
 '/logout' - this route will redirect a user to the login page
 
+Page Refreshes - at the bottom of the server/index.js file there is an express route that handles all of the potential GET requests that could be made by a user trying to refresh a page with an endpoint assigned by React Router. All of these refreshes are handled by redirecting the user to the root page which is ultimately then redirected to '/global'.
+
 ### Installing Dependencies
 
 From within the root directory:
