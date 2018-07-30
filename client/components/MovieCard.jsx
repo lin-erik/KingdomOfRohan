@@ -1,9 +1,11 @@
 import React from 'react';
 
-//from props this needs a dynamic img src, title, year and (conditional) mood tags
 var MovieCard = (props) => {
-  if (props.movie === null) return (<div></div>)
-  let moods = props.movie.moods || []
+  //defensive check to make sure a movie was passed as props before rendering a card
+  if (props.movie === null) return (<div></div>);
+
+  //gather all the moods assigned to the movie and map them below to display on card
+  let moods = props.movie.moods || [];
   return (
     <div className="card">
       <div className="card-image">
@@ -15,7 +17,7 @@ var MovieCard = (props) => {
         <p className="is-size-6">{props.movie.original_title}</p>
         <p className="is-size-7">{props.movie.release_date}</p>
         <div className="tags content">
-          {moods.map((mood, index) => 
+          {moods.map((mood) => 
             <span className="tag is-primary" key={mood} >{mood}
             </span>
           )}

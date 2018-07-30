@@ -1,4 +1,6 @@
-const express = require('express')
+//redirect all refreshes, which come in the form of "get" requests back to our root page
+
+const express = require('express');
 
 var refreshRouter = express.Router();
 
@@ -15,4 +17,4 @@ refreshRouter.get('/global', (req, res) => {
   res.redirect('/');
 });
 
-module.exports = refreshRouter
+module.exports = refreshRouter;
