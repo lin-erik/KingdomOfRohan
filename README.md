@@ -49,8 +49,31 @@ An unused component (client/components/RecList.jsx) and function (server/control
 - React-dom
 - React-router-dom
 
-
 ## Development
+
+### Front End Routes (React Router)
+
+Nav - The Nav bar has a conditional render depending on if a user is currently logged in or not. This flag is managed int he state of index.jsx with the loggedIn state.
+
+If a user is not logged in, the Nav bar will display Login and Sign Up buttons. A user will not be able to access the Profile link, which will redirect to login.
+
+If a user is logged in the Nav bar will have a Logout button in place of Login/Signup.
+
+BrowserRouter (inside index.js) - The Nav bar is always displayed outside of the Switch. Inside the Switch the potential routes are:
+
+'/' - redirects users to GlobalSearch regardless of authentication. User should be able to query moodvies as soon as possible.
+
+'/global' - the Nav bar name for the GlobalSearch component. User does not have to be logged in to use global search.
+
+'/profile' - a logged in User's profile. Inside this component the User can query for movies they have seen and add tags to them. They can also view their history. If a user is not logged in this route will redirect to '/login'
+
+'/login' - this route shows the login page, however once the page re-renders and the loggedIn state has been updated to true it will Redirect the user to their profile page.
+
+'/signup' - this route shows the signup page, however similar to login, once the page re-renders with a new loggedIn state, it will redirect a signed up user to their profile during that render.
+
+'/logout' - this route will redirect a user to the login page
+
+Page Refreshes - at the bottom of the server/index.js file there is an express route that handles all of the potential GET requests that could be made by a user trying to refresh a page with an endpoint assigned by React Router. All of these refreshes are handled by redirecting the user to the root page which is ultimately then redirected to '/global'.
 
 ### Installing Dependencies
 
