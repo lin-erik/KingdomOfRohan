@@ -93,7 +93,7 @@ class App extends React.Component {
                 <Redirect to="/profile" />
               ) : (
                 <Signup signup={this.handleSignUp} login={this.handleLogin} />))} />
-            <Route path="/logout" render={() => <Redirect to="/profile" />} />
+            <Route path="/logout" render={() => <Redirect to="/login" />} />
           </Switch>
         </div>
       </BrowserRouter>
