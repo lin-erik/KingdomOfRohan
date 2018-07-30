@@ -35,6 +35,10 @@ You will be shown the movie poster, and may tag it with as many moods that you f
 
 This movie will then be saved to your history of movies, and your tags added to our database...helping other visitors find the movies they want!
 
+#### Recommendations Bar
+
+An unused component (client/components/RecList.jsx) and function (server/controllers/serverhelpers.js, filterRecs) that displays a list of movies based on the most recent 'mooded' movie by a user that does not include any of the movies that user has already seen.  
+
 ## Requirements
 
 - Axios
