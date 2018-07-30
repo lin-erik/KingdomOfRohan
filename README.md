@@ -6,7 +6,7 @@ Serving you movies based on your mood
 
   - __Product Owner__: Parker Muir
   - __Scrum Master__: Martin Glyer
-  - __Development Team Members__: Frank Cork, Kiernen Hahn
+  - __Development Team Members__: Frank Corkery, Kiernen Hahn
 
 ## Table of Contents
 
