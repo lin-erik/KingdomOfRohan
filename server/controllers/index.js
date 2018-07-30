@@ -2,7 +2,6 @@ const express = require('express');
 let app = express();
 const parser = require('body-parser');
 const axios = require('axios');
-let db = require('./../db/connection').connection
 let authenticate = require('./../db/index').authenticate
 let signup = require('./../db/index').signup
 let save = require('./../db/index').save
@@ -74,6 +73,7 @@ app.get('/users/history/:username?', (req, res) => {
   fetchHist(req.query.username).then(history => res.send(history))
 });
 
+//gets the recommendations for a particular user based on their most recently watched movie
 app.get('/users/recs.:username', (req, res) => {
   console.log('Getting recs for: ', req.query.username);
   
@@ -119,7 +119,8 @@ app.post('/signup', (req, res) => {
 })
 
 
-//refreshing a page breaks React Router front end, so this handles that
+//this route is used to handle the refresh button of the browser. With React Router front end,
+//this is necessary to enable refreshing of the page
 app.use('/', refreshRouter);
 
 //*******server startup********

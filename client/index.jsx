@@ -78,22 +78,22 @@ class App extends React.Component {
               this.state.loggedIn ? (
                 <Profile_Search user={this.state.user} />
               ) : (
-                  <Redirect to="/login" />
-                )
+                <Redirect to="/login" />
+              )
             )} />
             <Route path="/login" render={() => (
               this.state.loggedIn ? (
                 <Redirect to="/profile" />
               ) : (
-                  <Login signup={this.handleSignUp} login={this.handleLogin} loginError={this.state.loginError} />
-                )
+                <Login signup={this.handleSignUp} login={this.handleLogin} loginError={this.state.loginError} />
+              )
             )} />
             <Route path="/signup" render={() => (
               this.state.loggedIn ? (
                 <Redirect to="/profile" />
               ) : (
                 <Signup signup={this.handleSignUp} login={this.handleLogin} />))} />
-            <Route path="/logout" render={() => <Redirect to="/profile" />} />
+            <Route path="/logout" render={() => <Redirect to="/login" />} />
           </Switch>
         </div>
       </BrowserRouter>

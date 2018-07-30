@@ -37,6 +37,7 @@ class Profile_Search extends React.Component {
   //after clicking search the corresponding array of movie objects (results) is sent to state in movies
   handleSearchClick(e) {
     e.preventDefault();
+    //empties input field after search 
     this.formRef.reset();
     //change movieCard display to change back to original search display
     this.setState({giveMoodButtons: false})
@@ -51,9 +52,9 @@ class Profile_Search extends React.Component {
    //once you get the list of search results, clicking Rate This Movie makes Movies State set to the corresponding movie object wrapped as an array
    //this makes the mapping of movieCard easily return just this one movie
   handleMoodClick(movie) {
-    this.setState({movies: [movie]})
+    this.setState({movies: [movie]});
     //change movieCard display to give option for tagging with moods
-    this.setState({giveMoodButtons: true})
+    this.setState({giveMoodButtons: true});
   }
 
   //hide the tag movie functionality after the user submits the movie
@@ -79,7 +80,6 @@ class Profile_Search extends React.Component {
     let params = { username }
     axios.get('/users/recs/', { params })
       .then((response) => {
-        console.log(response.data)
         //slice most recent 4-5 off response
         this.setState({ recs: response.data })
       })
@@ -98,7 +98,7 @@ class Profile_Search extends React.Component {
               <p className="subtitle is-5">Welcome, {this.props.user}</p>
             </div>
             </div>
-              {/* <div className="level-right"> */}
+              {/* formRef resets input field after search */}
           <form ref={(ref) => this.formRef = ref} onSubmit={(event) => this.handleSearchClick(event)}>
             <div className="level-item" style={{ marginLeft: '70px' }} >
                 <input className='input is-primary' placeholder='Tag a movie...'
@@ -111,7 +111,7 @@ class Profile_Search extends React.Component {
         <div className="columns is-fixed">
           <UserHistory user={this.props.user} getUserHistory={this.getUserHistory} history={this.state.history} />
           <div className="column is-one-fifth">
-
+{/* ternary to alter the appearance of movieCards. Adds mood buttons after you click Add Moods */}
             {!this.state.giveMoodButtons ?
 
               // After Search + Selection Render this:
