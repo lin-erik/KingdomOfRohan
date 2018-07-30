@@ -11,6 +11,8 @@ mlab login info:
 parkermuir
 moodvie1
 */
+
+// stores the username, password and history of that user's watched movies and what they tagged them with
 let UserSchema = mongoose.Schema ({
   username: {type: String,
              uniq: true}, 
@@ -18,8 +20,10 @@ let UserSchema = mongoose.Schema ({
   history: {type: Array,
 			default: [],
 			required: true}
-}) 
+})
 
+// Lists the information from the API about the movie
+// Also lists the total times a movie has been listed with a given mood
 let MovieSchema = mongoose.Schema ({
   id: Number,
   original_title: String,
