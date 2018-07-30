@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -13,13 +14,13 @@ class Login extends React.Component {
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
-
+  // Sets the username state property based on the attached tag
   handleUsernameChange(e) {
     this.setState({
       username: e.target.value
     });
   }
-
+  // Sets the password state property based on the attached tag
   handlePasswordChange(e) {
     this.setState({
       password: e.target.value
