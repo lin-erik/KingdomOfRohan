@@ -25,7 +25,7 @@ class Profile_Search extends React.Component {
 
   //display User History after logging in
   componentDidMount() {
-    this.getUserHistory(this.props.user)
+    this.getUserHistory(this.props.user);
   }
 
   //change state of movie to search input on Change
@@ -40,11 +40,11 @@ class Profile_Search extends React.Component {
     //empties input field after search 
     this.formRef.reset();
     //change movieCard display to change back to original search display
-    this.setState({giveMoodButtons: false})
+    this.setState({giveMoodButtons: false});
     axios.get('/search', { params: { title: this.state.movie } })
       .then((response) => {
-       this.setState({movies: response.data})
-        this.setState({ showMovie: true })
+        this.setState({movies: response.data});
+        this.setState({ showMovie: true });
       })
       .catch((err) => console.error(err));
   }
@@ -59,29 +59,28 @@ class Profile_Search extends React.Component {
 
   //hide the tag movie functionality after the user submits the movie
   hideTagging() {
-    this.setState({giveMoodButtons: false, movies: []})
+    this.setState({giveMoodButtons: false, movies: []});
   }
 
    //calls for the users 4 most recently tagged movies
   getUserHistory(username) {
-    let params = { username }
+    let params = { username };
     axios.get('/users/history/', { params })
       .then((response) => {
-        let history = (response.data.slice(response.data.length - 4).reverse())
+        console.log(response.data);
+        let history = response.data.reverse();
         if (history === null) history = [];
-        //slice most recent 4-5 off response
-        this.setState({ history })
+        this.setState({ history });
       })
       .catch(err => console.log('Error getting user history: ', err));
   }
 
   
   getUserRecs(username) {
-    let params = { username }
+    let params = { username };
     axios.get('/users/recs/', { params })
-      .then((response) => {
-        //slice most recent 4-5 off response
-        this.setState({ recs: response.data })
+      .then((response) => {   
+        this.setState({ recs: response.data });
       })
       .catch(err => console.log('Error getting user history: ', err));
   }
@@ -93,18 +92,25 @@ class Profile_Search extends React.Component {
     return (
       <div className="container">
         <div className="level">
-            <div className="level-left">
-          <div className="level-item">
+          <div className="level-left">
+            <div className="level-item">
               <p className="subtitle is-5">Welcome, {this.props.user}</p>
             </div>
-            </div>
-              {/* formRef resets input field after search */}
+          </div>
+          {/* formRef resets input field after search */}
           <form ref={(ref) => this.formRef = ref} onSubmit={(event) => this.handleSearchClick(event)}>
             <div className="level-item" style={{ marginLeft: '70px' }} >
-                <input className='input is-primary' placeholder='Tag a movie...'
-                  onChange={(event) => this.handleSearch(event)} />
-                <button className="button is-primary" style={{ marginLeft: '10px' }}
-                  onClick={(event) => this.handleSearchClick(event)}>Search</button>
+              <input
+                className='input is-primary'
+                placeholder='Tag a movie...'
+                onChange={(event) => this.handleSearch(event)}
+              />
+              <button className="button is-primary"
+                style={{ marginLeft: '10px' }}
+                onClick={(event) => this.handleSearchClick(event)}
+              >
+                Search
+              </button>
             </div>
           </form>
         </div>
@@ -126,7 +132,7 @@ class Profile_Search extends React.Component {
                           onClick={(event) => this.handleMoodClick(movie)}>Add Moods</button>
 
                       </div>
-                    )
+                    );
                   })}
                 </div>
               </div>
