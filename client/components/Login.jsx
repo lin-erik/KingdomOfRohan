@@ -15,12 +15,14 @@ class Login extends React.Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
   // Sets the username state property based on the attached tag
+  // Called onChange on the username input tag
   handleUsernameChange(e) {
     this.setState({
       username: e.target.value
     });
   }
   // Sets the password state property based on the attached tag
+  // Called onChange on the password input tag
   handlePasswordChange(e) {
     this.setState({
       password: e.target.value
