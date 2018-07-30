@@ -74,6 +74,7 @@ app.get('/users/history/:username?', (req, res) => {
   fetchHist(req.query.username).then(history => res.send(history))
 });
 
+//gets the recommendations for a particular user based on their most recently watched movie
 app.get('/users/recs.:username', (req, res) => {
   console.log('Getting recs for: ', req.query.username);
   

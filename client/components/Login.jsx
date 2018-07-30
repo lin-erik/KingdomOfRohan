@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -12,19 +13,23 @@ class Login extends React.Component {
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
-
+  // Sets the username state property based on the attached tag
+  // Called onChange on the username input tag
   handleUsernameChange(e) {
     this.setState({
       username: e.target.value
     });
   }
-
+  // Sets the password state property based on the attached tag
+  // Called onChange on the password input tag
   handlePasswordChange(e) {
     this.setState({
       password: e.target.value
     });
   }
 
+  
+  // Has an input text field for Username and Password, wrapped in a form tag that allows for submission with the enter-key
   render() {
     return (
       <div>
