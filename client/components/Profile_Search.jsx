@@ -52,9 +52,9 @@ class Profile_Search extends React.Component {
    //once you get the list of search results, clicking Rate This Movie makes Movies State set to the corresponding movie object wrapped as an array
    //this makes the mapping of movieCard easily return just this one movie
   handleMoodClick(movie) {
-    this.setState({movies: [movie]})
+    this.setState({movies: [movie]});
     //change movieCard display to give option for tagging with moods
-    this.setState({giveMoodButtons: true})
+    this.setState({giveMoodButtons: true});
   }
 
   //hide the tag movie functionality after the user submits the movie

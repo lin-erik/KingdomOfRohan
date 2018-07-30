@@ -81,9 +81,9 @@ class TagMovie extends React.Component {
                 </select>
               </span>
             </p>
-              <p className="control">
-                <button onClick={this.handleSaveMovie} className="button is-primary" style={{ marginLeft: '10px' }} >Submit Moodvie</button>
-                </p>
+            <p className="control">
+              <button onClick={this.handleSaveMovie} className="button is-primary" style={{ marginLeft: '10px' }} >Submit Moodvie</button>
+            </p>
           </div>
           <div className="container">
             {this.state.moods.map((mood, index) => (
@@ -99,7 +99,7 @@ class TagMovie extends React.Component {
           </div>
         </div>
         <div className="column is-one-fifth">
-        <MovieCard movie={this.props.movie} />
+          <MovieCard movie={this.props.movie} />
         </div>
       </div>
     );
