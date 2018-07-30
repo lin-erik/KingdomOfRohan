@@ -14,59 +14,47 @@ class GlobalSearch extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.addMood = this.addMood.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
 
-  componentDidMount() {
-    //update genre list from db
-  }
-
+  //event handler for the addition of each mood to the global search
   handleChange(e) {
-    console.log('you selected ', e.target.value)
+    // console.log('you selected ', e.target.value);
     let temp = this.state.moods;
     if (temp.length < 3 && !temp.includes(this.state.selected)) {
       temp.push(e.target.value);
     }
     this.setState({ moods: temp });
-    this.handleSearch()
-    // this.setState({ selected: e.target.value });
-    // console.log('selected mood', this.state.selected);
-    // this.addMood()
+
+    //dynamically query the database based on each mood added
+    this.handleSearch();
 
   }
 
-  addMood() {
-    let temp = this.state.moods;
-    if (temp.length < 3 && !temp.includes(this.state.selected)) {
-      temp.push(this.state.selected);
-    }
-    this.setState({ moods: temp });
-    this.handleSearch()
-  }
-
+  //function that takes the chosen moods in the global search,
+  //sends then to the server and then queries the database for matching movies
   handleSearch() {
-    console.log('Querying server for ', this.state.moods);
-    //create the search params by transfroming into string with spaces
+    //create the search params by transfroming them into a string with spaces
     let params = { moods: this.state.moods.join(' ') };
 
     //send moods array to server and eventually query DB
     axios.get('/results/', { params })
       .then((response) => {
-        //do something
-        console.log('Movie State: ', response.data)
-        this.setState({movies: response.data})
+        this.setState({movies: response.data});
       })
       .catch((err) => console.error(err));
   }
 
+  //event handler for when a user removes a mood from their current search
   handleDelete(e) {
     let index = e.target.value;
     let temp = this.state.moods;
     temp.splice(index, 1);
     this.setState({ moods: temp });
-    this.handleSearch()
+
+    //dynamically query with the new combination of moods
+    this.handleSearch();
   }
 
   render() {

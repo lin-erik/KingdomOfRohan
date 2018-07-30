@@ -120,7 +120,8 @@ app.post('/signup', (req, res) => {
 })
 
 
-//refreshing a page breaks React Router front end, so this handles that
+//this route is used to handle the refresh button of the browser. With React Router front end,
+//this is necessary to enable refreshing of the page
 app.use('/', refreshRouter);
 
 //*******server startup********
