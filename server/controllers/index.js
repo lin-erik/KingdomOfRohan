@@ -8,6 +8,7 @@ let save = require('./../db/index').save;
 let histSave = require('./../db/index').histSave;
 let fetchHist = require('./../db/index').fetchHist;
 let moodSearch = require('./../db/index').moodSearch;
+let giveRecommendations = require('./../db/index').giveRecommendations;
 let API_KEY;
 try {
   API_KEY = require('../../config.js').API_KEY;
@@ -88,6 +89,14 @@ app.get('/users/recs.:username', (req, res) => {
     })
   );
 });
+
+app.post('/histories/:movie', function(req, res) {
+  let histories = giveRecommendations(req.params.movie, (err, result) => {
+    console.log('HISTORIES:', result);
+    res.send(result);
+  });
+  
+}) 
 
 //*******Authentication section*******
 //runs authenticate based on object containing un/pw from client
