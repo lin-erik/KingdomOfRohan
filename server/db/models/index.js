@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 mongoose.connect(
-  `mongodb://KingTheoden:KingTheoden1@ds139921.mlab.com:39921/moodvie-db`
+  `mongodb://roman:roman123@ds161391.mlab.com:61391/legacy-project`
 );
 
 let db = mongoose.connection;
