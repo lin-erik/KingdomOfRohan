@@ -5,3 +5,5 @@ package-lock.json
 bundle.js
 .DS_Store
 config.js
+youtube.js
+imdb.js
