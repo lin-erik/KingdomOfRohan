@@ -7,7 +7,27 @@ class GlobalSearch extends React.Component {
     super(props);
 
     this.state = {
-      dbMoods: ['whimsical', 'intense', 'thriller', 'heartfelt', 'gripping', 'boring', 'thoughtProvoking', 'uplifting', 'light', 'tearJerker', 'challenging', 'mindScrew', 'nostalgic', 'powerful', 'despair', 'exhausting', 'paranoid', 'motivated', 'uncomfortable'],
+      dbMoods: [
+        'whimsical',
+        'intense',
+        'thriller',
+        'heartfelt',
+        'gripping',
+        'boring',
+        'thoughtProvoking',
+        'uplifting',
+        'light',
+        'tearJerker',
+        'challenging',
+        'mindScrew',
+        'nostalgic',
+        'powerful',
+        'despair',
+        'exhausting',
+        'paranoid',
+        'motivated',
+        'uncomfortable'
+      ],
       moods: [],
       selected: 'whimsical',
       movies: []
@@ -29,7 +49,6 @@ class GlobalSearch extends React.Component {
 
     //dynamically query the database based on each mood added
     this.handleSearch();
-
   }
 
   //function that takes the chosen moods in the global search,
@@ -39,9 +58,10 @@ class GlobalSearch extends React.Component {
     let params = { moods: this.state.moods.join(' ') };
 
     //send moods array to server and eventually query DB
-    axios.get('/results/', { params })
+    axios
+      .get('/results/', { params })
       .then((response) => {
-        this.setState({movies: response.data});
+        this.setState({ movies: response.data });
       })
       .catch((err) => console.error(err));
   }
@@ -65,28 +85,45 @@ class GlobalSearch extends React.Component {
           <div className="control">
             <div className="select is-primary">
               <select
-                onChange={this.handleChange} className="select is-multiple">
+                onChange={this.handleChange}
+                className="select is-multiple"
+              >
                 {this.state.dbMoods.map((option, index) => {
-                  return <option value={option} key={index}>{option}</option>;
+                  return (
+                    <option value={option} key={index}>
+                      {option}
+                    </option>
+                  );
                 })}
               </select>
             </div>
           </div>
         </div>
-        <div className="container" style={{ margin: '15px' }} >
-          
-          { this.state.moods.length > 0 ? 
-            <span className="subtitle">Our users found these movies to be </span> : null
-          }
+        <div className="container" style={{ margin: '15px' }}>
+          {this.state.moods.length > 0 ? (
+            <span className="subtitle">
+              Our users found these movies to be{' '}
+            </span>
+          ) : null}
 
-          {this.state.moods.map((mood, index) =>
-            <span className="tag is-primary is-large" style={{ margin: '7px' }}>{mood}
-              <button onClick={this.handleDelete} value={index} className="delete"></button>
-            </span>)}
+          {this.state.moods.map((mood, index) => (
+            <span className="tag is-primary is-large" style={{ margin: '7px' }}>
+              {mood}
+              <button
+                onClick={this.handleDelete}
+                value={index}
+                className="delete"
+              />
+            </span>
+          ))}
         </div>
 
         <div className="container">
-          {this.state.moods.length === 0 ? <div></div> : <Results movies={this.state.movies} />}
+          {this.state.moods.length === 0 ? (
+            <div />
+          ) : (
+            <Results movies={this.state.movies} />
+          )}
         </div>
       </div>
     );
