@@ -10,7 +10,7 @@ let fetchHist = require("./../db/index").fetchHist;
 let moodSearch = require("./../db/index").moodSearch;
 let imdb = require("imdb-api");
 let imdb_key = require("../../imdb.js").IMDB_KEY;
-let youtube_key = require("../../youtube.js").YOUTUBE_API_KEY;
+// let youtube_key = require("../../youtube.js").YOUTUBE_API_KEY;
 
 let API_KEY;
 try {
@@ -26,7 +26,7 @@ app.use(express.static(__dirname + "/../../dist"));
 
 //*******GET/POST section*******
 
-//profile search - example url: localhost:8080/search/?input=batman+begins
+//profile search - example url: localhost:8080/search/?title=batman+begins
 app.get("/search", (req, res) => {
   let movie = req.query.title;
   axios
@@ -34,10 +34,11 @@ app.get("/search", (req, res) => {
       `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&page=1&include_adult=false&query=${movie}`
     )
     .then(response => {
+      console.log(response.data)
       let filtered = helpers.filterResults(response.data.results);
       res.status(200).send(filtered);
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log('chill'));
 });
 
 //takes in a movie object that contains an array of moods
