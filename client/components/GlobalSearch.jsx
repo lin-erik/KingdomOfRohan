@@ -1,6 +1,7 @@
 import React from "react";
 import Results from "./Results.jsx";
 import MovieCard from "./MovieCard.jsx";
+import GoogleMaps from './GoogleMapsComponent.jsx'
 
 import axios from "axios";
 
@@ -33,13 +34,33 @@ class GlobalSearch extends React.Component {
       moods: [],
       movies: [],
       nowPlaying: [],
-      active: "Now Playing"
+      active: "Now Playing",
+      long: '',
+      lat: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.getLocation = this.getLocation.bind(this);
+  }
+
+  componentDidMount() {
+    this.getLocation()
+  }
+
+  getLocation() {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      var crd = pos.coords;
+
+      let long = crd.longitude
+      let lat = crd.latitude
+      this.setState({
+        long: long,
+        lat: lat
+      })
+    })
   }
 
   //event handler for the addition of each mood to the global search
@@ -136,6 +157,11 @@ class GlobalSearch extends React.Component {
           }
         >
           <div className="container is-fluid">
+            <div>
+              <GoogleMaps long={this.state.long}
+                lat={this.state.lat}/>
+            </div>
+            <br/>
             <div className="columns is-multiline">
               {this.state.nowPlaying.map((movie, index) => {
                 return (
@@ -211,8 +237,10 @@ class GlobalSearch extends React.Component {
             </div>
           </div>
         </div>
+
+
       </div>
-    );
+    )
   }
 }
 
