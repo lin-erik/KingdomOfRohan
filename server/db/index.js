@@ -26,7 +26,6 @@ let signup = (info, cb) => {
 //in the moodArr and then passes the result into
 //the passed in callback cb
 let moodSearch = (moodArr, cb) => {
-  console.log('moodArr: ', moodArr);
   if (!moodArr[1]) {
     moodArr[1] = moodArr[0];
   }
@@ -85,7 +84,6 @@ let save = (info, cb) => {
 //then adds the other movie info to it
 //finally, saves this as a new Movie, and hands off
 let newMovie = (info, cb) => {
-  console.log('we saving a new movie!');
   let spec = {};
   info.moods.forEach((mood) => {
     spec[mood] = 1;
@@ -233,6 +231,68 @@ let fetchAllUsers = (callback) => {
   });
 };
 
+let deleteMovie = (movie, user, callback) => {
+  removeMovieFromHistory(movie, user, (err, moodsToDelete) => {
+    if (err) {
+      callback(err);
+    } else {
+      removeMoodsFromMovie(movie, moodsToDelete, (err) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback()
+        }
+      })
+    }
+  })
+}
+
+let removeMovieFromHistory = (movie, user, callback) => {
+  User.findOne({username: user}, (err, foundUser) => {
+    if (err) {
+      callback(err);
+    } else {
+      let oldHist = foundUser.history;
+      let oldMovieMoods;
+      let newHist = [];
+      for (let i = 0; i < oldHist.length; i++) {
+        if (oldHist[i].id == movie) {
+          oldMovieMoods = oldHist[i].moods;
+        } else {
+          newHist.push(oldHist[i]);
+        }
+      }
+      foundUser.history = newHist;
+      User.findOneAndUpdate({username: user}, foundUser, (err, result) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, oldMovieMoods);
+        }
+      })
+    }
+  })
+}
+
+let removeMoodsFromMovie = (movie, moods, callback) => {
+  Movie.findOne({id: movie}, (err, oldMovie) => {
+    if (err) {
+      callback(err);
+    } else {
+      for (let i = 0; i < moods.length; i++) {
+        oldMovie[moods[i]]--;
+      }
+      Movie.findOneAndUpdate({id: movie}, oldMovie, (err, result) => {
+        if (err) {
+          callback(err)
+        } else {
+          callback();
+        }
+      })
+    }
+  })
+}
+
 module.exports.authenticate = authenticate;
 module.exports.signup = signup;
 module.exports.save = save;
@@ -240,3 +300,4 @@ module.exports.histSave = histSave;
 module.exports.fetchHist = fetchHist;
 module.exports.moodSearch = moodSearch;
 module.exports.giveRecommendations = giveRecommendations;
+module.exports.deleteMovie = deleteMovie;

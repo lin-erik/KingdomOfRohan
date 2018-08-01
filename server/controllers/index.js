@@ -11,6 +11,7 @@ let moodSearch = require("./../db/index").moodSearch;
 let imdb = require("imdb-api");
 let imdb_key = require("../../imdb.js").IMDB_KEY;
 let giveRecommendations = require('./../db/index').giveRecommendations;
+let deleteMovie = require('./../db/index').deleteMovie;
 // let youtube_key = require("../../youtube.js").YOUTUBE_API_KEY;
 
 let API_KEY;
@@ -187,6 +188,16 @@ app.get("/youtube", (req, res) => {
         });
     });
 });
+
+app.delete('/:user/:movie', function(req, res) {
+  deleteMovie(req.params.movie, req.params.user, (err) => {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      res.status(200).send();
+    }
+  })
+}) 
 
 //this route is used to handle the refresh button of the browser. With React Router front end,
 //this is necessary to enable refreshing of the page
