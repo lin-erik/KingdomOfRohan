@@ -23,7 +23,7 @@ class MovieCard extends React.Component {
 
   setIMDBdata() {
     axios
-      .get("/youtube", {
+      .get('/youtube', {
         params: {
           search: this.props.movie.id
         }
@@ -70,7 +70,7 @@ class MovieCard extends React.Component {
                 this.onOpenModal();
               }}
               src={
-                "https://image.tmdb.org/t/p/w500" + this.props.movie.poster_path
+                'https://image.tmdb.org/t/p/w500' + this.props.movie.poster_path
               }
               alt="Placeholder image"
             />
@@ -87,13 +87,6 @@ class MovieCard extends React.Component {
         <div className="card-content">
           <p className="is-size-7">{this.props.movie.original_title}</p>
           <p className="is-size-7">{this.props.movie.release_date}</p>
-          <div className="tags content">
-            {moods.map(mood => (
-              <span className="tag is-primary" key={mood} style={{height: '1.5rem'}}>
-                {mood}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
     );

@@ -54,7 +54,8 @@ let MovieSchema = mongoose.Schema({
   exhausting: Number,
   paranoid: Number,
   motivated: Number,
-  uncomfortable: Number
+  uncomfortable: Number,
+  review_count: Number
 });
 let User = mongoose.model('User', UserSchema);
 let Movie = mongoose.model('Movie', MovieSchema);

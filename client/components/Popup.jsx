@@ -1,7 +1,8 @@
 import React from "react";
 import Recommendations from "./Recommendations.jsx";
-import axios from 'axios';
+import MoodRatings from "./MoodRatings.jsx";
 
+import axios from "axios";
 import Modal from "react-responsive-modal";
 import { MoonLoader } from "react-spinners";
 
@@ -75,6 +76,14 @@ class Popup extends React.Component {
           </div>
           <hr />
           <Recommendations recs={this.state.recommendations.slice(0, 3)} />
+
+          <div>
+            <MoodRatings
+              movie={this.props.movie}
+              reviewCount={this.props.movie.review_count}
+              moods={this.props.movie.moods || []}
+            />
+          </div>
         </Modal>
       );
     }

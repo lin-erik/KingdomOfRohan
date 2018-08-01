@@ -164,7 +164,6 @@ app.get("/youtube", (req, res) => {
       imdb
         .get({ id: imdb_id }, { apiKey: imdb_key })
         .then(response => {
-          console.log("Response from IMDB", response);
           container.imdb = response;
 
           axios
@@ -174,7 +173,6 @@ app.get("/youtube", (req, res) => {
               }/videos?api_key=${API_KEY}`
             )
             .then(data => {
-              console.log("Response from Movie DB", data);
               container.trailer = data.data.results;
             })
             .catch(err => {
