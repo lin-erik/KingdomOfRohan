@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-let db = require('./models/index').db;
-let User = require('./models/index').User;
-let Movie = require('./models/index').Movie;
+const mongoose = require("mongoose");
+let db = require("./models/index").db;
+let User = require("./models/index").User;
+let Movie = require("./models/index").Movie;
 
 //Queries db by username, fetches their password field, and hands off
 let authenticate = (username, cb) => {
@@ -26,7 +26,7 @@ let signup = (info, cb) => {
 //in the moodArr and then passes the result into
 //the passed in callback cb
 let moodSearch = (moodArr, cb) => {
-  console.log('moodArr: ', moodArr);
+  console.log("moodArr: ", moodArr);
   if (!moodArr[1]) {
     moodArr[1] = moodArr[0];
   }
@@ -43,8 +43,13 @@ let moodSearch = (moodArr, cb) => {
     .ne(undefined)
     .sort({ test: -1 })
     .then(function(response) {
+<<<<<<< HEAD
       console.log('Response: ', response.slice(0, 4));
       cb(null, response.slice(0, 4));
+=======
+      console.log("Response: ", response);
+      cb(null, response);
+>>>>>>> f4ad9e912b878ba52cd5b634a62a3c9d2aac0705
     });
   //  .catch (function (err) {
   //    console.log (err);
@@ -64,17 +69,17 @@ let moodSearch = (moodArr, cb) => {
 //either way, hands off
 let save = (info, cb) => {
   Movie.findOne({ original_title: info.original_title }, (err, docs) => {
-    if (err) console.log('error retrieving movie', err);
+    if (err) console.log("error retrieving movie", err);
     else {
       if (docs === null) {
-        newMovie(info, (err) => {
+        newMovie(info, err => {
           if (err) cb(err);
           else {
             cb(null);
           }
         });
       } else {
-        updateMovie(docs, info, (err) => {
+        updateMovie(docs, info, err => {
           if (err) cb(err);
           else cb(null);
         });
@@ -88,9 +93,9 @@ let save = (info, cb) => {
 //then adds the other movie info to it
 //finally, saves this as a new Movie, and hands off
 let newMovie = (info, cb) => {
-  console.log('we saving a new movie!');
+  console.log("we saving a new movie!");
   let spec = {};
-  info.moods.forEach((mood) => {
+  info.moods.forEach(mood => {
     spec[mood] = 1;
   });
   spec.original_title = info.original_title;
@@ -108,7 +113,7 @@ let newMovie = (info, cb) => {
 //or setting to 1 (meaning this movie has not been tagged with that mood before).
 //finally, updates that movie's fields, and hands off
 let updateMovie = (docs, info, cb) => {
-  info.moods.forEach((mood) => {
+  info.moods.forEach(mood => {
     if (docs[mood]) {
       docs[mood]++;
     } else docs[mood] = 1;
@@ -133,12 +138,12 @@ let histSave = (info, cb) => {
     else {
       let newHist = [];
       let dupeFound = false;
-      docs.history.forEach((hist) => {
+      docs.history.forEach(hist => {
         if (hist !== null) {
           if (hist.original_title !== info.original_title) {
             newHist.push(hist);
           } else {
-            info.moods.forEach((mood) => {
+            info.moods.forEach(mood => {
               if (!hist.moods.includes(mood)) hist.moods.push(mood);
             });
             newHist.push(hist);
@@ -164,7 +169,7 @@ let histSave = (info, cb) => {
 
 //takes in a username (passed from server) and quries the db
 //hands back the history array from the received docs
-let fetchHist = async (un) => {
+let fetchHist = async un => {
   let data = await User.findOne({ username: un });
   console.log(data.history);
   return data.history;
@@ -178,9 +183,9 @@ let giveRecommendations = (movieId, callback) => {
       let occurences = {};
       for (let i = 0; i < histories.length; i++) {
         for (let j = 0; j < histories[i].length; j++) {
-            if (histories[i][j]) {
-              if (histories[i][j].id != movieId){
-              if (occurences[histories[i][j].id]){
+          if (histories[i][j]) {
+            if (histories[i][j].id != movieId) {
+              if (occurences[histories[i][j].id]) {
                 occurences[histories[i][j].id][1]++;
               } else {
                 occurences[histories[i][j].id] = [histories[i][j], 1];
@@ -193,15 +198,15 @@ let giveRecommendations = (movieId, callback) => {
       let movieTouples = Object.values(occurences);
       movieTouples.sort(function(a, b) {
         return b[1] - a[1];
-      })
+      });
 
-      let sortedRecommendations = movieTouples.map((movieTouple) => {
+      let sortedRecommendations = movieTouples.map(movieTouple => {
         return movieTouple[0];
-      })
+      });
       callback(null, sortedRecommendations);
     }
-  })
-}
+  });
+};
 
 let fetchHistoriesWithMovie = (movieId, callback) => {
   fetchAllUsers((err, users) => {
@@ -209,7 +214,7 @@ let fetchHistoriesWithMovie = (movieId, callback) => {
       callback(err);
     } else {
       let historiesWithMovie = [];
-       for (let j = 0; j < users.length; j++) {
+      for (let j = 0; j < users.length; j++) {
         for (let i = 0; i < users[j].history.length; i++) {
           if (users[j].history[i]) {
             if (users[j].history[i].id == movieId) {
@@ -217,14 +222,14 @@ let fetchHistoriesWithMovie = (movieId, callback) => {
             }
           }
         }
-      };
+      }
       callback(null, historiesWithMovie);
     }
-  })
-}
+  });
+};
 
 //Fetches all histories from all users from database
-let fetchAllUsers = (callback) => {
+let fetchAllUsers = callback => {
   User.find({}, (err, result) => {
     if (err) {
       callback(err);
@@ -234,6 +239,7 @@ let fetchAllUsers = (callback) => {
   });
 };
 
+<<<<<<< HEAD
 //Saves top 5 recently viewed movies
 
 module.exports.authenticate = authenticate;
@@ -243,3 +249,14 @@ module.exports.histSave = histSave;
 module.exports.fetchHist = fetchHist;
 module.exports.moodSearch = moodSearch;
 module.exports.giveRecommendations = giveRecommendations;
+=======
+module.exports = {
+  authenticate,
+  signup,
+  save,
+  histSave,
+  fetchHist,
+  moodSearch,
+  giveRecommendations
+};
+>>>>>>> f4ad9e912b878ba52cd5b634a62a3c9d2aac0705
