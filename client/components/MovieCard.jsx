@@ -66,22 +66,25 @@ class MovieCard extends React.Component {
               alt="Placeholder image"
             />
             <Modal open={open} onClose={this.onCloseModal} center>
-              <h2>Simple centered modal</h2>
-              <div style={{ height: '75%', width: 'auto' }}>
+              <div>
                 <iframe
+                  style={{ height: '300px', width: '100%' }}
                   className="embed-responsive-item"
                   src={
                     "https://www.youtube.com/embed/" + this.state.trailer.key
                   }
                   allowFullScreen
                 />
+              </div> <br/>
+              <h6>{this.state.imdb.plot}</h6>
+              <hr></hr>
+              <div>
+                <h2>{this.state.imdb.actors}</h2>
+
+                <h2 style={{display: "inline-block", paddingRight: '250px'}}>{this.state.imdb.country}</h2>
+                <h2 style={{display: "inline-block", paddingRight: '250px'}}>{this.state.imdb.runtime}</h2>
+                <h2 style={{display: "inline-block"}}>{this.state.imdb.rated}</h2>
               </div>
-              <h2>{this.state.imdb.language}</h2>
-              <h2>{this.state.imdb.country}</h2>
-              <h2>{this.state.imdb.actors}</h2>
-              <h2>{this.state.imdb.runtime}</h2>
-              <h2>{this.state.imdb.rated}</h2>
-              <h2>{this.state.imdb.plot}</h2>
             </Modal>
           </figure>
         </div>
