@@ -4,9 +4,18 @@ const app = express();
 const parser = require("body-parser");
 const axios = require("axios");
 const imdb = require("imdb-api");
-const session = require('express-session');
+const session = require("express-session");
 
-const { authenticate, signup, save, histSave, fetchHist, moodSearch, giveRecommendations } = require('./../db/index');
+const {
+  authenticate,
+  signup,
+  save,
+  histSave,
+  fetchHist,
+  moodSearch,
+  giveRecommendations
+} = require("./../db/index");
+
 const helpers = require("./serverhelpers.js");
 
 const imdb_key = require("../../imdb.js").IMDB_KEY;
@@ -21,6 +30,11 @@ try {
 //********middleware and plugins*********
 app.use(parser.json());
 app.use(express.static(__dirname + "/../../dist"));
+app.use(
+  session({
+    secret: "rick astley"
+  })
+);
 
 //*******GET/POST section*******
 
@@ -114,6 +128,14 @@ app.post("/login", (req, res) => {
         Object.keys(data).length > 1 &&
         data.password === req.body.password
       ) {
+        var sess = {
+          username: username,
+          login: true
+        };
+
+        console.log("Login session", sess);
+
+        req.session.userData = sess;
         res.send(true);
       } else {
         res.send(false);
@@ -130,10 +152,23 @@ app.post("/signup", (req, res) => {
     (err, response) => {
       if (err) console.log(err);
       else {
+        var sess = {
+          username: username,
+          login: true
+        };
+
+        console.log("Signup session", sess);
+
+        req.session.userData = sess;
         res.send();
       }
     }
   );
+});
+
+app.get("/logout", (req, res) => {
+  delete req.session.userData;
+  res.send();
 });
 
 app.get("/youtube", (req, res) => {
@@ -190,7 +225,6 @@ app.get("/nowPlaying", (req, res) => {
       `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1&region=US`
     )
     .then(response => {
-      console.log("Response fetching movies now playing", response.data);
       res.send(response.data.results);
     })
     .catch(err => {
@@ -198,10 +232,16 @@ app.get("/nowPlaying", (req, res) => {
     });
 });
 
+app.get('/session', (req, res) => {
+  if (req.session.userData) {
+    res.send(req.session.userData);
+  }
+})
+
 //this route is used to handle the refresh button of the browser. With React Router front end,
 //this is necessary to enable refreshing of the page
 app.get("/*", (req, res) => {
-  res.redirect("/");
+  res.redirect('/');
 });
 
 //*******server startup********
