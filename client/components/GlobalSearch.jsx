@@ -107,7 +107,7 @@ class GlobalSearch extends React.Component {
           ) : null}
 
           {this.state.moods.map((mood, index) => (
-            <span className="tag is-primary is-large" style={{ margin: '7px' }}>
+            <span className="tag is-primary is-large" style={{ margin: '7px' }} key={index}>
               {mood}
               <button
                 onClick={this.handleDelete}

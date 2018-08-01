@@ -6,9 +6,9 @@ var Results = (props) => {
     <div className="container is-fluid">
       <div className="columns is-multiline">
         {props.movies.length !== 0 ? (
-          props.movies.map((movie) => {
+          props.movies.map((movie, index) => {
             return (
-              <div className="column is-one-fifth">
+              <div className="column is-one-fifth" key={index}>
                 <MovieCard movie={movie} />
               </div>
             );

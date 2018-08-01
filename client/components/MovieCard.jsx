@@ -37,10 +37,6 @@ class MovieCard extends React.Component {
     this.setState({ open: false });
   };
 
-  // <button onClick={this.onOpenModal}>Open modal</button>
-  //       <Modal open={open} onClose={this.onCloseModal} center>
-  //         <h2>Simple centered modal</h2>
-  //       </Modal>
 
   render() {
     //defensive check to make sure a movie was passed as props before rendering a card
@@ -59,7 +55,12 @@ class MovieCard extends React.Component {
               alt="Placeholder image"
             />
             <Modal open={open} onClose={this.onCloseModal} center>
-              <h2>Simple centered modal</h2>
+              <h2>{this.state.imdb.language}</h2>
+              <h2>{this.state.imdb.country}</h2>
+              <h2>{this.state.imdb.actors}</h2>
+              <h2>{this.state.imdb.runtime}</h2>
+              <h2>{this.state.imdb.rated}</h2>
+              <h2>{this.state.imdb.plot}</h2>
             </Modal>
           </figure>
         </div>
