@@ -62,9 +62,9 @@ app.post("/save", (req, res) => {
 //mood search - example url: localhost:8080/results/?moods=happy+sad+cool
 app.get("/results/:moods?", (req, res) => {
   //creating an array with each mood that was sent with query
-  var moods = req.query.moods.split(" ");
+  console.log('Array of moods', req.query.moods);
 
-  moodSearch(moods, function(err, data) {
+  moodSearch(req.query.moods, function(err, data) {
     if (err) throw err;
     res.send(data);
   });

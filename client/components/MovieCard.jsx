@@ -10,11 +10,14 @@ class MovieCard extends React.Component {
       imdb: {},
       open: false,
       trailer: {},
-      recommendations: []
-    }
-    this.setIMDBdata = this.setIMDBdata.bind(this)
-    this.onOpenModal = this.onOpenModal.bind(this)
-    this.onCloseModal = this.onCloseModal.bind(this)
+      recommendations: [],
+      trailer_key: "dQw4w9WgXcQ",
+      open: false
+    };
+
+    this.setIMDBdata = this.setIMDBdata.bind(this);
+    this.onOpenModal = this.onOpenModal.bind(this);
+    this.onCloseModal = this.onCloseModal.bind(this);
   }
 
   setIMDBdata() {
@@ -27,7 +30,8 @@ class MovieCard extends React.Component {
       .then(response => {
         this.setState({
           imdb: response.data.imdb,
-          trailer: response.data.trailer[0] || null
+          trailer: response.data.trailer[0],
+          trailer_key: response.data.trailer[0].key
         });
       })
       .catch(err => {
@@ -51,7 +55,6 @@ class MovieCard extends React.Component {
       })
     })
   }
-
 
   render() {
 
@@ -89,22 +92,29 @@ class MovieCard extends React.Component {
             <Modal open={open} onClose={this.onCloseModal} center>
               <div>
                 <iframe
-                  style={{ height: '300px', width: '100%' }}
+                  style={{ height: "300px", width: "100%" }}
                   className="embed-responsive-item"
                   src={
-                    "https://www.youtube.com/embed/" + this.state.trailer.key
+                    "https://www.youtube.com/embed/" + this.state.trailer_key
                   }
                   allowFullScreen
                 />
-              </div> <br/>
+              </div>{" "}
+              <br />
               <h6>{this.state.imdb.plot}</h6>
-              <hr></hr>
+              <hr />
               <div>
                 <h2>{this.state.imdb.actors}</h2>
 
-                <h2 style={{display: "inline-block", paddingRight: '250px'}}>{this.state.imdb.country}</h2>
-                <h2 style={{display: "inline-block", paddingRight: '250px'}}>{this.state.imdb.runtime}</h2>
-                <h2 style={{display: "inline-block"}}>{this.state.imdb.rated}</h2>
+                <h2 style={{ display: "inline-block", paddingRight: "250px" }}>
+                  {this.state.imdb.country}
+                </h2>
+                <h2 style={{ display: "inline-block", paddingRight: "250px" }}>
+                  {this.state.imdb.runtime}
+                </h2>
+                <h2 style={{ display: "inline-block" }}>
+                  {this.state.imdb.rated}
+                </h2>
               </div>
               <hr></hr>
               <Recommendations recs={this.state.recommendations.slice(0, 3)}/>
