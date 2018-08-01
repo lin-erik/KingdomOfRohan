@@ -13,7 +13,8 @@ const {
   histSave,
   fetchHist,
   moodSearch,
-  giveRecommendations
+  giveRecommendations,
+  deleteMovie
 } = require("./../db/index");
 
 const helpers = require("./serverhelpers.js");
@@ -219,6 +220,15 @@ app.get("/youtube", (req, res) => {
     });
 });
 
+app.delete('/:user/:movie', function(req, res) {
+  deleteMovie(req.params.movie, req.params.user, (err) => {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      res.status(200).send();
+    }
+  })
+}) 
 app.get("/nowPlaying", (req, res) => {
   axios
     .get(
