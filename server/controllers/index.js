@@ -94,9 +94,9 @@ app.get("/users/recs.:username", (req, res) => {
   );
 });
 
-app.post('/histories/:movie', function(req, res) {
+app.post('/recommendations/:movie', function(req, res) {
+  console.log('RECOMMENDATION ID', req.params.movie);
   let histories = giveRecommendations(req.params.movie, (err, result) => {
-    console.log('HISTORIES:', result);
     res.send(result);
   });
   

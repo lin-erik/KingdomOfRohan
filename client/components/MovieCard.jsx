@@ -1,13 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 import Modal from 'react-responsive-modal';
+import Recommendations from './Recommendations.jsx';
 
 class MovieCard extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       imdb: {},
-      open: false
+      open: false,
+      recommendations: []
     }
     this.setIMDBdata = this.setIMDBdata.bind(this)
     this.onOpenModal = this.onOpenModal.bind(this)
@@ -37,6 +39,15 @@ class MovieCard extends React.Component {
     this.setState({ open: false });
   };
 
+  componentDidMount() {
+    axios.post(`/recommendations/${this.props.movie.id}`)
+    .then((response) => {
+      this.setState({
+        recommendations: response.data
+      })
+    })
+  }
+
   // <button onClick={this.onOpenModal}>Open modal</button>
   //       <Modal open={open} onClose={this.onCloseModal} center>
   //         <h2>Simple centered modal</h2>
@@ -59,7 +70,7 @@ class MovieCard extends React.Component {
               alt="Placeholder image"
             />
             <Modal open={open} onClose={this.onCloseModal} center>
-              <h2>Simple centered modal</h2>
+              <Recommendations recs={this.state.recommendations}/>>
             </Modal>
           </figure>
         </div>
