@@ -8,6 +8,7 @@ class MovieCard extends React.Component {
     this.state = {
       imdb: {},
       trailer: {},
+      trailer_key: "dQw4w9WgXcQ",
       open: false
     };
 
@@ -26,7 +27,8 @@ class MovieCard extends React.Component {
       .then(response => {
         this.setState({
           imdb: response.data.imdb,
-          trailer: response.data.trailer[0] || null
+          trailer: response.data.trailer[0],
+          trailer_key: response.data.trailer[0].key
         });
       })
       .catch(err => {
@@ -40,8 +42,7 @@ class MovieCard extends React.Component {
 
   onCloseModal() {
     this.setState({ open: false });
-  };
-
+  }
 
   render() {
     //defensive check to make sure a movie was passed as props before rendering a card
@@ -68,22 +69,29 @@ class MovieCard extends React.Component {
             <Modal open={open} onClose={this.onCloseModal} center>
               <div>
                 <iframe
-                  style={{ height: '300px', width: '100%' }}
+                  style={{ height: "300px", width: "100%" }}
                   className="embed-responsive-item"
                   src={
-                    "https://www.youtube.com/embed/" + this.state.trailer.key
+                    "https://www.youtube.com/embed/" + this.state.trailer_key
                   }
                   allowFullScreen
                 />
-              </div> <br/>
+              </div>{" "}
+              <br />
               <h6>{this.state.imdb.plot}</h6>
-              <hr></hr>
+              <hr />
               <div>
                 <h2>{this.state.imdb.actors}</h2>
 
-                <h2 style={{display: "inline-block", paddingRight: '250px'}}>{this.state.imdb.country}</h2>
-                <h2 style={{display: "inline-block", paddingRight: '250px'}}>{this.state.imdb.runtime}</h2>
-                <h2 style={{display: "inline-block"}}>{this.state.imdb.rated}</h2>
+                <h2 style={{ display: "inline-block", paddingRight: "250px" }}>
+                  {this.state.imdb.country}
+                </h2>
+                <h2 style={{ display: "inline-block", paddingRight: "250px" }}>
+                  {this.state.imdb.runtime}
+                </h2>
+                <h2 style={{ display: "inline-block" }}>
+                  {this.state.imdb.rated}
+                </h2>
               </div>
             </Modal>
           </figure>
