@@ -90,7 +90,7 @@ class MovieCard extends React.Component {
               }
               alt="Placeholder image"
             />
-            <Modal open={open} onClose={this.onCloseModal} center>
+            <Modal open={open} onClose={this.onCloseModal}>
               <div>
                 <iframe
                   style={{ height: '300px', width: '100%' }}
