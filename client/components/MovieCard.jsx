@@ -1,13 +1,16 @@
-import React from "react";
-import axios from "axios";
-import Modal from "react-responsive-modal";
+import React from 'react';
+import axios from 'axios';
+import Modal from 'react-responsive-modal';
+import Recommendations from './Recommendations.jsx';
 
 class MovieCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       imdb: {},
+      open: false,
       trailer: {},
+      recommendations: [],
       trailer_key: "dQw4w9WgXcQ",
       open: false
     };
@@ -42,9 +45,29 @@ class MovieCard extends React.Component {
 
   onCloseModal() {
     this.setState({ open: false });
+  };
+
+  componentDidMount() {
+    axios.post(`/recommendations/${this.props.movie.id}`)
+    .then((response) => {
+      this.setState({
+        recommendations: response.data
+      })
+    })
   }
 
   render() {
+
+    const customStyles = {
+      content : {
+        top                   : '60%',
+        left                  : '60%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+      }
+    };
     //defensive check to make sure a movie was passed as props before rendering a card
     if (this.props.movie === null) return <div />;
 
@@ -53,7 +76,7 @@ class MovieCard extends React.Component {
     const { open } = this.state;
 
     return (
-      <div className="card">
+      <div className="card" >
         <div className="card-image">
           <figure className="image is-2by3">
             <img
@@ -93,15 +116,17 @@ class MovieCard extends React.Component {
                   {this.state.imdb.rated}
                 </h2>
               </div>
+              <hr></hr>
+              <Recommendations recs={this.state.recommendations.slice(0, 3)}/>
             </Modal>
           </figure>
         </div>
         <div className="card-content">
-          <p className="is-size-6">{this.props.movie.original_title}</p>
+          <p className="is-size-7">{this.props.movie.original_title}</p>
           <p className="is-size-7">{this.props.movie.release_date}</p>
           <div className="tags content">
             {moods.map(mood => (
-              <span className="tag is-primary" key={mood}>
+              <span className="tag is-primary" key={mood} style={{height: '1.5rem'}}>
                 {mood}
               </span>
             ))}

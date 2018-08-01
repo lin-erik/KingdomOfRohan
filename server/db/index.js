@@ -166,7 +166,72 @@ let histSave = (info, cb) => {
 //hands back the history array from the received docs
 let fetchHist = async (un) => {
   let data = await User.findOne({ username: un });
+  console.log(data.history);
   return data.history;
+};
+
+let giveRecommendations = (movieId, callback) => {
+  fetchHistoriesWithMovie(movieId, (err, histories) => {
+    if (err) {
+      callback(err);
+    } else {
+      let occurences = {};
+      for (let i = 0; i < histories.length; i++) {
+        for (let j = 0; j < histories[i].length; j++) {
+            if (histories[i][j]) {
+              if (histories[i][j].id != movieId){
+              if (occurences[histories[i][j].id]){
+                occurences[histories[i][j].id][1]++;
+              } else {
+                occurences[histories[i][j].id] = [histories[i][j], 1];
+              }
+            }
+          }
+        }
+      }
+
+      let movieTouples = Object.values(occurences);
+      movieTouples.sort(function(a, b) {
+        return b[1] - a[1];
+      })
+
+      let sortedRecommendations = movieTouples.map((movieTouple) => {
+        return movieTouple[0];
+      })
+      callback(null, sortedRecommendations);
+    }
+  })
+}
+
+let fetchHistoriesWithMovie = (movieId, callback) => {
+  fetchAllUsers((err, users) => {
+    if (err) {
+      callback(err);
+    } else {
+      let historiesWithMovie = [];
+       for (let j = 0; j < users.length; j++) {
+        for (let i = 0; i < users[j].history.length; i++) {
+          if (users[j].history[i]) {
+            if (users[j].history[i].id == movieId) {
+              historiesWithMovie.push(users[j].history);
+            }
+          }
+        }
+      };
+      callback(null, historiesWithMovie);
+    }
+  })
+}
+
+//Fetches all histories from all users from database
+let fetchAllUsers = (callback) => {
+  User.find({}, (err, result) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
 };
 
 module.exports.authenticate = authenticate;
@@ -175,3 +240,4 @@ module.exports.save = save;
 module.exports.histSave = histSave;
 module.exports.fetchHist = fetchHist;
 module.exports.moodSearch = moodSearch;
+module.exports.giveRecommendations = giveRecommendations;
