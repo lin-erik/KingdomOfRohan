@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Modal from 'react-responsive-modal';
 import Recommendations from './Recommendations.jsx';
+import MoodRatings from './MoodRatings.jsx';
 
 class MovieCard extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class MovieCard extends React.Component {
 
   setIMDBdata() {
     axios
-      .get("/youtube", {
+      .get('/youtube', {
         params: {
           search: this.props.movie.id
         }
@@ -35,7 +36,7 @@ class MovieCard extends React.Component {
         });
       })
       .catch(err => {
-        console.error("Error fetching trailers from server", err);
+        console.error('Error fetching trailers from server', err);
       });
   }
 
@@ -85,52 +86,52 @@ class MovieCard extends React.Component {
                 this.onOpenModal();
               }}
               src={
-                "https://image.tmdb.org/t/p/w500" + this.props.movie.poster_path
+                'https://image.tmdb.org/t/p/w500' + this.props.movie.poster_path
               }
               alt="Placeholder image"
             />
-            <Modal open={open} onClose={this.onCloseModal} center>
+            <Modal open={open} onClose={this.onCloseModal}>
               <div>
                 <iframe
-                  style={{ height: "300px", width: "100%" }}
+                  style={{ height: '300px', width: '100%' }}
                   className="embed-responsive-item"
                   src={
-                    "https://www.youtube.com/embed/" + this.state.trailer_key
+                    'https://www.youtube.com/embed/' + this.state.trailer_key
                   }
                   allowFullScreen
                 />
-              </div>{" "}
+              </div>{' '}
               <br />
               <h6>{this.state.imdb.plot}</h6>
               <hr />
               <div>
                 <h2>{this.state.imdb.actors}</h2>
 
-                <h2 style={{ display: "inline-block", paddingRight: "250px" }}>
+                <h2 style={{ display: 'inline-block', paddingRight: '250px' }}>
                   {this.state.imdb.country}
                 </h2>
-                <h2 style={{ display: "inline-block", paddingRight: "250px" }}>
+                <h2 style={{ display: 'inline-block', paddingRight: '250px' }}>
                   {this.state.imdb.runtime}
                 </h2>
-                <h2 style={{ display: "inline-block" }}>
+                <h2 style={{ display: 'inline-block' }}>
                   {this.state.imdb.rated}
                 </h2>
               </div>
               <hr></hr>
               <Recommendations recs={this.state.recommendations.slice(0, 3)}/>
+              <div>
+                <MoodRatings
+                  movie={this.props.movie}
+                  reviewCount={this.props.movie.review_count}
+                  moods={moods}
+                />
+              </div>
             </Modal>
           </figure>
         </div>
         <div className="card-content">
           <p className="is-size-7">{this.props.movie.original_title}</p>
           <p className="is-size-7">{this.props.movie.release_date}</p>
-          <div className="tags content">
-            {moods.map(mood => (
-              <span className="tag is-primary" key={mood} style={{height: '1.5rem'}}>
-                {mood}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
     );

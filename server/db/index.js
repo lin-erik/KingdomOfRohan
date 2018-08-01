@@ -35,16 +35,13 @@ let moodSearch = (moodArr, cb) => {
   }
   Movie.where(moodArr[0])
     .ne(undefined)
-    .sort({ test: -1 })
     .where(moodArr[1])
     .ne(undefined)
-    .sort({ test: -1 })
     .where(moodArr[2])
     .ne(undefined)
-    .sort({ test: -1 })
     .then(function(response) {
-      console.log('Response: ', response.slice(0, 4));
-      cb(null, response.slice(0, 4));
+      console.log('Response: ', response);
+      cb(null, response);
     });
   //  .catch (function (err) {
   //    console.log (err);
@@ -98,6 +95,7 @@ let newMovie = (info, cb) => {
   spec.id = info.id;
   spec.overview = info.overview;
   spec.release_date = JSON.parse(info.release_date);
+  spec.review_count = 1;
   let movie = new Movie(spec);
   movie.save();
   cb(null);
@@ -113,6 +111,7 @@ let updateMovie = (docs, info, cb) => {
       docs[mood]++;
     } else docs[mood] = 1;
   });
+  docs.review_count++;
   Movie.findOneAndUpdate(
     { id: docs.id },
     docs,
