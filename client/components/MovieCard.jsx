@@ -5,10 +5,11 @@ import Recommendations from './Recommendations.jsx';
 
 class MovieCard extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       imdb: {},
       open: false,
+      trailer: {},
       recommendations: []
     }
     this.setIMDBdata = this.setIMDBdata.bind(this)
@@ -16,26 +17,29 @@ class MovieCard extends React.Component {
     this.onCloseModal = this.onCloseModal.bind(this)
   }
 
-  setIMDBdata () {
-    console.log('outside', this.props.movie.id)
-    axios.get('/youtube', {
-      params: {
-        search: this.props.movie.id
-      }
-    })
-    .then(response => {
-      console.log('inside')
-      this.setState({
-        imdb: response.data.imdb
+  setIMDBdata() {
+    axios
+      .get("/youtube", {
+        params: {
+          search: this.props.movie.id
+        }
       })
-    })
+      .then(response => {
+        this.setState({
+          imdb: response.data.imdb,
+          trailer: response.data.trailer[0] || null
+        });
+      })
+      .catch(err => {
+        console.error("Error fetching trailers from server", err);
+      });
   }
 
-  onOpenModal () {
+  onOpenModal() {
     this.setState({ open: true });
-  };
+  }
 
-  onCloseModal () {
+  onCloseModal() {
     this.setState({ open: false });
   };
 
@@ -60,17 +64,33 @@ class MovieCard extends React.Component {
     //gather all the moods assigned to the movie and map them below to display on card
     let moods = this.props.movie.moods || [];
     const { open } = this.state;
+
     return (
       <div className="card">
         <div className="card-image">
           <figure className="image is-2by3">
             <img
-              onClick = {() => {this.setIMDBdata(); this.onOpenModal()}}
-              src={'https://image.tmdb.org/t/p/w500' + this.props.movie.poster_path}
+              onClick={() => {
+                this.setIMDBdata();
+                this.onOpenModal();
+              }}
+              src={
+                "https://image.tmdb.org/t/p/w500" + this.props.movie.poster_path
+              }
               alt="Placeholder image"
             />
             <Modal open={open} onClose={this.onCloseModal} center>
-              <Recommendations recs={this.state.recommendations}/>>
+              <h2>Simple centered modal</h2>
+              <div style={{ height: '75%', width: 'auto' }}>
+                <iframe
+                  className="embed-responsive-item"
+                  src={
+                    "https://www.youtube.com/embed/" + this.state.trailer.key
+                  }
+                  allowFullScreen
+                />
+              </div>
+              <Recommendations recs={this.state.recommendations}/>
             </Modal>
           </figure>
         </div>
@@ -78,7 +98,7 @@ class MovieCard extends React.Component {
           <p className="is-size-6">{this.props.movie.original_title}</p>
           <p className="is-size-7">{this.props.movie.release_date}</p>
           <div className="tags content">
-            {moods.map((mood) => (
+            {moods.map(mood => (
               <span className="tag is-primary" key={mood}>
                 {mood}
               </span>
@@ -86,7 +106,7 @@ class MovieCard extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
