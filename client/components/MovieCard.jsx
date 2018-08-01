@@ -52,10 +52,6 @@ class MovieCard extends React.Component {
     })
   }
 
-  // <button onClick={this.onOpenModal}>Open modal</button>
-  //       <Modal open={open} onClose={this.onCloseModal} center>
-  //         <h2>Simple centered modal</h2>
-  //       </Modal>
 
   render() {
     //defensive check to make sure a movie was passed as props before rendering a card
@@ -66,7 +62,7 @@ class MovieCard extends React.Component {
     const { open } = this.state;
 
     return (
-      <div className="card">
+      <div className="card" >
         <div className="card-image">
           <figure className="image is-2by3">
             <img
@@ -79,7 +75,7 @@ class MovieCard extends React.Component {
               }
               alt="Placeholder image"
             />
-            <Modal open={open} onClose={this.onCloseModal} center>
+            <Modal open={open} onClose={this.onCloseModal} center style={{overflow: 'scroll'}}>
               <h2>Simple centered modal</h2>
               <div style={{ height: '75%', width: 'auto' }}>
                 <iframe
@@ -90,16 +86,22 @@ class MovieCard extends React.Component {
                   allowFullScreen
                 />
               </div>
-              <Recommendations recs={this.state.recommendations}/>
+              <h2>{this.state.imdb.language}</h2>
+              <h2>{this.state.imdb.country}</h2>
+              <h2>{this.state.imdb.actors}</h2>
+              <h2>{this.state.imdb.runtime}</h2>
+              <h2>{this.state.imdb.rated}</h2>
+              <h2>{this.state.imdb.plot}</h2>
+              <Recommendations recs={this.state.recommendations.slice(0, 3)}/>
             </Modal>
           </figure>
         </div>
         <div className="card-content">
-          <p className="is-size-6">{this.props.movie.original_title}</p>
+          <p className="is-size-7">{this.props.movie.original_title}</p>
           <p className="is-size-7">{this.props.movie.release_date}</p>
           <div className="tags content">
             {moods.map(mood => (
-              <span className="tag is-primary" key={mood}>
+              <span className="tag is-primary" key={mood} style={{height: '1.5rem'}}>
                 {mood}
               </span>
             ))}
