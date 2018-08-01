@@ -14,12 +14,12 @@ class GlobalSearch extends React.Component {
         'heartfelt',
         'gripping',
         'boring',
-        'thoughtProvoking',
+        'thought provoking',
         'uplifting',
         'light',
-        'tearJerker',
+        'tear jerker',
         'challenging',
-        'mindScrew',
+        'mind screw',
         'nostalgic',
         'powerful',
         'despair',
@@ -55,7 +55,7 @@ class GlobalSearch extends React.Component {
   //sends then to the server and then queries the database for matching movies
   handleSearch() {
     //create the search params by transfroming them into a string with spaces
-    let params = { moods: this.state.moods.join(' ') };
+    let params = { moods: this.state.moods };
 
     //send moods array to server and eventually query DB
     axios
