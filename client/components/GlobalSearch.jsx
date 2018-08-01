@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Results from './Results.jsx';
+import GoogleMaps from './GoogleMapsComponent.jsx'
 
 class GlobalSearch extends React.Component {
   constructor(props) {
@@ -29,12 +30,32 @@ class GlobalSearch extends React.Component {
         'uncomfortable'
       ],
       moods: [],
-      movies: []
+      movies: [],
+      long: '',
+      lat: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.getLocation = this.getLocation.bind(this);
+  }
+
+  componentDidMount() {
+    this.getLocation()
+  }
+
+  getLocation() {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      var crd = pos.coords;
+
+      let long = crd.longitude
+      let lat = crd.latitude
+      this.setState({
+        long: long,
+        lat: lat
+      })
+    })
   }
 
   //event handler for the addition of each mood to the global search
@@ -124,6 +145,11 @@ class GlobalSearch extends React.Component {
           ) : (
             <Results movies={this.state.movies} moods={this.state.moods} />
           )}
+        </div>
+
+        <div>
+          <GoogleMaps long={this.state.long}
+            lat={this.state.lat}/>
         </div>
       </div>;
   }
