@@ -26,7 +26,7 @@ class Popup extends React.Component {
   render() {
     if (this.props.loading) {
       return (
-        <Modal open={this.props.open} onClose={this.props.onCloseModal} center>
+        <Modal open={this.props.open} onClose={this.props.onCloseModal}>
           <div style={{ margin: "auto", align: "center" }}>
             <center>
               <MoonLoader color={"#ADD8E6"} loading={this.props.loading} />
@@ -51,7 +51,7 @@ class Popup extends React.Component {
       );
     } else {
       return (
-        <Modal open={this.props.open} onClose={this.props.onCloseModal} center>
+        <Modal open={this.props.open} onClose={this.props.onCloseModal}>
           <div>
             <iframe
               style={{ height: "300px", width: "100%" }}
