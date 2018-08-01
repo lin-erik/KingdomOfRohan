@@ -43,13 +43,8 @@ let moodSearch = (moodArr, cb) => {
     .ne(undefined)
     .sort({ test: -1 })
     .then(function(response) {
-<<<<<<< HEAD
-      console.log('Response: ', response.slice(0, 4));
-      cb(null, response.slice(0, 4));
-=======
       console.log("Response: ", response);
       cb(null, response);
->>>>>>> f4ad9e912b878ba52cd5b634a62a3c9d2aac0705
     });
   //  .catch (function (err) {
   //    console.log (err);
@@ -239,7 +234,6 @@ let fetchAllUsers = callback => {
   });
 };
 
-<<<<<<< HEAD
 //Saves top 5 recently viewed movies
 
 module.exports.authenticate = authenticate;
@@ -249,7 +243,6 @@ module.exports.histSave = histSave;
 module.exports.fetchHist = fetchHist;
 module.exports.moodSearch = moodSearch;
 module.exports.giveRecommendations = giveRecommendations;
-=======
 module.exports = {
   authenticate,
   signup,
@@ -259,4 +252,3 @@ module.exports = {
   moodSearch,
   giveRecommendations
 };
->>>>>>> f4ad9e912b878ba52cd5b634a62a3c9d2aac0705

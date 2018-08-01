@@ -157,6 +157,11 @@ class GlobalSearch extends React.Component {
           }
         >
           <div className="container is-fluid">
+            <div>
+              <GoogleMaps long={this.state.long}
+                lat={this.state.lat}/>
+            </div>
+            <br/>
             <div className="columns is-multiline">
               {this.state.nowPlaying.map((movie, index) => {
                 return (
@@ -233,10 +238,7 @@ class GlobalSearch extends React.Component {
           </div>
         </div>
 
-        <div>
-          <GoogleMaps long={this.state.long}
-            lat={this.state.lat}/>
-        </div>
+
       </div>
     )
   }
