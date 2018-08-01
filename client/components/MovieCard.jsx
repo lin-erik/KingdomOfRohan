@@ -8,7 +8,9 @@ class MovieCard extends React.Component {
     super(props);
     this.state = {
       imdb: {},
+      open: false,
       trailer: {},
+      recommendations: [],
       trailer_key: "dQw4w9WgXcQ",
       open: false,
       loading: true
@@ -49,7 +51,7 @@ class MovieCard extends React.Component {
 
   onCloseModal() {
     this.setState({ open: false });
-  }
+  };
 
   render() {
     //defensive check to make sure a movie was passed as props before rendering a card
@@ -59,7 +61,7 @@ class MovieCard extends React.Component {
     let moods = this.props.movie.moods || [];
 
     return (
-      <div className="card">
+      <div className="card" >
         <div className="card-image">
           <figure className="image is-2by3">
             <img
@@ -78,15 +80,16 @@ class MovieCard extends React.Component {
               imdb={this.state.imdb}
               open={this.state.open}
               loading={this.state.loading}
+              movie={this.props.movie}
             />
           </figure>
         </div>
         <div className="card-content">
-          <p className="is-size-6">{this.props.movie.original_title}</p>
+          <p className="is-size-7">{this.props.movie.original_title}</p>
           <p className="is-size-7">{this.props.movie.release_date}</p>
           <div className="tags content">
             {moods.map(mood => (
-              <span className="tag is-primary" key={mood}>
+              <span className="tag is-primary" key={mood} style={{height: '1.5rem'}}>
                 {mood}
               </span>
             ))}

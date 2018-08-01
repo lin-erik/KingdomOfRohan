@@ -10,6 +10,7 @@ let fetchHist = require("./../db/index").fetchHist;
 let moodSearch = require("./../db/index").moodSearch;
 let imdb = require("imdb-api");
 let imdb_key = require("../../imdb.js").IMDB_KEY;
+let giveRecommendations = require('./../db/index').giveRecommendations;
 // let youtube_key = require("../../youtube.js").YOUTUBE_API_KEY;
 
 let API_KEY;
@@ -92,6 +93,14 @@ app.get("/users/recs.:username", (req, res) => {
     })
   );
 });
+
+app.post('/recommendations/:movie', function(req, res) {
+  console.log('RECOMMENDATION ID', req.params.movie);
+  let histories = giveRecommendations(req.params.movie, (err, result) => {
+    res.send(result);
+  });
+  
+}) 
 
 //*******Authentication section*******
 //runs authenticate based on object containing un/pw from client
