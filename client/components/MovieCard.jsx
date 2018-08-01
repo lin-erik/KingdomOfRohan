@@ -54,6 +54,17 @@ class MovieCard extends React.Component {
 
 
   render() {
+
+    const customStyles = {
+      content : {
+        top                   : '60%',
+        left                  : '60%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+      }
+    };
     //defensive check to make sure a movie was passed as props before rendering a card
     if (this.props.movie === null) return <div />;
 
@@ -75,23 +86,27 @@ class MovieCard extends React.Component {
               }
               alt="Placeholder image"
             />
-            <Modal open={open} onClose={this.onCloseModal} center style={{overflow: 'scroll'}}>
-              <h2>Simple centered modal</h2>
-              <div style={{ height: '75%', width: 'auto' }}>
+            <Modal open={open} onClose={this.onCloseModal} center>
+              <div>
                 <iframe
+                  style={{ height: '300px', width: '100%' }}
                   className="embed-responsive-item"
                   src={
                     "https://www.youtube.com/embed/" + this.state.trailer.key
                   }
                   allowFullScreen
                 />
+              </div> <br/>
+              <h6>{this.state.imdb.plot}</h6>
+              <hr></hr>
+              <div>
+                <h2>{this.state.imdb.actors}</h2>
+
+                <h2 style={{display: "inline-block", paddingRight: '250px'}}>{this.state.imdb.country}</h2>
+                <h2 style={{display: "inline-block", paddingRight: '250px'}}>{this.state.imdb.runtime}</h2>
+                <h2 style={{display: "inline-block"}}>{this.state.imdb.rated}</h2>
               </div>
-              <h2>{this.state.imdb.language}</h2>
-              <h2>{this.state.imdb.country}</h2>
-              <h2>{this.state.imdb.actors}</h2>
-              <h2>{this.state.imdb.runtime}</h2>
-              <h2>{this.state.imdb.rated}</h2>
-              <h2>{this.state.imdb.plot}</h2>
+              <hr></hr>
               <Recommendations recs={this.state.recommendations.slice(0, 3)}/>
             </Modal>
           </figure>
