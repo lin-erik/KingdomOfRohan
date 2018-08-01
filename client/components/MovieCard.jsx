@@ -1,8 +1,7 @@
-import React from 'react';
-import axios from 'axios';
-import Modal from 'react-responsive-modal';
-import Recommendations from './Recommendations.jsx';
-import MoodRatings from './MoodRatings.jsx';
+import React from "react";
+import axios from "axios";
+
+import Popup from "./Popup.jsx";
 
 class MovieCard extends React.Component {
   constructor(props) {
@@ -13,7 +12,8 @@ class MovieCard extends React.Component {
       trailer: {},
       recommendations: [],
       trailer_key: "dQw4w9WgXcQ",
-      open: false
+      open: false,
+      loading: true
     };
 
     this.setIMDBdata = this.setIMDBdata.bind(this);
@@ -36,7 +36,12 @@ class MovieCard extends React.Component {
         });
       })
       .catch(err => {
-        console.error('Error fetching trailers from server', err);
+        console.error("Error fetching trailers from server", err);
+      })
+      .then(() => {
+        this.setState({
+          loading: false
+        });
       });
   }
 
@@ -48,33 +53,12 @@ class MovieCard extends React.Component {
     this.setState({ open: false });
   };
 
-  componentDidMount() {
-    axios.post(`/recommendations/${this.props.movie.id}`)
-    .then((response) => {
-      this.setState({
-        recommendations: response.data
-      })
-    })
-  }
-
   render() {
-
-    const customStyles = {
-      content : {
-        top                   : '60%',
-        left                  : '60%',
-        right                 : 'auto',
-        bottom                : 'auto',
-        marginRight           : '-50%',
-        transform             : 'translate(-50%, -50%)'
-      }
-    };
     //defensive check to make sure a movie was passed as props before rendering a card
     if (this.props.movie === null) return <div />;
 
     //gather all the moods assigned to the movie and map them below to display on card
     let moods = this.props.movie.moods || [];
-    const { open } = this.state;
 
     return (
       <div className="card" >
@@ -90,43 +74,14 @@ class MovieCard extends React.Component {
               }
               alt="Placeholder image"
             />
-            <Modal open={open} onClose={this.onCloseModal}>
-              <div>
-                <iframe
-                  style={{ height: '300px', width: '100%' }}
-                  className="embed-responsive-item"
-                  src={
-                    'https://www.youtube.com/embed/' + this.state.trailer_key
-                  }
-                  allowFullScreen
-                />
-              </div>{' '}
-              <br />
-              <h6>{this.state.imdb.plot}</h6>
-              <hr />
-              <div>
-                <h2>{this.state.imdb.actors}</h2>
-
-                <h2 style={{ display: 'inline-block', paddingRight: '250px' }}>
-                  {this.state.imdb.country}
-                </h2>
-                <h2 style={{ display: 'inline-block', paddingRight: '250px' }}>
-                  {this.state.imdb.runtime}
-                </h2>
-                <h2 style={{ display: 'inline-block' }}>
-                  {this.state.imdb.rated}
-                </h2>
-              </div>
-              <hr></hr>
-              <Recommendations recs={this.state.recommendations.slice(0, 3)}/>
-              <div>
-                <MoodRatings
-                  movie={this.props.movie}
-                  reviewCount={this.props.movie.review_count}
-                  moods={moods}
-                />
-              </div>
-            </Modal>
+            <Popup
+              trailer_key={this.state.trailer_key}
+              onCloseModal={this.onCloseModal}
+              imdb={this.state.imdb}
+              open={this.state.open}
+              loading={this.state.loading}
+              movie={this.props.movie}
+            />
           </figure>
         </div>
         <div className="card-content">
