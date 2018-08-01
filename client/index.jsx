@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import axios from 'axios';
-import GlobalSearch from './components/GlobalSearch.jsx';
-import Profile_Search from './components/Profile_Search.jsx';
-import Nav from './components/Nav.jsx';
-import Login from './components/Login.jsx';
-import Signup from './components/Signup.jsx';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import axios from "axios";
+import GlobalSearch from "./components/GlobalSearch.jsx";
+import Profile_Search from "./components/Profile_Search.jsx";
+import Nav from "./components/Nav.jsx";
+import Login from "./components/Login.jsx";
+import Signup from "./components/Signup.jsx";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 class App extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class App extends React.Component {
 
     this.state = {
       loggedIn: false,
-      user: 'global',
+      user: "Anonymous",
       loginError: false
     };
 
@@ -24,32 +24,30 @@ class App extends React.Component {
   }
 
   handleSignUp(username, password) {
-    console.log('signing up with: ', username, password);
     axios
-      .post('/signup', { username: username, password: password })
-      .then((response) => {
-        console.log('signed up successfully!');
+      .post("/signup", { username: username, password: password })
+      .then(response => {
+        console.log("signed up successfully!");
         this.setState({
           loggedIn: true,
           user: username
         });
         console.log(
-          'Current logged in User: ',
+          "Current logged in User: ",
           this.state.user,
-          'bool',
+          "bool",
           this.state.loggedIn
         );
       })
-      .catch((err) => {
-        console.error('something went wrong on signup: ', err);
+      .catch(err => {
+        console.error("something went wrong on signup: ", err);
       });
   }
 
   handleLogin(username, password) {
-    console.log('logging in with: ', username, password);
     axios
-      .post('/login', { username: username, password: password })
-      .then((response) => {
+      .post("/login", { username: username, password: password })
+      .then(response => {
         if (response.data) {
           this.setState({
             loggedIn: true,
@@ -62,13 +60,35 @@ class App extends React.Component {
           });
         }
       })
-      .catch((err) => {
-        console.log('something went wrong: ', err);
+      .catch(err => {
+        console.log("something went wrong: ", err);
       });
   }
 
   handleLogout() {
     this.setState({ loggedIn: false });
+
+    axios.get("/logout").catch(err => {
+      console.error("Error logging out", err);
+    });
+  }
+
+  componentDidMount() {
+    axios
+      .get("/session")
+      .then(response => {
+        console.log(response);
+        if (response.data.login) {
+          this.setState({
+            loggedIn: true,
+            user: response.data.username,
+            loginError: false
+          });
+        }
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   render() {
@@ -127,4 +147,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById("app"));
