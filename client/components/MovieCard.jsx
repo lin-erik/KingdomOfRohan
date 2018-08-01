@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
-import Modal from "react-responsive-modal";
+
+import Popup from "./Popup.jsx";
 
 class MovieCard extends React.Component {
   constructor(props) {
@@ -9,7 +10,8 @@ class MovieCard extends React.Component {
       imdb: {},
       trailer: {},
       trailer_key: "dQw4w9WgXcQ",
-      open: false
+      open: false,
+      loading: true
     };
 
     this.setIMDBdata = this.setIMDBdata.bind(this);
@@ -33,6 +35,11 @@ class MovieCard extends React.Component {
       })
       .catch(err => {
         console.error("Error fetching trailers from server", err);
+      })
+      .then(() => {
+        this.setState({
+          loading: false
+        });
       });
   }
 
@@ -50,7 +57,6 @@ class MovieCard extends React.Component {
 
     //gather all the moods assigned to the movie and map them below to display on card
     let moods = this.props.movie.moods || [];
-    const { open } = this.state;
 
     return (
       <div className="card">
@@ -66,34 +72,13 @@ class MovieCard extends React.Component {
               }
               alt="Placeholder image"
             />
-            <Modal open={open} onClose={this.onCloseModal} center>
-              <div>
-                <iframe
-                  style={{ height: "300px", width: "100%" }}
-                  className="embed-responsive-item"
-                  src={
-                    "https://www.youtube.com/embed/" + this.state.trailer_key
-                  }
-                  allowFullScreen
-                />
-              </div>{" "}
-              <br />
-              <h6>{this.state.imdb.plot}</h6>
-              <hr />
-              <div>
-                <h2>{this.state.imdb.actors}</h2>
-
-                <h2 style={{ display: "inline-block", paddingRight: "250px" }}>
-                  {this.state.imdb.country}
-                </h2>
-                <h2 style={{ display: "inline-block", paddingRight: "250px" }}>
-                  {this.state.imdb.runtime}
-                </h2>
-                <h2 style={{ display: "inline-block" }}>
-                  {this.state.imdb.rated}
-                </h2>
-              </div>
-            </Modal>
+            <Popup
+              trailer_key={this.state.trailer_key}
+              onCloseModal={this.onCloseModal}
+              imdb={this.state.imdb}
+              open={this.state.open}
+              loading={this.state.loading}
+            />
           </figure>
         </div>
         <div className="card-content">

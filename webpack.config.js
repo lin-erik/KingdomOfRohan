@@ -15,7 +15,8 @@ module.exports = {
         include: SRC_DIR,
         loaders: 'babel-loader',
         query: {
-          presets: ['react', 'es2015']
+          presets: ['react', 'es2015'],
+          plugins: ['emotion']
         }
       }
     ]
