@@ -1,6 +1,8 @@
-import React from 'react';
-import axios from 'axios';
-import Results from './Results.jsx';
+import React from "react";
+import Results from "./Results.jsx";
+import MovieCard from "./MovieCard.jsx";
+
+import axios from "axios";
 
 class GlobalSearch extends React.Component {
   constructor(props) {
@@ -8,33 +10,36 @@ class GlobalSearch extends React.Component {
 
     this.state = {
       dbMoods: [
-        'whimsical',
-        'intense',
-        'thriller',
-        'heartfelt',
-        'gripping',
-        'boring',
-        'thought provoking',
-        'uplifting',
-        'light',
-        'tear jerker',
-        'challenging',
-        'mind screw',
-        'nostalgic',
-        'powerful',
-        'despair',
-        'exhausting',
-        'paranoid',
-        'motivated',
-        'uncomfortable'
+        "whimsical",
+        "intense",
+        "thriller",
+        "heartfelt",
+        "gripping",
+        "boring",
+        "thought provoking",
+        "uplifting",
+        "light",
+        "tear jerker",
+        "challenging",
+        "mind screw",
+        "nostalgic",
+        "powerful",
+        "despair",
+        "exhausting",
+        "paranoid",
+        "motivated",
+        "uncomfortable"
       ],
       moods: [],
-      movies: []
+      movies: [],
+      nowPlaying: [],
+      active: "Now Playing"
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   //event handler for the addition of each mood to the global search
@@ -59,7 +64,7 @@ class GlobalSearch extends React.Component {
     if (this.state.moods.length > 0) {
       //send moods array to server and eventually query DB
       axios
-        .get('/results/', { params })
+        .get("/results/", { params })
         .then(response => {
           this.setState({ movies: response.data });
         })
@@ -78,54 +83,136 @@ class GlobalSearch extends React.Component {
     this.handleSearch();
   }
 
+  handleClick(e) {
+    console.log(e.target.text);
+    this.setState({
+      active: e.target.text
+    });
+  }
+
+  componentDidMount() {
+    axios
+      .get("/nowPlaying")
+      .then(response => {
+        this.setState({
+          nowPlaying: response.data
+        });
+      })
+      .catch(err => {
+        console.error("Error with endpoint of server", err);
+      })
+      .then(() => {
+        console.log(this.state.nowPlaying);
+      });
+  }
+
   render() {
-    return <div className="section">
-        <div className="title is-title-4">Find a Moodvie to watch</div>
-        <div className="field">
-          <div className="control">
-            <div className="select is-primary">
-              <select onChange={this.handleChange} className="select is-multiple" defaultValue="">
-                <option value="" disabled hidden>
-                  Choose Mood
-                </option>
-                {this.state.dbMoods.map((option, index) => {
-                  return <option value={option} key={index}>
-                      {option}
-                    </option>;
-                })}
-              </select>
+    return (
+      <div>
+        <div className="tabs is-centered">
+          <ul>
+            <li
+              className={this.state.active === "Now Playing" ? "is-active" : ""}
+              onClick={this.handleClick}
+            >
+              <a>Now Playing</a>
+            </li>
+            <li
+              className={
+                this.state.active === "Find Moodvie" ? "is-active" : ""
+              }
+              onClick={this.handleClick}
+            >
+              <a>Find Moodvie</a>
+            </li>
+          </ul>
+        </div>
+
+        <div
+          style={
+            this.state.active === "Now Playing"
+              ? { display: "inline" }
+              : { display: "none" }
+          }
+        >
+          <div className="container is-fluid">
+            <div className="columns is-multiline">
+              {this.state.nowPlaying.map((movie, index) => {
+                return (
+                  <div className="column is-one-fifth" key={index}>
+                    <MovieCard movie={movie} />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
-        <div className="container" style={{ margin: '15px' }}>
-          {this.state.moods.length > 0 ? <span className="subtitle">
-              Our users found these movies to be{' '}
-            </span> : null}
 
-          {this.state.moods.map((mood, index) => (
-            <span
-              className="tag is-primary is-large"
-              style={{ margin: '7px' }}
-              key={index}
-            >
-              {mood}
-              <button
-                onClick={this.handleDelete}
-                value={index}
-                className="delete"
-              />
-            </span>
-          ))}
-        </div>
+        <div
+          style={
+            this.state.active === "Find Moodvie"
+              ? { display: "inline" }
+              : { display: "none" }
+          }
+        >
+          <div className="section">
+            <div className="title is-title-4">Find a Moodvie to watch</div>
+            <div className="field">
+              <div className="control">
+                <div className="select is-primary">
+                  <select
+                    onChange={this.handleChange}
+                    className="select is-multiple"
+                    defaultValue=""
+                  >
+                    <option value="" disabled hidden>
+                      Choose Mood
+                    </option>
+                    {this.state.dbMoods.map((option, index) => {
+                      return (
+                        <option value={option} key={index}>
+                          {option}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="container" style={{ margin: "15px" }}>
+              {this.state.moods.length > 0 ? (
+                <span className="subtitle">
+                  Our users found these movies to be{" "}
+                </span>
+              ) : null}
 
-        <div className="container">
-          {this.state.moods.length === 0 ? (
-            <div />
-          ) : (
-            <Results movies={this.state.movies} moods={this.state.moods} />
-          )}
+              {this.state.moods.map((mood, index) => (
+                <span
+                  className="tag is-primary is-large"
+                  style={{ margin: "7px" }}
+                  key={index}
+                >
+                  {mood}
+                  <button
+                    onClick={this.handleDelete}
+                    value={index}
+                    className="delete"
+                  />
+                </span>
+              ))}
+            </div>
+
+            <div className="container">
+              {this.state.moods.length === 0 ? (
+                <div />
+              ) : (
+                <Results movies={this.state.movies} moods={this.state.moods} />
+              )}
+            </div>
+          </div>
         </div>
-      </div>;
+      </div>
+    );
   }
 }
 

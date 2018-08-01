@@ -24,6 +24,7 @@
     "body-parser": "1.18.3",
     "cors": "2.8.4",
     "express": "4.16.3",
+    "express-session": "^1.15.6",
     "imdb-api": "^4.0.0",
     "knex": "0.15.1",
     "mongoose": "^5.2.4",

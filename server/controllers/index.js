@@ -1,17 +1,15 @@
 const express = require("express");
-let app = express();
+const app = express();
+
 const parser = require("body-parser");
 const axios = require("axios");
-let authenticate = require("./../db/index").authenticate;
-let signup = require("./../db/index").signup;
-let save = require("./../db/index").save;
-let histSave = require("./../db/index").histSave;
-let fetchHist = require("./../db/index").fetchHist;
-let moodSearch = require("./../db/index").moodSearch;
-let imdb = require("imdb-api");
-let imdb_key = require("../../imdb.js").IMDB_KEY;
-let giveRecommendations = require('./../db/index').giveRecommendations;
-// let youtube_key = require("../../youtube.js").YOUTUBE_API_KEY;
+const imdb = require("imdb-api");
+const session = require('express-session');
+
+const { authenticate, signup, save, histSave, fetchHist, moodSearch, giveRecommendations } = require('./../db/index');
+const helpers = require("./serverhelpers.js");
+
+const imdb_key = require("../../imdb.js").IMDB_KEY;
 
 let API_KEY;
 try {
@@ -19,7 +17,6 @@ try {
 } catch (err) {
   API_KEY = process.env.API_KEY;
 }
-const helpers = require("./serverhelpers.js");
 
 //********middleware and plugins*********
 app.use(parser.json());
@@ -35,11 +32,11 @@ app.get("/search", (req, res) => {
       `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&page=1&include_adult=false&query=${movie}`
     )
     .then(response => {
-      console.log(response.data)
+      console.log(response.data);
       let filtered = helpers.filterResults(response.data.results);
       res.status(200).send(filtered);
     })
-    .catch(err => console.log('chill'));
+    .catch(err => console.log("chill"));
 });
 
 //takes in a movie object that contains an array of moods
@@ -62,7 +59,7 @@ app.post("/save", (req, res) => {
 //mood search - example url: localhost:8080/results/?moods=happy+sad+cool
 app.get("/results/:moods?", (req, res) => {
   //creating an array with each mood that was sent with query
-  console.log('Array of moods', req.query.moods);
+  console.log("Array of moods", req.query.moods);
 
   moodSearch(req.query.moods, function(err, data) {
     if (err) throw err;
@@ -94,13 +91,12 @@ app.get("/users/recs.:username", (req, res) => {
   );
 });
 
-app.post('/recommendations/:movie', function(req, res) {
-  console.log('RECOMMENDATION ID', req.params.movie);
+app.post("/recommendations/:movie", function(req, res) {
+  console.log("RECOMMENDATION ID", req.params.movie);
   let histories = giveRecommendations(req.params.movie, (err, result) => {
     res.send(result);
   });
-  
-}) 
+});
 
 //*******Authentication section*******
 //runs authenticate based on object containing un/pw from client
@@ -185,6 +181,20 @@ app.get("/youtube", (req, res) => {
         .catch(err => {
           console.error("Error fetching from IMDB", err);
         });
+    });
+});
+
+app.get("/nowPlaying", (req, res) => {
+  axios
+    .get(
+      `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1&region=US`
+    )
+    .then(response => {
+      console.log("Response fetching movies now playing", response.data);
+      res.send(response.data.results);
+    })
+    .catch(err => {
+      console.error("Error fetching movies now playing", err);
     });
 });
 

@@ -23,7 +23,7 @@ class MovieCard extends React.Component {
 
   setIMDBdata() {
     axios
-      .get('/youtube', {
+      .get("/youtube", {
         params: {
           search: this.props.movie.id
         }
@@ -32,7 +32,7 @@ class MovieCard extends React.Component {
         this.setState({
           imdb: response.data.imdb,
           trailer: response.data.trailer[0],
-          trailer_key: response.data.trailer[0].key
+          trailer_key: response.data.trailer[0].key || "dQw4w9WgXcQ"
         });
       })
       .catch(err => {
@@ -51,17 +51,14 @@ class MovieCard extends React.Component {
 
   onCloseModal() {
     this.setState({ open: false });
-  };
+  }
 
   render() {
     //defensive check to make sure a movie was passed as props before rendering a card
     if (this.props.movie === null) return <div />;
 
-    //gather all the moods assigned to the movie and map them below to display on card
-    let moods = this.props.movie.moods || [];
-
     return (
-      <div className="card" >
+      <div className="card">
         <div className="card-image">
           <figure className="image is-2by3">
             <img
@@ -70,7 +67,7 @@ class MovieCard extends React.Component {
                 this.onOpenModal();
               }}
               src={
-                'https://image.tmdb.org/t/p/w500' + this.props.movie.poster_path
+                "https://image.tmdb.org/t/p/w500" + this.props.movie.poster_path
               }
               alt="Placeholder image"
             />
