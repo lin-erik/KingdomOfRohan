@@ -29,7 +29,6 @@ class GlobalSearch extends React.Component {
         'uncomfortable'
       ],
       moods: [],
-      selected: 'whimsical',
       movies: []
     };
 
@@ -41,11 +40,11 @@ class GlobalSearch extends React.Component {
   //event handler for the addition of each mood to the global search
   handleChange(e) {
     // console.log('you selected ', e.target.value);
-    let temp = this.state.moods;
-    if (temp.length < 3 && !temp.includes(this.state.selected)) {
-      temp.push(e.target.value);
+    let moodStorage = this.state.moods;
+    if (moodStorage.length < 3 && moodStorage.indexOf(e.target.value) === -1) {
+      moodStorage.push(e.target.value);
+      this.setState({ moods: moodStorage });
     }
-    this.setState({ moods: temp });
 
     //dynamically query the database based on each mood added
     this.handleSearch();
@@ -57,13 +56,15 @@ class GlobalSearch extends React.Component {
     //create the search params by transfroming them into a string with spaces
     let params = { moods: this.state.moods };
 
-    //send moods array to server and eventually query DB
-    axios
-      .get('/results/', { params })
-      .then((response) => {
-        this.setState({ movies: response.data });
-      })
-      .catch((err) => console.error(err));
+    if (this.state.moods.length > 0) {
+      //send moods array to server and eventually query DB
+      axios
+        .get('/results/', { params })
+        .then(response => {
+          this.setState({ movies: response.data });
+        })
+        .catch(err => console.error(err));
+    }
   }
 
   //event handler for when a user removes a mood from their current search
@@ -78,36 +79,35 @@ class GlobalSearch extends React.Component {
   }
 
   render() {
-    return (
-      <div className="section">
+    return <div className="section">
         <div className="title is-title-4">Find a Moodvie to watch</div>
         <div className="field">
           <div className="control">
             <div className="select is-primary">
-              <select
-                onChange={this.handleChange}
-                className="select is-multiple"
-              >
+              <select onChange={this.handleChange} className="select is-multiple" defaultValue="">
+                <option value="" disabled hidden>
+                  Choose Mood
+                </option>
                 {this.state.dbMoods.map((option, index) => {
-                  return (
-                    <option value={option} key={index}>
+                  return <option value={option} key={index}>
                       {option}
-                    </option>
-                  );
+                    </option>;
                 })}
               </select>
             </div>
           </div>
         </div>
         <div className="container" style={{ margin: '15px' }}>
-          {this.state.moods.length > 0 ? (
-            <span className="subtitle">
+          {this.state.moods.length > 0 ? <span className="subtitle">
               Our users found these movies to be{' '}
-            </span>
-          ) : null}
+            </span> : null}
 
           {this.state.moods.map((mood, index) => (
-            <span className="tag is-primary is-large" style={{ margin: '7px' }} key={index}>
+            <span
+              className="tag is-primary is-large"
+              style={{ margin: '7px' }}
+              key={index}
+            >
               {mood}
               <button
                 onClick={this.handleDelete}
@@ -122,11 +122,10 @@ class GlobalSearch extends React.Component {
           {this.state.moods.length === 0 ? (
             <div />
           ) : (
-            <Results movies={this.state.movies} />
+            <Results movies={this.state.movies} moods={this.state.moods} />
           )}
         </div>
-      </div>
-    );
+      </div>;
   }
 }
 
