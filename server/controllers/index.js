@@ -15,7 +15,8 @@ const {
   moodSearch,
   giveRecommendations,
   deleteMovie,
-  findMovieById
+  getUserByName,
+  setUserTheme
 } = require('./../db/index');
 
 const helpers = require('./serverhelpers.js');
@@ -30,6 +31,7 @@ try {
 }
 
 //********middleware and plugins*********
+app.use(parser.urlencoded({ extended: false }));
 app.use(parser.json());
 app.use(express.static(__dirname + '/../../dist'));
 app.use(
@@ -119,6 +121,30 @@ app.post('/recommendations/:movie', function(req, res) {
   });
 });
 
+// Retrieves a single user from the DB based on the queried username
+app.get('/user', (req, res) => {
+  getUserByName(req.query.username, (err, result) => {
+    if (err) {
+      throw err;
+    } else
+    res.send(result);
+  });
+})
+
+// Updates a user's theme in the DB based on the query
+app.post('/theme', (req, res) => {
+  if (req.body.username === 'Anonymous') {
+    res.send('Theme setting not enabled for Anonymous users');
+  } else {
+    setUserTheme(req.body.username, req.body.theme, (err, result) => {
+      if (err) {
+        throw err;
+      }
+      res.send('Updated user theme');
+    })
+  }
+})
+
 //*******Authentication section*******
 //runs authenticate based on object containing un/pw from client
 //on the returned docs, compares against the docs password with provided password
@@ -137,7 +163,7 @@ app.post('/login', (req, res) => {
       ) {
         var sess = {
           username: username,
-          login: true
+          login: true,
         };
 
         console.log('Login session', sess);
@@ -155,17 +181,14 @@ app.post('/login', (req, res) => {
 //sends back OK on success
 app.post('/signup', (req, res) => {
   signup(
-    { username: req.body.username, password: req.body.password },
+    { username: req.body.username, password: req.body.password, birthday: req.body.birthday},
     (err, response) => {
       if (err) console.log(err);
       else {
         var sess = {
-          username: username,
+          username: req.body.username,
           login: true
         };
-
-        console.log('Signup session', sess);
-
         req.session.userData = sess;
         res.send();
       }
