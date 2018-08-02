@@ -1,18 +1,28 @@
 let moodSearch = require('./../db/index').moodSearch;
+let findMovieById = require('./../db/index').findMovieById;
 
-module.exports.filterResults = (results) => {
-  return results.map((result) => {
+module.exports.filterResults = results => {
+  var promiseArr = results.map(result => {
     let { id, original_title, poster_path, overview, release_date } = result;
     release_date = release_date.slice(0, 4);
-
-    return {
-      id,
-      original_title,
-      poster_path,
-      overview,
-      release_date
-    };
+    return new Promise((resolve, reject) => {
+      findMovieById(result.id, (err, res) => {
+        if (err === null) {
+          resolve(res);
+        } else {
+          let resultObj = {
+            id,
+            original_title,
+            poster_path,
+            overview,
+            release_date
+          };
+          resolve(resultObj);
+        }
+      });
+    });
   });
+  return Promise.all(promiseArr);
 };
 
 //Unused Method
@@ -30,7 +40,7 @@ module.exports.filterRecs = (history, resSend) => {
     for (var j = 0; j < watchedMovies; j++) {
       var watchedMovie = watchedMovies[j];
       queuedMovies = queuedMovies.filter(
-        (movie) => movie.movieId !== watchedMovie.movieId
+        movie => movie.movieId !== watchedMovie.movieId
       );
     }
     console.log(queriedMovies);

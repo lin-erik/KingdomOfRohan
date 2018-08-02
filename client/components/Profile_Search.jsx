@@ -42,11 +42,11 @@ class Profile_Search extends React.Component {
     this.setState({ giveMoodButtons: false });
     axios
       .get('/search', { params: { title: this.state.movie } })
-      .then((response) => {
+      .then(response => {
         this.setState({ movies: response.data });
         this.setState({ showMovie: true });
       })
-      .catch((err) => console.error(err));
+      .catch(err => console.error(err));
   }
 
   //once you get the list of search results, clicking Rate This Movie makes Movies State set to the corresponding movie object wrapped as an array
@@ -67,23 +67,23 @@ class Profile_Search extends React.Component {
     let params = { username };
     axios
       .get('/users/history/', { params })
-      .then((response) => {
+      .then(response => {
         console.log(response.data);
         let history = response.data.reverse();
         if (history === null) history = [];
         this.setState({ history });
       })
-      .catch((err) => console.log('Error getting user history: ', err));
+      .catch(err => console.log('Error getting user history: ', err));
   }
 
   getUserRecs(username) {
     let params = { username };
     axios
       .get('/users/recs/', { params })
-      .then((response) => {
+      .then(response => {
         this.setState({ recs: response.data });
       })
-      .catch((err) => console.log('Error getting user history: ', err));
+      .catch(err => console.log('Error getting user history: ', err));
   }
 
   render() {
@@ -99,19 +99,19 @@ class Profile_Search extends React.Component {
           </div>
           {/* formRef resets input field after search */}
           <form
-            ref={(ref) => (this.formRef = ref)}
-            onSubmit={(event) => this.handleSearchClick(event)}
+            ref={ref => (this.formRef = ref)}
+            onSubmit={event => this.handleSearchClick(event)}
           >
             <div className="level-item" style={{ marginLeft: '70px' }}>
               <input
                 className="input is-primary"
                 placeholder="Tag a movie..."
-                onChange={(event) => this.handleSearch(event)}
+                onChange={event => this.handleSearch(event)}
               />
               <button
                 className="button is-primary"
                 style={{ marginLeft: '10px' }}
-                onClick={(event) => this.handleSearchClick(event)}
+                onClick={event => this.handleSearchClick(event)}
               >
                 Search
               </button>
@@ -136,7 +136,7 @@ class Profile_Search extends React.Component {
                         <MovieCard movie={movie} />
                         <button
                           className="button is-primary"
-                          onClick={(event) => this.handleMoodClick(movie)}
+                          onClick={event => this.handleMoodClick(movie)}
                         >
                           Add Moods
                         </button>

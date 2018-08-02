@@ -294,6 +294,17 @@ let removeMoodsFromMovie = (movie, moods, callback) => {
   })
 }
 
+// Finds a movie based on its id
+let findMovieById = (id, cb) => {
+  Movie.findOne({ id: id }, (err, movie) => {
+    if (movie === null) {
+      cb('no movie found', null);
+    } else {
+      cb(null, movie);
+    }
+  });
+};
+
 module.exports = {
   authenticate,
   signup,
@@ -302,5 +313,6 @@ module.exports = {
   fetchHist,
   moodSearch,
   giveRecommendations,
-  deleteMovie
+  deleteMovie,
+  findMovieById
 };
