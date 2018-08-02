@@ -69,7 +69,7 @@ class Profile_Search extends React.Component {
 
     console.log(user, movieId)
     axios.delete(`/${user}/${movieId}`)
-    .then(response => this.getUserHistory(user))
+    .then(() => this.getUserHistory(user))
     .catch(err => console.log(err))
   }
 
