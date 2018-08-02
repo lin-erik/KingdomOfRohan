@@ -256,9 +256,10 @@ app.delete('/:user/:movie', function(req, res) {
     } else {
       res.status(200).send();
     }
-  });
-});
-app.get('/nowPlaying', (req, res) => {
+  })
+})
+
+app.get("/nowPlaying", (req, res) => {
   axios
     .get(
       `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1&region=US`
