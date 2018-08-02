@@ -13,12 +13,15 @@ class MovieCard extends React.Component {
       recommendations: [],
       trailer_key: "dQw4w9WgXcQ",
       open: false,
-      loading: true
+      loading: true,
+      renderCard: true
     };
 
     this.setIMDBdata = this.setIMDBdata.bind(this);
     this.onOpenModal = this.onOpenModal.bind(this);
     this.onCloseModal = this.onCloseModal.bind(this);
+    // this.deleteMovie = this.deleteMovie.bind(this);
+    this.handleAppStateChange = this.handleAppStateChange.bind(this)
   }
 
   setIMDBdata() {
@@ -45,6 +48,23 @@ class MovieCard extends React.Component {
       });
   }
 
+  handleAppStateChange () {
+    this.props.deleteMovie(this.props.id)
+    this.setState({
+      renderCard: false
+    })
+  }
+
+  // deleteMovie() {
+  //   let user = this.props.movie.current_user
+  //   let movieId = this.props.movie.id
+  //
+  //   console.log(user, movieId)
+  //   axios.delete(`/${user}/${movieId}`)
+  //   .then(response => this.props.hist({username: user}))
+  //   .catch(err => console.log(err))
+  // }
+
   onOpenModal() {
     this.setState({ open: true });
   }
@@ -55,38 +75,43 @@ class MovieCard extends React.Component {
 
   render() {
     //defensive check to make sure a movie was passed as props before rendering a card
-    if (this.props.movie === null) return <div />;
+    if (this.props.movie === null || this.state.renderCard === false) {
+      return <div />;
+    } else {
 
-    return (
-      <div className="card">
-        <div className="card-image">
-          <figure className="image is-2by3">
-            <img
-              onClick={() => {
-                this.setIMDBdata();
-                this.onOpenModal();
-              }}
-              src={
-                "https://image.tmdb.org/t/p/w500" + this.props.movie.poster_path
-              }
-              alt="Placeholder image"
-            />
-            <Popup
-              trailer_key={this.state.trailer_key}
-              onCloseModal={this.onCloseModal}
-              imdb={this.state.imdb}
-              open={this.state.open}
-              loading={this.state.loading}
-              movie={this.props.movie}
-            />
-          </figure>
-        </div>
-        <div className="card-content">
-          <p className="is-size-7">{this.props.movie.original_title}</p>
-          <p className="is-size-7">{this.props.movie.release_date}</p>
-        </div>
-      </div>
-    );
+          return (
+            <div className="card">
+              <div className="card-image">
+                <figure className="image is-2by3">
+                  <img
+                    onClick={() => {
+                      this.setIMDBdata();
+                      this.onOpenModal();
+                    }}
+                    src={
+                      "https://image.tmdb.org/t/p/w500" + this.props.movie.poster_path
+                    }
+                    alt="Placeholder image"
+                  />
+                  <a className="delete" onClick = {this.handleAppStateChange}></a>
+                  <Popup
+                    trailer_key={this.state.trailer_key}
+                    onCloseModal={this.onCloseModal}
+                    imdb={this.state.imdb}
+                    open={this.state.open}
+                    loading={this.state.loading}
+                    movie={this.props.movie}
+                  />
+                </figure>
+              </div>
+              <div className="card-content">
+                <p className="is-size-7">{this.props.movie.original_title}</p>
+                <p className="is-size-7">{this.props.movie.release_date}</p>
+              </div>
+            </div>
+          );
+    }
+
   }
 }
 
