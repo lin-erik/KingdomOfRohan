@@ -1,9 +1,44 @@
 import React from 'react';
 
+
 function MoodRatings({ movie, moods, reviewCount }) {
+  var dbMoods = [
+    'whimsical',
+    'intense',
+    'thriller',
+    'heartfelt',
+    'gripping',
+    'boring',
+    'thought provoking',
+    'uplifting',
+    'light',
+    'tear jerker',
+    'challenging',
+    'mind screw',
+    'nostalgic',
+    'powerful',
+    'despair',
+    'exhausting',
+    'paranoid',
+    'motivated',
+    'uncomfortable'
+  ];
   if (!reviewCount) {
     return null;
   } else {
+    var topMoods = moods;
+    console.log(topMoods);
+    if (moods === []) {
+      dbMoods.forEach(mood => {
+        topMoods.push({ mood: mood, count: movie[mood] || 0 });
+        console.log(topMoods);
+      });
+      topMoods.sort((a, b) => {
+        a.count - b.count;
+      });
+      topMoods = topMoods.slice(0, 3);
+    }
+    console.log(moods);
     return (
       <div className="columns">
         {moods.length > 0 ? (
