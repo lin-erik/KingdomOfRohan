@@ -14,14 +14,17 @@ class App extends React.Component {
 
     this.state = {
       loggedIn: false,
-      user: "Anonymous",
+      user: 'Anonymous',
+      loginError: false,
       birthday: '',
-      loginError: false
+      theme: 'Light'
     };
 
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+
+    this.handleTheme = this.handleTheme.bind(this);
   }
 
   handleSignUp(username, password, birthday) {
@@ -36,6 +39,12 @@ class App extends React.Component {
           user: username,
           birthday: birthday
         });
+        console.log(
+          'Current logged in User: ',
+          this.state.user,
+          'bool',
+          this.state.loggedIn
+        );
       })
       .catch(err => {
         console.error('something went wrong on signup: ', err);
@@ -72,6 +81,22 @@ class App extends React.Component {
 
     axios.get('/logout').catch(err => {
       console.error('Error logging out', err);
+    });
+  }
+
+  handleTheme(e) {
+    if (e.target.text === 'Dark') {
+      var findlink = document.getElementsByTagName('link');
+      findlink[0].href =
+        'https://jenil.github.io/bulmaswatch/darkly/bulmaswatch.min.css';
+    } else if (e.target.text === 'Light') {
+      var findlink = document.getElementsByTagName('link');
+      findlink[0].href =
+        'https://jenil.github.io/bulmaswatch/flatly/bulmaswatch.min.css';
+    }
+
+    this.setState({
+      theme: e.target.text
     });
   }
 
@@ -121,6 +146,8 @@ class App extends React.Component {
           <Nav
             loggedIn={this.state.loggedIn}
             handleLogout={this.handleLogout}
+            handleTheme={this.handleTheme}
+            theme={this.state.theme}
           />
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/global" />} />
