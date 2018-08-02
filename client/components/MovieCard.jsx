@@ -20,8 +20,6 @@ class MovieCard extends React.Component {
     this.setIMDBdata = this.setIMDBdata.bind(this);
     this.onOpenModal = this.onOpenModal.bind(this);
     this.onCloseModal = this.onCloseModal.bind(this);
-    // this.deleteMovie = this.deleteMovie.bind(this);
-    this.handleAppStateChange = this.handleAppStateChange.bind(this)
   }
 
   setIMDBdata() {
@@ -47,23 +45,6 @@ class MovieCard extends React.Component {
         });
       });
   }
-
-  handleAppStateChange () {
-    this.props.deleteMovie(this.props.id)
-    this.setState({
-      renderCard: false
-    })
-  }
-
-  // deleteMovie() {
-  //   let user = this.props.movie.current_user
-  //   let movieId = this.props.movie.id
-  //
-  //   console.log(user, movieId)
-  //   axios.delete(`/${user}/${movieId}`)
-  //   .then(response => this.props.hist({username: user}))
-  //   .catch(err => console.log(err))
-  // }
 
   onOpenModal() {
     this.setState({ open: true });
@@ -93,7 +74,7 @@ class MovieCard extends React.Component {
                     }
                     alt="Placeholder image"
                   />
-                  <a className="delete" onClick = {this.handleAppStateChange}></a>
+                  <a className="delete" onClick = {(e) => this.props.deleteMovie(this.props.id)}></a>
                   <Popup
                     trailer_key={this.state.trailer_key}
                     onCloseModal={this.onCloseModal}
