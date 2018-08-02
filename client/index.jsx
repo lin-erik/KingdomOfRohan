@@ -14,7 +14,8 @@ class App extends React.Component {
 
     this.state = {
       loggedIn: false,
-      user: 'Anonymous',
+      user: "Anonymous",
+      birthday: '',
       loginError: false
     };
 
@@ -23,21 +24,18 @@ class App extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleSignUp(username, password) {
+  handleSignUp(username, password, birthday) {
+    console.log('username in handleSignup', username);
+    console.log('birthday in handleSignup', birthday);
     axios
-      .post('/signup', { username: username, password: password })
+      .post("/signup", { username: username, password: password, birthday: birthday})
       .then(response => {
         console.log('signed up successfully!');
         this.setState({
           loggedIn: true,
-          user: username
+          user: username,
+          birthday: birthday
         });
-        console.log(
-          'Current logged in User: ',
-          this.state.user,
-          'bool',
-          this.state.loggedIn
-        );
       })
       .catch(err => {
         console.error('something went wrong on signup: ', err);
@@ -52,8 +50,9 @@ class App extends React.Component {
           this.setState({
             loggedIn: true,
             user: username,
+            birthday: response.data.birthday,
             loginError: false
-          });
+          }, () => {console.log(this.state.birthday)});
         } else {
           this.setState({
             loginError: true
@@ -74,6 +73,27 @@ class App extends React.Component {
     axios.get('/logout').catch(err => {
       console.error('Error logging out', err);
     });
+  }
+
+  isOver18() {
+    let birthdayArray = this.state.birthday.split('-');
+    let date = new Date();
+    let currentYear = date.getFullYear();
+    let currentMonth = date.getMonth() + 1;
+    let currentDay = date.getDate();
+    
+    if (currentYear - Number(birthdayArray[0]) > 18) {
+      return true;
+    } 
+    if (currentYear - Number(birthdayArray[0]) === 18){
+      if (currentMonth - Number(birthdayArray[1]) > 0) {
+        return true;
+      }
+      if (currentMonth - Number(birthdayArray[1]) === 0 && currentDay - birthdayArray[2] >= 0) {
+        return true;
+      }
+    }
+    return false;
   }
 
   componentDidMount() {

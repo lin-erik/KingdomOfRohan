@@ -21,6 +21,7 @@ let UserSchema = mongoose.Schema({
     uniq: true
   },
   password: String,
+  birthday: String,
   history: {
     type: Array,
     default: [],

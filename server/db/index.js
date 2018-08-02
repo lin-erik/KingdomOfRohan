@@ -16,6 +16,7 @@ let signup = (info, cb) => {
   let user = new User({
     username: info.username,
     password: info.password,
+    birthday: info.birthday,
     history: [null]
   });
   user.save();

@@ -163,7 +163,7 @@ app.post('/login', (req, res) => {
       ) {
         var sess = {
           username: username,
-          login: true
+          login: true,
         };
 
         console.log('Login session', sess);
@@ -181,17 +181,14 @@ app.post('/login', (req, res) => {
 //sends back OK on success
 app.post('/signup', (req, res) => {
   signup(
-    { username: req.body.username, password: req.body.password },
+    { username: req.body.username, password: req.body.password, birthday: req.body.birthday},
     (err, response) => {
       if (err) console.log(err);
       else {
         var sess = {
-          username: username,
+          username: req.body.username,
           login: true
         };
-
-        console.log('Signup session', sess);
-
         req.session.userData = sess;
         res.send();
       }
