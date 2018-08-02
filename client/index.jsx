@@ -1,12 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import axios from "axios";
-import GlobalSearch from "./components/GlobalSearch.jsx";
-import Profile_Search from "./components/Profile_Search.jsx";
-import Nav from "./components/Nav.jsx";
-import Login from "./components/Login.jsx";
-import Signup from "./components/Signup.jsx";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import axios from 'axios';
+import GlobalSearch from './components/GlobalSearch.jsx';
+import Profile_Search from './components/Profile_Search.jsx';
+import Nav from './components/Nav.jsx';
+import Login from './components/Login.jsx';
+import Signup from './components/Signup.jsx';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 class App extends React.Component {
   constructor(props) {
@@ -30,27 +30,21 @@ class App extends React.Component {
     axios
       .post("/signup", { username: username, password: password, birthday: birthday})
       .then(response => {
-        console.log("signed up successfully!");
+        console.log('signed up successfully!');
         this.setState({
           loggedIn: true,
           user: username,
           birthday: birthday
         });
-        console.log(
-          "Current logged in User: ",
-          this.state.user,
-          "isOver18",
-          this.isOver18(),
-        );
       })
       .catch(err => {
-        console.error("something went wrong on signup: ", err);
+        console.error('something went wrong on signup: ', err);
       });
   }
 
   handleLogin(username, password) {
     axios
-      .post("/login", { username: username, password: password })
+      .post('/login', { username: username, password: password })
       .then(response => {
         if (response.data) {
           this.setState({
@@ -66,15 +60,18 @@ class App extends React.Component {
         }
       })
       .catch(err => {
-        console.log("something went wrong: ", err);
+        console.log('something went wrong: ', err);
       });
   }
 
   handleLogout() {
-    this.setState({ loggedIn: false });
+    this.setState({
+      loggedIn: false,
+      username: 'Anonymous'
+    });
 
-    axios.get("/logout").catch(err => {
-      console.error("Error logging out", err);
+    axios.get('/logout').catch(err => {
+      console.error('Error logging out', err);
     });
   }
 
@@ -101,7 +98,7 @@ class App extends React.Component {
 
   componentDidMount() {
     axios
-      .get("/session")
+      .get('/session')
       .then(response => {
         console.log(response);
         if (response.data.login) {
@@ -173,4 +170,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById('app'));

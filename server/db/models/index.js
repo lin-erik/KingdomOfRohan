@@ -26,7 +26,8 @@ let UserSchema = mongoose.Schema({
     type: Array,
     default: [],
     required: true
-  }
+  },
+  theme: String
 });
 
 // Lists the information from the API about the movie

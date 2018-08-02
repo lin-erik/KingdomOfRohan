@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-let db = require("./models/index").db;
-let User = require("./models/index").User;
-let Movie = require("./models/index").Movie;
+const mongoose = require('mongoose');
+let db = require('./models/index').db;
+let User = require('./models/index').User;
+let Movie = require('./models/index').Movie;
 
 //Queries db by username, fetches their password field, and hands off
 let authenticate = (username, cb) => {
@@ -35,15 +35,13 @@ let moodSearch = (moodArr, cb) => {
   }
   Movie.where(moodArr[0])
     .ne(undefined)
-    .sort({ test: -1 })
+    .sort(`-${moodArr[0]}`)
     .where(moodArr[1])
     .ne(undefined)
-    .sort({ test: -1 })
     .where(moodArr[2])
     .ne(undefined)
-    .sort({ test: -1 })
     .then(function(response) {
-      console.log("Response: ", response);
+      console.log('Response: ', response);
       cb(null, response);
     });
   //  .catch (function (err) {
@@ -64,7 +62,7 @@ let moodSearch = (moodArr, cb) => {
 //either way, hands off
 let save = (info, cb) => {
   Movie.findOne({ original_title: info.original_title }, (err, docs) => {
-    if (err) console.log("error retrieving movie", err);
+    if (err) console.log('error retrieving movie', err);
     else {
       if (docs === null) {
         newMovie(info, err => {
@@ -97,6 +95,7 @@ let newMovie = (info, cb) => {
   spec.id = info.id;
   spec.overview = info.overview;
   spec.release_date = JSON.parse(info.release_date);
+  spec.review_count = 1;
   let movie = new Movie(spec);
   movie.save();
   cb(null);
@@ -112,6 +111,7 @@ let updateMovie = (docs, info, cb) => {
       docs[mood]++;
     } else docs[mood] = 1;
   });
+  docs.review_count++;
   Movie.findOneAndUpdate(
     { id: docs.id },
     docs,
@@ -238,19 +238,19 @@ let deleteMovie = (movie, user, callback) => {
     if (err) {
       callback(err);
     } else {
-      removeMoodsFromMovie(movie, moodsToDelete, (err) => {
+      removeMoodsFromMovie(movie, moodsToDelete, err => {
         if (err) {
           callback(err);
         } else {
-          callback()
+          callback();
         }
-      })
+      });
     }
-  })
-}
+  });
+};
 
 let removeMovieFromHistory = (movie, user, callback) => {
-  User.findOne({username: user}, (err, foundUser) => {
+  User.findOne({ username: user }, (err, foundUser) => {
     if (err) {
       callback(err);
     } else {
@@ -265,35 +265,75 @@ let removeMovieFromHistory = (movie, user, callback) => {
         }
       }
       foundUser.history = newHist;
-      User.findOneAndUpdate({username: user}, foundUser, (err, result) => {
+      User.findOneAndUpdate({ username: user }, foundUser, (err, result) => {
         if (err) {
           callback(err);
         } else {
           callback(null, oldMovieMoods);
         }
-      })
+      });
     }
-  })
-}
+  });
+};
 
 let removeMoodsFromMovie = (movie, moods, callback) => {
-  Movie.findOne({id: movie}, (err, oldMovie) => {
+  Movie.findOne({ id: movie }, (err, oldMovie) => {
     if (err) {
       callback(err);
     } else {
       for (let i = 0; i < moods.length; i++) {
         oldMovie[moods[i]]--;
       }
-      Movie.findOneAndUpdate({id: movie}, oldMovie, (err, result) => {
+      Movie.findOneAndUpdate({ id: movie }, oldMovie, (err, result) => {
         if (err) {
-          callback(err)
+          callback(err);
         } else {
           callback();
         }
-      })
+      });
     }
-  })
-}
+  });
+};
+
+// Finds a movie based on its id
+let findMovieById = (id, cb) => {
+  Movie.findOne({ id: id }, (err, movie) => {
+    if (movie === null) {
+      cb('no movie found', null);
+    } else {
+      cb(null, movie);
+    }
+  });
+};
+
+// Finds a user by username, and returns all info besides password
+let getUserByName = (username, cb) => {
+  User.findOne({ username: username })
+    .select('-password')
+    .exec((err, user) => {
+      if (err) {
+        cb(err);
+      } else {
+        cb(null, user);
+      }
+    });
+};
+
+// Sets a user's theme to the given theme
+let setUserTheme = (username, theme, cb) => {
+  User.updateOne(
+    { username: username },
+    { theme: theme },
+    { upsert: true },
+    (err, user) => {
+      if (err) {
+        cb(err);
+      } else {
+        cb(null, user);
+      }
+    }
+  );
+};
 
 module.exports = {
   authenticate,
@@ -303,5 +343,8 @@ module.exports = {
   fetchHist,
   moodSearch,
   giveRecommendations,
-  deleteMovie
+  deleteMovie,
+  findMovieById,
+  getUserByName,
+  setUserTheme
 };
