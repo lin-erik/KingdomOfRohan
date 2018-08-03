@@ -1,5 +1,4 @@
 import React from 'react';
-import DayPicker from 'react-day-picker';
 
 class Signup extends React.Component {
   constructor(props) {

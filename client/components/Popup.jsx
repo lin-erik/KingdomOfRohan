@@ -1,7 +1,7 @@
 import React from "react";
 import Recommendations from "./Recommendations.jsx";
 import MoodRatings from "./MoodRatings.jsx";
-import Stripe from 'Stripe.js'
+import Stripe from './Stripe'
 
 import axios from "axios";
 import Modal from "react-responsive-modal";
@@ -25,10 +25,14 @@ class Popup extends React.Component {
   }
 
   render() {
-    if (this.state.purchaing) {
-      <Modal open={this.props.open} onClose={this.props.onCloseModal}>
-        <Stripe user={this.props.user}/>
-      </Modal>
+    if (true) {
+      return(
+        <Modal open={this.props.open} onClose={this.props.onCloseModal}>
+          <div style={{ width: "600px", height: "600px" }}>
+            <Stripe user={this.props.user}/>
+          </div>
+        </Modal>
+      )
     } else if (this.props.loading) {
       return (
         <Modal open={this.props.open} onClose={this.props.onCloseModal}>
