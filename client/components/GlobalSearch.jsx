@@ -164,7 +164,12 @@ class GlobalSearch extends React.Component {
               {this.state.nowPlaying.map((movie, index) => {
                 return (
                   <div className="column is-one-fifth" key={index}>
-                    <MovieCard movie={movie} />
+                    <MovieCard
+                      movie={movie}
+                      loggedIn={this.props.loggedIn}
+                      user={this.props.user}
+                      handlePurchase={this.props.handlePurchase}
+                    />
                   </div>
                 );
               })}
@@ -230,7 +235,7 @@ class GlobalSearch extends React.Component {
               {this.state.moods.length === 0 ? (
                 <div />
               ) : (
-                <Results movies={this.state.movies} moods={this.state.moods} />
+                <Results movies={this.state.movies} moods={this.state.moods} user={this.props.user}/>
               )}
             </div>
           </div>

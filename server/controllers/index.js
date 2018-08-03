@@ -17,7 +17,10 @@ const {
   deleteMovie,
   getUserByName,
   setUserTheme,
-  isOver18
+  isOver18,
+  purchaseSave,
+  fetchPurchases,
+  savePurchase
 } = require('./../db/index');
 
 const helpers = require('./serverhelpers.js');
@@ -283,6 +286,24 @@ app.get("/nowPlaying", (req, res) => {
     });
 });
 
+app.get('/purchase', (req, res) => {
+  fetchPurchases(req.query.username).then(purchased => {
+    res.send(purchased);
+  });
+});
+
+app.post('/purchase', (req, res) => {
+  savePurchase(req.body, err => {
+    if (err) console.error(err);
+    else {
+      purchaseSave(req.body, (err, response) => {
+        if (err) console.error(err);
+        else res.send();
+      });
+    }
+  });
+});
+
 app.get('/session', (req, res) => {
   if (req.session.userData) {
     res.send(req.session.userData);
@@ -298,3 +319,5 @@ app.get('/*', (req, res) => {
 //*******server startup********
 let port = process.env.PORT || 8080;
 app.listen(port, () => console.log('listening in on port: ', port));
+
+module.exports = app;

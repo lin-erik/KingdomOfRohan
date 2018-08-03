@@ -31,6 +31,10 @@ let UserSchema = mongoose.Schema({
     default: [],
     required: true
   },
+  purchased: {
+    type: Array,
+    default: []
+  },
   theme: String
 });
 
@@ -63,8 +67,23 @@ let MovieSchema = mongoose.Schema({
   uncomfortable: Number,
   review_count: Number
 });
+
+let PurchasedSchema = mongoose.Schema({
+  id: Number,
+  original_title: String,
+  poster_path: String,
+  release_date: String,
+  overview: String,
+  trailer: String
+});
+
 let User = mongoose.model('User', UserSchema);
 let Movie = mongoose.model('Movie', MovieSchema);
-module.exports.db = db;
-module.exports.User = User;
-module.exports.Movie = Movie;
+let Purchased = mongoose.model('Purchased', PurchasedSchema);
+
+module.exports = {
+  db,
+  User,
+  Movie,
+  Purchased
+}

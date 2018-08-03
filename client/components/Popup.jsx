@@ -1,6 +1,7 @@
 import React from 'react';
 import Recommendations from './Recommendations.jsx';
 import MoodRatings from './MoodRatings.jsx';
+import Stripe from './RedStripe';
 
 import axios from 'axios';
 import Modal from 'react-responsive-modal';
@@ -11,8 +12,55 @@ class Popup extends React.Component {
     super(props);
 
     this.state = {
-      recommendations: []
+      recommendations: [],
+      purchasing: false
     };
+
+    this.purchaseMovie = this.purchaseMovie.bind(this);
+
+    this.openPurchase = this.openPurchase.bind(this);
+    this.purchaseClose = this.purchaseClose.bind(this);
+  }
+
+  purchaseMovie() {
+    var movie = this.props.movie;
+
+    movie = Object.assign(movie, {
+      current_user: this.props.user,
+      purchase_trailer: this.props.purchase_trailer
+    });
+
+    axios
+      .post('/purchase', movie)
+      .then(response => {
+        axios
+          .get('/purchase', {
+            params: {
+              username: this.props.user
+            }
+          })
+          .then(response => {
+            if (response.data) {
+              this.props.handlePurchase(response.data);
+            }
+          })
+          .catch(err => console.log('Error retrieving purchase history', err));
+      })
+      .catch(err => {
+        console.error('Error purchasing', err);
+      });
+  }
+
+  openPurchase() {
+    this.setState({
+      purchase: true
+    });
+  }
+
+  purchaseClose() {
+    this.setState({
+      purchase: false
+    });
   }
 
   componentDidMount() {
@@ -89,7 +137,10 @@ class Popup extends React.Component {
             </h2>
           </div>
           <hr />
-          <Recommendations recs={this.state.recommendations.slice(0, 3)} />
+          <Recommendations
+            recs={this.state.recommendations.slice(0, 3)}
+            user={this.props.user}
+          />
 
           <div>
             <MoodRatings
@@ -98,6 +149,22 @@ class Popup extends React.Component {
               moods={this.props.movie.moods || []}
             />
           </div>
+
+          <button
+            style={
+              this.props.loggedIn ? { display: 'inline' } : { display: 'none' }
+            }
+            // onClick={this.purchaseMovie}
+            onClick={this.openPurchase}
+          >
+            Purchase
+          </button>
+
+          <Modal open={this.state.purchase} onClose={this.purchaseClose}>
+            <div style={{ width: '600px', height: '600px' }}>
+              <Stripe user={this.props.user} purchaseMovie={this.purchaseMovie} />
+            </div>
+          </Modal>
         </Modal>
       );
     }
