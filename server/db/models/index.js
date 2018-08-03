@@ -18,9 +18,13 @@ moodvie1
 let UserSchema = mongoose.Schema({
   username: {
     type: String,
-    uniq: true
+    uniq: true,
+    required: true
   },
-  password: String,
+  password: {
+    type: String,
+    required: true
+  },
   history: {
     type: Array,
     default: [],
