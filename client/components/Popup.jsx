@@ -1,6 +1,7 @@
-import React from 'react';
-import Recommendations from './Recommendations.jsx';
-import MoodRatings from './MoodRatings.jsx';
+import React from "react";
+import Recommendations from "./Recommendations.jsx";
+import MoodRatings from "./MoodRatings.jsx";
+import Stripe from './Stripe'
 
 import axios from 'axios';
 import Modal from 'react-responsive-modal';
@@ -11,7 +12,8 @@ class Popup extends React.Component {
     super(props);
 
     this.state = {
-      recommendations: []
+      recommendations: [],
+      purchasing: false
     };
 
     this.purchaseMovie = this.purchaseMovie.bind(this);
@@ -55,7 +57,15 @@ class Popup extends React.Component {
   }
 
   render() {
-    if (this.props.loading) {
+    if (true) {
+      return(
+        <Modal open={this.props.open} onClose={this.props.onCloseModal}>
+          <div style={{ width: "600px", height: "600px" }}>
+            <Stripe user={this.props.user}/>
+          </div>
+        </Modal>
+      )
+    } else if (this.props.loading) {
       return (
         <Modal open={this.props.open} onClose={this.props.onCloseModal}>
           <div style={{ margin: 'auto', align: 'center' }}>
@@ -120,7 +130,7 @@ class Popup extends React.Component {
             </h2>
           </div>
           <hr />
-          <Recommendations recs={this.state.recommendations.slice(0, 3)} />
+          <Recommendations recs={this.state.recommendations.slice(0, 3)} user={this.props.user} />
 
           <div>
             <MoodRatings

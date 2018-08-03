@@ -235,7 +235,7 @@ class GlobalSearch extends React.Component {
               {this.state.moods.length === 0 ? (
                 <div />
               ) : (
-                <Results movies={this.state.movies} moods={this.state.moods} />
+                <Results movies={this.state.movies} moods={this.state.moods} user={this.props.user}/>
               )}
             </div>
           </div>

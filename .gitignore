@@ -7,4 +7,5 @@ bundle.js
 config.js
 youtube.js
 imdb.js
+stripe.js
 *.pem
