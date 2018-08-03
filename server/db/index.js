@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 let db = require('./models/index').db;
 let User = require('./models/index').User;
 let Movie = require('./models/index').Movie;
+let Purchased = require('./models/index').Purchased;
 
 //Queries db by username, fetches their password field, and hands off
 let authenticate = (username, cb) => {
@@ -79,6 +80,21 @@ let save = (info, cb) => {
       }
     }
   });
+};
+
+let savePurchase = (info, cb) => {
+  let spec = {};
+
+  spec.original_title = info.original_title;
+  spec.poster_path = info.poster_path;
+  spec.id = info.id;
+  spec.overview = info.overview;
+  spec.release_date = info.release_date;
+  spec.trailer = info.purchase_trailer;
+
+  let purchase = new Purchased(spec);
+  purchase.save();
+  cb(null);
 };
 
 //takes in a movie object, and creates a blank object, 'spec'
@@ -161,11 +177,47 @@ let histSave = (info, cb) => {
   });
 };
 
+let purchaseSave = (info, cb) => {
+  User.findOne({ username: info.current_user }, (err, docs) => {
+    if (err) cb(err);
+    else {
+      let newPurchased = [];
+      let dupeFound = false;
+      docs.purchased.forEach(purchase => {
+        if (purchase !== null) {
+          if (purchase.original_title !== info.original_title) {
+            newPurchased.push(purchase);
+          } else {
+            newPurchased.push(purchase);
+            dupeFound = true;
+          }
+        }
+      });
+      if (!dupeFound) {
+        newPurchased.push(info);
+      }
+      if (newPurchased[0] === null) newPurchased = newPurchased.slice(1);
+      User.findOneAndUpdate(
+        { username: docs.username },
+        { purchased: newPurchased },
+        (err, response) => {
+          if (err) cb(err);
+          else cb(null);
+        }
+      );
+    }
+  });
+};
+
+let fetchPurchases = async un => {
+  let data = await User.findOne({ username: un });
+  return data.purchased;
+};
+
 //takes in a username (passed from server) and quries the db
 //hands back the history array from the received docs
 let fetchHist = async un => {
   let data = await User.findOne({ username: un });
-  console.log(data.history);
   return data.history;
 };
 
@@ -349,12 +401,15 @@ let isOver18 = (birthday, cb) => {
     if (currentMonth - Number(birthdayArray[1]) > 0) {
       return cb(null, true);
     }
-    if (currentMonth - Number(birthdayArray[1]) === 0 && currentDay - birthdayArray[2] >= 0) {
+    if (
+      currentMonth - Number(birthdayArray[1]) === 0 &&
+      currentDay - birthdayArray[2] >= 0
+    ) {
       return cb(null, true);
     }
   }
   return cb(null, false);
-}
+};
 
 module.exports = {
   authenticate,
@@ -368,5 +423,8 @@ module.exports = {
   findMovieById,
   getUserByName,
   setUserTheme,
-  isOver18
+  isOver18,
+  purchaseSave,
+  fetchPurchases,
+  savePurchase
 };
