@@ -10,7 +10,7 @@ var Results = props => {
             var movieWithMoods = Object.assign(movie, { moods: props.moods });
             return (
               <div className="column is-one-fifth" key={index}>
-                <MovieCard movie={movieWithMoods} moods={props.moods} />
+                <MovieCard movie={movieWithMoods} moods={props.moods} user={props.user}/>
               </div>
             );
           })

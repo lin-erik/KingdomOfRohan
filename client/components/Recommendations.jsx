@@ -9,7 +9,7 @@ var Recommendations = props => {
           props.recs.map(movie => {
             return (
               <div className="column is-one-third">
-                <MovieCard movie={movie} />
+                <MovieCard movie={movie} user={props.user}/>
               </div>
             );
           })

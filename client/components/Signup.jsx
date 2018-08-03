@@ -1,4 +1,5 @@
 import React from 'react';
+import DayPicker from 'react-day-picker';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class Signup extends React.Component {
   }
 
   render() {
+    console.log(`"${(new Date()).getFullYear()}-${(new Date()).getMonth() + 1}-${(new Date()).getDate()}"`)
     return (
       <div>
         <h3>Create a New Account</h3>
@@ -75,6 +77,8 @@ class Signup extends React.Component {
               >
                 <input
                   type="date"
+                  // Max is not working. If you figure it out, well done.
+                  max={`${(new Date()).getFullYear()}-${(new Date()).getMonth() + 1}-${(new Date()).getDate()}`}
                 />
               </div>
               <br></br>

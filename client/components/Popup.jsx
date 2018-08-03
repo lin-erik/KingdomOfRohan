@@ -1,6 +1,7 @@
 import React from "react";
 import Recommendations from "./Recommendations.jsx";
 import MoodRatings from "./MoodRatings.jsx";
+import Stripe from 'Stripe.js'
 
 import axios from "axios";
 import Modal from "react-responsive-modal";
@@ -24,7 +25,11 @@ class Popup extends React.Component {
   }
 
   render() {
-    if (this.props.loading) {
+    if (this.state.purchaing) {
+      <Modal open={this.props.open} onClose={this.props.onCloseModal}>
+        <Stripe user={this.props.user}/>
+      </Modal>
+    } else if (this.props.loading) {
       return (
         <Modal open={this.props.open} onClose={this.props.onCloseModal}>
           <div style={{ margin: "auto", align: "center" }}>
@@ -75,7 +80,7 @@ class Popup extends React.Component {
             <h2 style={{ display: "inline-block" }}>{this.props.imdb.rated}</h2>
           </div>
           <hr />
-          <Recommendations recs={this.state.recommendations.slice(0, 3)} />
+          <Recommendations recs={this.state.recommendations.slice(0, 3)} user={this.props.user} />
 
           <div>
             <MoodRatings

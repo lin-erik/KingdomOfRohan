@@ -127,13 +127,13 @@ class Profile_Search extends React.Component {
           <div className="column is-one-fifth">
             {/* ternary to alter the appearance of movieCards. Adds mood buttons after you click Add Moods */}
             {!this.state.giveMoodButtons ? (
-              // After Search + Selection Render this:
+              // After Search + Selection Render this: 
               <div className="container">
                 <div className="columns is-multiline">
                   {this.state.movies.map((movie) => {
                     return (
                       <div className="column is-one-fourth">
-                        <MovieCard movie={movie} />
+                        <MovieCard movie={movie} user={this.props.user}/>
                         <button
                           className="button is-primary"
                           onClick={event => this.handleMoodClick(movie)}

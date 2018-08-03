@@ -78,6 +78,7 @@ class MovieCard extends React.Component {
               open={this.state.open}
               loading={this.state.loading}
               movie={this.props.movie}
+              user={this.props.user}
             />
           </figure>
         </div>

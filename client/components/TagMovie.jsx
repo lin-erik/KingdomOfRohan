@@ -126,7 +126,7 @@ class TagMovie extends React.Component {
           </div>
         </div>
         <div className="column is-one-fifth">
-          <MovieCard movie={this.props.movie} />
+          <MovieCard movie={this.props.movie} user={this.props.user}/>
         </div>
       </div>
     );
