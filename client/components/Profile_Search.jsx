@@ -20,6 +20,7 @@ class Profile_Search extends React.Component {
     this.getUserHistory = this.getUserHistory.bind(this);
     this.getUserRecs = this.getUserRecs.bind(this);
     this.hideTagging = this.hideTagging.bind(this);
+    this.deleteMovie = this.deleteMovie.bind(this)
   }
 
   //display User History after logging in
@@ -42,11 +43,11 @@ class Profile_Search extends React.Component {
     this.setState({ giveMoodButtons: false });
     axios
       .get('/search', { params: { title: this.state.movie } })
-      .then((response) => {
+      .then(response => {
         this.setState({ movies: response.data });
         this.setState({ showMovie: true });
       })
-      .catch((err) => console.error(err));
+      .catch(err => console.error(err));
   }
 
   //once you get the list of search results, clicking Rate This Movie makes Movies State set to the corresponding movie object wrapped as an array
@@ -62,29 +63,40 @@ class Profile_Search extends React.Component {
     this.setState({ giveMoodButtons: false, movies: [] });
   }
 
+  deleteMovie(id) {
+    let user = this.props.user
+    let movieId = id
+
+    console.log(user, movieId)
+    axios.delete(`/${user}/${movieId}`)
+    .then(() => this.getUserHistory(user))
+    .catch(err => console.log(err))
+  }
+
   //calls for the users 4 most recently tagged movies
   getUserHistory(username) {
     let params = { username };
     axios
       .get('/users/history/', { params })
-      .then((response) => {
+      .then(response => {
         console.log(response.data);
         let history = response.data.reverse();
         if (history === null) history = [];
         this.setState({ history });
       })
-      .catch((err) => console.log('Error getting user history: ', err));
+      .catch(err => console.log('Error getting user history: ', err));
   }
 
   getUserRecs(username) {
     let params = { username };
     axios
       .get('/users/recs/', { params })
-      .then((response) => {
+      .then(response => {
         this.setState({ recs: response.data });
       })
-      .catch((err) => console.log('Error getting user history: ', err));
+      .catch(err => console.log('Error getting user history: ', err));
   }
+
 
   render() {
     //form will get onChange prop(function)
@@ -99,19 +111,19 @@ class Profile_Search extends React.Component {
           </div>
           {/* formRef resets input field after search */}
           <form
-            ref={(ref) => (this.formRef = ref)}
-            onSubmit={(event) => this.handleSearchClick(event)}
+            ref={ref => (this.formRef = ref)}
+            onSubmit={event => this.handleSearchClick(event)}
           >
             <div className="level-item" style={{ marginLeft: '70px' }}>
               <input
                 className="input is-primary"
                 placeholder="Tag a movie..."
-                onChange={(event) => this.handleSearch(event)}
+                onChange={event => this.handleSearch(event)}
               />
               <button
                 className="button is-primary"
                 style={{ marginLeft: '10px' }}
-                onClick={(event) => this.handleSearchClick(event)}
+                onClick={event => this.handleSearchClick(event)}
               >
                 Search
               </button>
@@ -123,6 +135,7 @@ class Profile_Search extends React.Component {
             user={this.props.user}
             getUserHistory={this.getUserHistory}
             history={this.state.history}
+            deleteMovie={this.deleteMovie}
           />
           <div className="column is-one-fifth">
             {/* ternary to alter the appearance of movieCards. Adds mood buttons after you click Add Moods */}
@@ -130,13 +143,13 @@ class Profile_Search extends React.Component {
               // After Search + Selection Render this:
               <div className="container">
                 <div className="columns is-multiline">
-                  {this.state.movies.map((movie) => {
+                  {this.state.movies.map((movie, index) => {
                     return (
-                      <div className="column is-one-fourth">
-                        <MovieCard movie={movie} />
+                      <div className="column is-one-fourth" key={index}>
+                        <MovieCard movie={movie} deleteMovie={this.deleteMovie} id={movie.id}/>
                         <button
                           className="button is-primary"
-                          onClick={(event) => this.handleMoodClick(movie)}
+                          onClick={event => this.handleMoodClick(movie)}
                         >
                           Add Moods
                         </button>

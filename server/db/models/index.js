@@ -25,11 +25,13 @@ let UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  birthday: String,
   history: {
     type: Array,
     default: [],
     required: true
-  }
+  },
+  theme: String
 });
 
 // Lists the information from the API about the movie
