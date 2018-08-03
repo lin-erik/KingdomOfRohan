@@ -16,7 +16,8 @@ const {
   giveRecommendations,
   deleteMovie,
   getUserByName,
-  setUserTheme
+  setUserTheme,
+  isOver18
 } = require('./../db/index');
 
 const helpers = require('./serverhelpers.js');
@@ -115,7 +116,6 @@ app.get('/users/recs.:username', (req, res) => {
 });
 
 app.post('/recommendations/:movie', function(req, res) {
-  console.log('RECOMMENDATION ID', req.params.movie);
   let histories = giveRecommendations(req.params.movie, (err, result) => {
     res.send(result);
   });
@@ -126,10 +126,9 @@ app.get('/user', (req, res) => {
   getUserByName(req.query.username, (err, result) => {
     if (err) {
       throw err;
-    } else
-    res.send(result);
+    } else res.send(result);
   });
-})
+});
 
 // Updates a user's theme in the DB based on the query
 app.post('/theme', (req, res) => {
@@ -141,9 +140,9 @@ app.post('/theme', (req, res) => {
         throw err;
       }
       res.send('Updated user theme');
-    })
+    });
   }
-})
+});
 
 //*******Authentication section*******
 //runs authenticate based on object containing un/pw from client
@@ -161,15 +160,18 @@ app.post('/login', (req, res) => {
         Object.keys(data).length > 1 &&
         data.password === req.body.password
       ) {
-        var sess = {
-          username: username,
-          login: true,
-        };
+        getUserByName(username, (err, result) => {
+          isOver18(result.birthday, (err, data) => {
+            var sess = {
+              username: username,
+              overage: data,
+              login: true
+            };
 
-        console.log('Login session', sess);
-
-        req.session.userData = sess;
-        res.send(true);
+            req.session.userData = sess;
+            res.send(sess);
+          });
+        });
       } else {
         res.send(false);
       }
@@ -181,16 +183,24 @@ app.post('/login', (req, res) => {
 //sends back OK on success
 app.post('/signup', (req, res) => {
   signup(
-    { username: req.body.username, password: req.body.password, birthday: req.body.birthday},
+    {
+      username: req.body.username,
+      password: req.body.password,
+      birthday: req.body.birthday
+    },
     (err, response) => {
       if (err) console.log(err);
       else {
-        var sess = {
-          username: req.body.username,
-          login: true
-        };
-        req.session.userData = sess;
-        res.send();
+        isOver18(req.body.birthday, (err, data) => {
+          var sess = {
+            username: req.body.username,
+            overage: data,
+            login: true
+          };
+
+          req.session.userData = sess;
+          res.send(data);
+        });
       }
     }
   );
@@ -245,6 +255,7 @@ app.get('/youtube', (req, res) => {
         })
         .catch(err => {
           console.error('Error fetching from IMDB', err);
+          res.status(404).send();
         });
     });
 });
@@ -256,8 +267,8 @@ app.delete('/:user/:movie', function(req, res) {
     } else {
       res.status(200).send();
     }
-  })
-})
+  });
+});
 
 app.get("/nowPlaying", (req, res) => {
   axios

@@ -335,6 +335,27 @@ let setUserTheme = (username, theme, cb) => {
   );
 };
 
+let isOver18 = (birthday, cb) => {
+  let birthdayArray = birthday.split('-');
+  let date = new Date();
+  let currentYear = date.getFullYear();
+  let currentMonth = date.getMonth() + 1;
+  let currentDay = date.getDate();
+
+  if (currentYear - Number(birthdayArray[0]) > 18) {
+    return cb(null, true);
+  }
+  if (currentYear - Number(birthdayArray[0]) === 18) {
+    if (currentMonth - Number(birthdayArray[1]) > 0) {
+      return cb(null, true);
+    }
+    if (currentMonth - Number(birthdayArray[1]) === 0 && currentDay - birthdayArray[2] >= 0) {
+      return cb(null, true);
+    }
+  }
+  return cb(null, false);
+}
+
 module.exports = {
   authenticate,
   signup,
@@ -346,5 +367,6 @@ module.exports = {
   deleteMovie,
   findMovieById,
   getUserByName,
-  setUserTheme
+  setUserTheme,
+  isOver18
 };
