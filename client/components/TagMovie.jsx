@@ -6,13 +6,32 @@ class TagMovie extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dbMoods: ['whimsical', 'intense', 'thriller', 'heartfelt', 'gripping', 'boring', 'thoughtProvoking', 'uplifting', 'light', 'tearJerker', 'challenging', 'mindScrew', 'nostalgic', 'powerful', 'despair', 'exhausting', 'paranoid', 'motivated', 'uncomfortable'],
+      dbMoods: [
+        'whimsical',
+        'intense',
+        'thriller',
+        'heartfelt',
+        'gripping',
+        'boring',
+        'thought provoking',
+        'uplifting',
+        'light',
+        'tear jerker',
+        'challenging',
+        'mind screw',
+        'nostalgic',
+        'powerful',
+        'despair',
+        'exhausting',
+        'paranoid',
+        'motivated',
+        'uncomfortable'
+      ],
       moods: [],
       selected: 'whimsical',
       //movie and user should eventually come from props after testing
       movie: this.props.movie,
-      user: this.props.user, 
-      
+      user: this.props.user
     };
 
     this.handleChangeMood = this.handleChangeMood.bind(this);
@@ -29,25 +48,22 @@ class TagMovie extends React.Component {
   }
 
   handleSaveMovie() {
-    let movie = this.state.movie
-    
+    let movie = this.state.movie;
+
     window.scrollTo(0, 0);
-    movie = Object.assign(
-      movie,
-      {
-        moods: this.state.moods,
-        current_user: this.state.user
-      }
-    );
-    
-    console.log('saving movie ', movie)
+    movie = Object.assign(movie, {
+      moods: this.state.moods,
+      current_user: this.state.user
+    });
+
+    console.log('saving movie ', movie);
     // document.getElementById('movieCard').style.opacity = '0';
-    this.props.hideTagging()
+    this.props.hideTagging();
 
     axios
       .post('/save', movie)
       .then((response) => {
-        this.props.getUserHistory(this.props.user)
+        this.props.getUserHistory(this.props.user);
       })
       .catch((err) => console.log('FrontEnd err sending movie to server', err));
   }
@@ -63,7 +79,9 @@ class TagMovie extends React.Component {
     return (
       <div className="container">
         <div className="container">
-          <div className="is-title-6">How did you feel about {this.state.movie.original_title}?</div>
+          <div className="is-title-6">
+            How did you feel about {this.state.movie.original_title}?
+          </div>
           <div className="field has-addons">
             <p className="control">
               <span className="select is-primary">
@@ -82,12 +100,21 @@ class TagMovie extends React.Component {
               </span>
             </p>
             <p className="control">
-              <button onClick={this.handleSaveMovie} className="button is-primary" style={{ marginLeft: '10px' }} >Submit Moodvie</button>
+              <button
+                onClick={this.handleSaveMovie}
+                className="button is-primary"
+                style={{ marginLeft: '10px' }}
+              >
+                Submit Moodvie
+              </button>
             </p>
           </div>
           <div className="container">
             {this.state.moods.map((mood, index) => (
-              <span className="tag is-primary is-medium" style={{ margin: '7px' }}>
+              <span
+                className="tag is-primary is-medium"
+                style={{ margin: '7px' }}
+              >
                 {mood}
                 <button
                   onClick={this.handleDeleteMood}
@@ -107,5 +134,3 @@ class TagMovie extends React.Component {
 }
 
 export default TagMovie;
-
-

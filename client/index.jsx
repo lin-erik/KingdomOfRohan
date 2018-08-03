@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
 import GlobalSearch from './components/GlobalSearch.jsx';
 import Profile_Search from './components/Profile_Search.jsx';
 import Nav from './components/Nav.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
-import {BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+
+import axios from 'axios';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import Modal from 'react-responsive-modal';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,87 +16,182 @@ class App extends React.Component {
 
     this.state = {
       loggedIn: false,
-      user: 'global',
-      loginError: false
+      user: 'Anonymous',
+      loginError: false,
+      age: '',
+      underage: false,
+      theme: 'Light'
     };
 
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+
+    this.handleTheme = this.handleTheme.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
-  
-
-  handleSignUp(username, password) {
-    console.log('signing up with: ', username, password);
-    axios.post('/signup', { username: username, password: password })
-      .then((response) => {
-        console.log('signed up successfully!');
+  handleSignUp(username, password, birthday) {
+    axios
+      .post('/signup', {
+        username: username,
+        password: password,
+        birthday: birthday
+      })
+      .then(response => {
         this.setState({
           loggedIn: true,
-          user: username
+          user: username,
+          overage: response.data
         });
-        console.log('Current logged in User: ', this.state.user, 'bool', this.state.loggedIn)
       })
-      .catch((err) => {
+      .catch(err => {
         console.error('something went wrong on signup: ', err);
       });
   }
 
   handleLogin(username, password) {
-    console.log('logging in with: ', username, password);
-    axios.post('/login', { username: username, password: password })
-      .then((response) => {
+    axios
+      .post('/login', { username: username, password: password })
+      .then(response => {
         if (response.data) {
           this.setState({
             loggedIn: true,
             user: username,
+            overage: response.data.overage,
             loginError: false
           });
         } else {
           this.setState({
             loginError: true
-          })
+          });
         }
       })
-      .catch((err) => {
-        console.log('something went wrong: ', err)
-      })
+      .catch(err => {
+        console.log('something went wrong: ', err);
+      });
   }
 
   handleLogout() {
-    this.setState({loggedIn: false});
+    var findlink = document.getElementsByTagName('link');
+    findlink[0].href =
+      'https://jenil.github.io/bulmaswatch/flatly/bulmaswatch.min.css';
+    
+    axios.get('/logout').catch(err => {
+      console.error('Error logging out', err);
+    });
+      
+    this.setState({
+      loggedIn: false,
+      username: 'Anonymous'
+    });
+  }
+
+  handleTheme(e) {
+    if (this.state.overage) {
+      if (e.target.text === 'Dark') {
+        var findlink = document.getElementsByTagName('link');
+        findlink[0].href =
+          'https://jenil.github.io/bulmaswatch/darkly/bulmaswatch.min.css';
+      } else if (e.target.text === 'Light') {
+        var findlink = document.getElementsByTagName('link');
+        findlink[0].href =
+          'https://jenil.github.io/bulmaswatch/flatly/bulmaswatch.min.css';
+      }
+
+      this.setState({
+        theme: e.target.text
+      });
+    } else {
+      this.setState({
+        underage: true
+      });
+    }
+  }
+
+  handleClose() {
+    this.setState({
+      underage: false
+    });
+  }
+
+  componentDidMount() {
+    axios
+      .get('/session')
+      .then(response => {
+        console.log(response);
+        if (response.data.login) {
+          this.setState({
+            loggedIn: true,
+            user: response.data.username,
+            overage: response.data.overage,
+            loginError: false
+          });
+        }
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   render() {
     return (
       <BrowserRouter>
         <div className="container">
-          <Nav loggedIn={this.state.loggedIn} handleLogout={this.handleLogout} />
+          <Nav
+            loggedIn={this.state.loggedIn}
+            handleLogout={this.handleLogout}
+            handleTheme={this.handleTheme}
+            theme={this.state.theme}
+          />
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/global" />} />
-            <Route path="/global" render={() => <GlobalSearch user={this.state.user} />} />
-            <Route path="/profile" render={() => (
-              this.state.loggedIn ? (
-                <Profile_Search user={this.state.user} />
-              ) : (
-                <Redirect to="/login" />
-              )
-            )} />
-            <Route path="/login" render={() => (
-              this.state.loggedIn ? (
-                <Redirect to="/profile" />
-              ) : (
-                <Login signup={this.handleSignUp} login={this.handleLogin} loginError={this.state.loginError} />
-              )
-            )} />
-            <Route path="/signup" render={() => (
-              this.state.loggedIn ? (
-                <Redirect to="/profile" />
-              ) : (
-                <Signup signup={this.handleSignUp} login={this.handleLogin} />))} />
+            <Route
+              path="/global"
+              render={() => <GlobalSearch user={this.state.user} />}
+            />
+            <Route
+              path="/profile"
+              render={() =>
+                this.state.loggedIn ? (
+                  <Profile_Search user={this.state.user} />
+                ) : (
+                  <Redirect to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/login"
+              render={() =>
+                this.state.loggedIn ? (
+                  <Redirect to="/profile" />
+                ) : (
+                  <Login
+                    signup={this.handleSignUp}
+                    login={this.handleLogin}
+                    loginError={this.state.loginError}
+                  />
+                )
+              }
+            />
+            <Route
+              path="/signup"
+              render={() =>
+                this.state.loggedIn ? (
+                  <Redirect to="/profile" />
+                ) : (
+                  <Signup signup={this.handleSignUp} login={this.handleLogin} />
+                )
+              }
+            />
             <Route path="/logout" render={() => <Redirect to="/login" />} />
           </Switch>
+
+          <Modal open={this.state.underage} onClose={this.handleClose}>
+            <div style={{ margin: 'auto', textAlign: 'center', padding: '35%' }}>
+              You must be 18 or over to access Lewdvie..
+            </div>
+          </Modal>
         </div>
       </BrowserRouter>
     );
