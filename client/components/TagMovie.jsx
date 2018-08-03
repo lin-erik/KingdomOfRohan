@@ -28,7 +28,7 @@ class TagMovie extends React.Component {
         'uncomfortable'
       ],
       moods: [],
-      selected: 'whimsical',
+      selected: '',
       //movie and user should eventually come from props after testing
       movie: this.props.movie,
       user: this.props.user
@@ -62,10 +62,10 @@ class TagMovie extends React.Component {
 
     axios
       .post('/save', movie)
-      .then((response) => {
+      .then(response => {
         this.props.getUserHistory(this.props.user);
       })
-      .catch((err) => console.log('FrontEnd err sending movie to server', err));
+      .catch(err => console.log('FrontEnd err sending movie to server', err));
   }
 
   handleDeleteMood(e) {
@@ -88,7 +88,11 @@ class TagMovie extends React.Component {
                 <select
                   onChange={this.handleChangeMood}
                   className="select is-multiple"
+                  defaultValue=""
                 >
+                  <option value="" disabled hidden>
+                    Choose Mood
+                  </option>
                   {this.state.dbMoods.map((option, index) => {
                     return (
                       <option value={option} key={index}>
@@ -126,7 +130,7 @@ class TagMovie extends React.Component {
           </div>
         </div>
         <div className="column is-one-fifth">
-          <MovieCard movie={this.props.movie} user={this.props.user}/>
+          <MovieCard movie={this.props.movie} user={this.props.user} />
         </div>
       </div>
     );
