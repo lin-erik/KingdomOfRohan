@@ -1,7 +1,7 @@
 import React from 'react';
 import Recommendations from './Recommendations.jsx';
 import MoodRatings from './MoodRatings.jsx';
-import Stripe from './Stripe';
+import Stripe from './RedStripe';
 
 import axios from 'axios';
 import Modal from 'react-responsive-modal';
