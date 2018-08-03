@@ -17,7 +17,10 @@ const {
   deleteMovie,
   getUserByName,
   setUserTheme,
-  isOver18
+  isOver18,
+  purchaseSave,
+  fetchPurchases,
+  savePurchase
 } = require('./../db/index');
 
 const helpers = require('./serverhelpers.js');
@@ -281,6 +284,24 @@ app.get("/nowPlaying", (req, res) => {
     .catch(err => {
       console.error('Error fetching movies now playing', err);
     });
+});
+
+app.get('/purchase', (req, res) => {
+  fetchPurchases(req.query.username).then(purchased => {
+    res.send(purchased);
+  });
+});
+
+app.post('/purchase', (req, res) => {
+  savePurchase(req.body, err => {
+    if (err) console.error(err);
+    else {
+      purchaseSave(req.body, (err, response) => {
+        if (err) console.error(err);
+        else res.send();
+      });
+    }
+  });
 });
 
 app.get('/session', (req, res) => {
