@@ -6,14 +6,17 @@ class Signup extends React.Component {
 
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      date: ''
     };
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
   handleUsernameChange(e) {
+    console.log('USER CHANGE', e.target.value);
     this.setState({
       username: e.target.value
     });
@@ -25,6 +28,13 @@ class Signup extends React.Component {
     });
   }
 
+  handleDateChange(e) {
+    console.log('DATE CHANGE', e.target.value);
+    this.setState({
+      date: e.target.value
+    });
+  }
+
   render() {
     return (
       <div>
@@ -33,7 +43,7 @@ class Signup extends React.Component {
           to="/profile"
           onSubmit={(e) => {
             e.preventDefault();
-            this.props.signup(this.state.username, this.state.password);
+            this.props.signup(this.state.username, this.state.password, this.state.date);
           }}
         >
           <div className="signup-container">
@@ -56,6 +66,18 @@ class Signup extends React.Component {
                 type="password"
                 placeholder="Password"
               />
+            </div>
+            <br></br>
+            <div className="age-container">
+              <div
+                className="age-container"
+                onChange={this.handleDateChange}
+              >
+                <input
+                  type="date"
+                />
+              </div>
+              <br></br>
             </div>
           </div>
 
