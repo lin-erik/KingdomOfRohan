@@ -5,6 +5,7 @@ import Profile_Search from './components/Profile_Search.jsx';
 import Nav from './components/Nav.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
+import Purchased from './components/Purchased.jsx';
 
 import axios from 'axios';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
@@ -20,7 +21,8 @@ class App extends React.Component {
       loginError: false,
       age: '',
       underage: false,
-      theme: 'Light'
+      theme: 'Light',
+      purchased: []
     };
 
     this.handleSignUp = this.handleSignUp.bind(this);
@@ -29,6 +31,8 @@ class App extends React.Component {
 
     this.handleTheme = this.handleTheme.bind(this);
     this.handleClose = this.handleClose.bind(this);
+
+    this.handlePurchase = this.handlePurchase.bind(this);
   }
 
   handleSignUp(username, password, birthday) {
@@ -76,11 +80,11 @@ class App extends React.Component {
     var findlink = document.getElementsByTagName('link');
     findlink[0].href =
       'https://jenil.github.io/bulmaswatch/flatly/bulmaswatch.min.css';
-    
+
     axios.get('/logout').catch(err => {
       console.error('Error logging out', err);
     });
-      
+
     this.setState({
       loggedIn: false,
       username: 'Anonymous'
@@ -112,6 +116,12 @@ class App extends React.Component {
   handleClose() {
     this.setState({
       underage: false
+    });
+  }
+
+  handlePurchase(purchased) {
+    this.setState({
+      purchased
     });
   }
 
@@ -148,13 +158,39 @@ class App extends React.Component {
             <Route exact path="/" render={() => <Redirect to="/global" />} />
             <Route
               path="/global"
-              render={() => <GlobalSearch user={this.state.user} />}
+              render={() => (
+                <GlobalSearch
+                  user={this.state.user}
+                  loggedIn={this.state.loggedIn}
+                  purchase={this.state.purchased}
+                  handlePurchase={this.handlePurchase}
+                />
+              )}
             />
             <Route
               path="/profile"
               render={() =>
                 this.state.loggedIn ? (
-                  <Profile_Search user={this.state.user} />
+                  <Profile_Search
+                    user={this.state.user}
+                    loggedIn={this.state.loggedIn}
+                    purchase={this.state.purchased}
+                    handlePurchase={this.handlePurchase}
+                  />
+                ) : (
+                  <Redirect to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/purchased"
+              render={() =>
+                this.state.loggedIn ? (
+                  <Purchased
+                    user={this.state.user}
+                    purchased={this.state.purchased}
+                    handlePurchase={this.handlePurchase}
+                  />
                 ) : (
                   <Redirect to="/login" />
                 )
@@ -188,7 +224,9 @@ class App extends React.Component {
           </Switch>
 
           <Modal open={this.state.underage} onClose={this.handleClose}>
-            <div style={{ margin: 'auto', textAlign: 'center', padding: '35%' }}>
+            <div
+              style={{ margin: 'auto', textAlign: 'center', padding: '35%' }}
+            >
               You must be 18 or over to access Lewdvie..
             </div>
           </Modal>
