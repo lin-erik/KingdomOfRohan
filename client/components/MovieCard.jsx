@@ -1,7 +1,7 @@
-import React from "react";
-import axios from "axios";
+import React from 'react';
+import axios from 'axios';
 
-import Popup from "./Popup.jsx";
+import Popup from './Popup.jsx';
 
 class MovieCard extends React.Component {
   constructor(props) {
@@ -11,7 +11,8 @@ class MovieCard extends React.Component {
       open: false,
       trailer: {},
       recommendations: [],
-      trailer_key: "dQw4w9WgXcQ",
+      trailer_key: 'dQw4w9WgXcQ',
+      purchase_trailer: 'dQw4w9WgXcQ',
       open: false,
       loading: true,
       renderCard: true
@@ -24,7 +25,7 @@ class MovieCard extends React.Component {
 
   setIMDBdata() {
     axios
-      .get("/youtube", {
+      .get('/youtube', {
         params: {
           search: this.props.movie.id
         }
@@ -33,11 +34,12 @@ class MovieCard extends React.Component {
         this.setState({
           imdb: response.data.imdb,
           trailer: response.data.trailer[0],
-          trailer_key: response.data.trailer[0].key || "dQw4w9WgXcQ"
+          trailer_key: response.data.trailer[0].key || 'dQw4w9WgXcQ',
+          purchase_trailer: response.data.trailer[1].key || 'dQw4w9WgXcQ'
         });
       })
       .catch(err => {
-        console.error("Error fetching trailers from server", err);
+        console.error('Error fetching trailers from server', err);
       })
       .then(() => {
         this.setState({
@@ -59,40 +61,46 @@ class MovieCard extends React.Component {
     if (this.props.movie === null || this.state.renderCard === false) {
       return <div />;
     } else {
-
-          return (
-            <div className="card">
-              <div className="card-image">
-                <figure className="image is-2by3">
-                  <img
-                    onClick={() => {
-                      this.setIMDBdata();
-                      this.onOpenModal();
-                    }}
-                    src={
-                      "https://image.tmdb.org/t/p/w500" + this.props.movie.poster_path
-                    }
-                    alt="Placeholder image"
-                  />
-                  <a className="delete" onClick = {(e) => this.props.deleteMovie(this.props.id)}></a>
-                  <Popup
-                    trailer_key={this.state.trailer_key}
-                    onCloseModal={this.onCloseModal}
-                    imdb={this.state.imdb}
-                    open={this.state.open}
-                    loading={this.state.loading}
-                    movie={this.props.movie}
-                  />
-                </figure>
-              </div>
-              <div className="card-content">
-                <p className="is-size-7">{this.props.movie.original_title}</p>
-                <p className="is-size-7">{this.props.movie.release_date}</p>
-              </div>
-            </div>
-          );
+      return (
+        <div className="card">
+          <div className="card-image">
+            <figure className="image is-2by3">
+              <img
+                onClick={() => {
+                  this.setIMDBdata();
+                  this.onOpenModal();
+                }}
+                src={
+                  'https://image.tmdb.org/t/p/w500' +
+                  this.props.movie.poster_path
+                }
+                alt="Placeholder image"
+              />
+              <a
+                className="delete"
+                onClick={e => this.props.deleteMovie(this.props.id)}
+              />
+              <Popup
+                trailer_key={this.state.trailer_key}
+                onCloseModal={this.onCloseModal}
+                imdb={this.state.imdb}
+                open={this.state.open}
+                loading={this.state.loading}
+                movie={this.props.movie}
+                loggedIn={this.props.loggedIn}
+                user={this.props.user}
+                purchase_trailer={this.state.purchase_trailer}
+                handlePurchase={this.props.handlePurchase}
+              />
+            </figure>
+          </div>
+          <div className="card-content">
+            <p className="is-size-7">{this.props.movie.original_title}</p>
+            <p className="is-size-7">{this.props.movie.release_date}</p>
+          </div>
+        </div>
+      );
     }
-
   }
 }
 

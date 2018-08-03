@@ -14,13 +14,14 @@ class Profile_Search extends React.Component {
       history: [],
       recs: []
     };
+
     this.formRef = null;
     this.handleSearch = this.handleSearch.bind(this);
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.getUserHistory = this.getUserHistory.bind(this);
     this.getUserRecs = this.getUserRecs.bind(this);
     this.hideTagging = this.hideTagging.bind(this);
-    this.deleteMovie = this.deleteMovie.bind(this)
+    this.deleteMovie = this.deleteMovie.bind(this);
   }
 
   //display User History after logging in
@@ -64,13 +65,13 @@ class Profile_Search extends React.Component {
   }
 
   deleteMovie(id) {
-    let user = this.props.user
-    let movieId = id
+    let user = this.props.user;
+    let movieId = id;
 
-    console.log(user, movieId)
-    axios.delete(`/${user}/${movieId}`)
-    .then(() => this.getUserHistory(user))
-    .catch(err => console.log(err))
+    axios
+      .delete(`/${user}/${movieId}`)
+      .then(() => this.getUserHistory(user))
+      .catch(err => console.log(err));
   }
 
   //calls for the users 4 most recently tagged movies
@@ -96,7 +97,6 @@ class Profile_Search extends React.Component {
       })
       .catch(err => console.log('Error getting user history: ', err));
   }
-
 
   render() {
     //form will get onChange prop(function)
@@ -146,7 +146,14 @@ class Profile_Search extends React.Component {
                   {this.state.movies.map((movie, index) => {
                     return (
                       <div className="column is-one-fourth" key={index}>
-                        <MovieCard movie={movie} deleteMovie={this.deleteMovie} id={movie.id}/>
+                        <MovieCard
+                          movie={movie}
+                          deleteMovie={this.deleteMovie}
+                          id={movie.id}
+                          loggedIn={this.props.loggedIn}
+                          user={this.props.user}
+                          handlePurchase={this.props.handlePurchase}
+                        />
                         <button
                           className="button is-primary"
                           onClick={event => this.handleMoodClick(movie)}
