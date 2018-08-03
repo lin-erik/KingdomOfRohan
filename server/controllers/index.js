@@ -90,6 +90,7 @@ app.get('/results/:moods?', (req, res) => {
 
   moodSearch(req.query.moods, function(err, data) {
     if (err) throw err;
+    console.log(data);
     res.send(data);
   });
 });

@@ -80,7 +80,6 @@ class Profile_Search extends React.Component {
     axios
       .get('/users/history/', { params })
       .then(response => {
-        console.log(response.data);
         let history = response.data.reverse();
         if (history === null) history = [];
         this.setState({ history });

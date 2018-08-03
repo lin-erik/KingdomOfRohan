@@ -13,7 +13,7 @@ class Popup extends React.Component {
 
     this.state = {
       recommendations: [],
-      purchasing: false
+      purchase: false
     };
 
     this.purchaseMovie = this.purchaseMovie.bind(this);
