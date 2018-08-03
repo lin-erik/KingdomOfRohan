@@ -1,7 +1,7 @@
-import React from "react";
-import Recommendations from "./Recommendations.jsx";
-import MoodRatings from "./MoodRatings.jsx";
-import Stripe from './Stripe'
+import React from 'react';
+import Recommendations from './Recommendations.jsx';
+import MoodRatings from './MoodRatings.jsx';
+import Stripe from './RedStripe';
 
 import axios from 'axios';
 import Modal from 'react-responsive-modal';
@@ -17,6 +17,7 @@ class Popup extends React.Component {
     };
 
     this.purchaseMovie = this.purchaseMovie.bind(this);
+    this.purchaseClose = this.purchaseClose.bind(this);
   }
 
   purchaseMovie() {
@@ -48,6 +49,18 @@ class Popup extends React.Component {
       });
   }
 
+  openPurchase() {
+    this.setState({
+      purchase: true
+    });
+  }
+
+  purchaseClose() {
+    this.setState({
+      purchase: false
+    });
+  }
+
   componentDidMount() {
     axios.post(`/recommendations/${this.props.movie.id}`).then(response => {
       this.setState({
@@ -57,15 +70,7 @@ class Popup extends React.Component {
   }
 
   render() {
-    if (true) {
-      return(
-        <Modal open={this.props.open} onClose={this.props.onCloseModal}>
-          <div style={{ width: "600px", height: "600px" }}>
-            <Stripe user={this.props.user}/>
-          </div>
-        </Modal>
-      )
-    } else if (this.props.loading) {
+    if (this.props.loading) {
       return (
         <Modal open={this.props.open} onClose={this.props.onCloseModal}>
           <div style={{ margin: 'auto', align: 'center' }}>
@@ -130,7 +135,10 @@ class Popup extends React.Component {
             </h2>
           </div>
           <hr />
-          <Recommendations recs={this.state.recommendations.slice(0, 3)} user={this.props.user} />
+          <Recommendations
+            recs={this.state.recommendations.slice(0, 3)}
+            user={this.props.user}
+          />
 
           <div>
             <MoodRatings
@@ -142,14 +150,19 @@ class Popup extends React.Component {
 
           <button
             style={
-              this.props.loggedIn
-                ? { display: 'inline', marginLeft: 'auto' }
-                : { display: 'none', marginLeft: 'auto' }
+              this.props.loggedIn ? { display: 'inline' } : { display: 'none' }
             }
-            onClick={this.purchaseMovie}
+            // onClick={this.purchaseMovie}
+            onClick={this.openPurchase}
           >
             Purchase
           </button>
+
+          <Modal open={this.state.purchase} onClose={this.purchaseClose}>
+            <div style={{ width: '600px', height: '600px' }}>
+              <Stripe user={this.props.user} />
+            </div>
+          </Modal>
         </Modal>
       );
     }
