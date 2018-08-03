@@ -17,6 +17,8 @@ class Popup extends React.Component {
     };
 
     this.purchaseMovie = this.purchaseMovie.bind(this);
+
+    this.openPurchase = this.openPurchase.bind(this);
     this.purchaseClose = this.purchaseClose.bind(this);
   }
 
@@ -160,7 +162,7 @@ class Popup extends React.Component {
 
           <Modal open={this.state.purchase} onClose={this.purchaseClose}>
             <div style={{ width: '600px', height: '600px' }}>
-              <Stripe user={this.props.user} />
+              <Stripe user={this.props.user} purchaseMovie={this.purchaseMovie} />
             </div>
           </Modal>
         </Modal>
