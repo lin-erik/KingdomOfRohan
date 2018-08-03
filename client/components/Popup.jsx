@@ -3,16 +3,17 @@ import Recommendations from "./Recommendations.jsx";
 import MoodRatings from "./MoodRatings.jsx";
 import Stripe from './Stripe'
 
-import axios from "axios";
-import Modal from "react-responsive-modal";
-import { MoonLoader } from "react-spinners";
+import axios from 'axios';
+import Modal from 'react-responsive-modal';
+import { MoonLoader } from 'react-spinners';
 
 class Popup extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      recommendations: []
+      recommendations: [],
+      purchasing: false
     };
   }
 
@@ -36,9 +37,9 @@ class Popup extends React.Component {
     } else if (this.props.loading) {
       return (
         <Modal open={this.props.open} onClose={this.props.onCloseModal}>
-          <div style={{ margin: "auto", align: "center" }}>
+          <div style={{ margin: 'auto', align: 'center' }}>
             <center>
-              <MoonLoader color={"#ADD8E6"} loading={this.props.loading} />
+              <MoonLoader color={'#ADD8E6'} loading={this.props.loading} />
             </center>
           </div>
 
@@ -48,13 +49,13 @@ class Popup extends React.Component {
           <div>
             <h2>{this.props.imdb.actors}</h2>
 
-            <h2 style={{ display: "inline-block", paddingRight: "250px" }}>
+            <h2 style={{ display: 'inline-block', paddingRight: '250px' }}>
               {this.props.imdb.country}
             </h2>
-            <h2 style={{ display: "inline-block", paddingRight: "250px" }}>
+            <h2 style={{ display: 'inline-block', paddingRight: '250px' }}>
               {this.props.imdb.runtime}
             </h2>
-            <h2 style={{ display: "inline-block" }}>{this.props.imdb.rated}</h2>
+            <h2 style={{ display: 'inline-block' }}>{this.props.imdb.rated}</h2>
           </div>
         </Modal>
       );
@@ -63,25 +64,39 @@ class Popup extends React.Component {
         <Modal open={this.props.open} onClose={this.props.onCloseModal}>
           <div>
             <iframe
-              style={{ height: "300px", width: "100%" }}
+              style={{ height: '300px', width: '100%' }}
               className="embed-responsive-item"
-              src={"https://www.youtube.com/embed/" + this.props.trailer_key}
+              src={'https://www.youtube.com/embed/' + this.props.trailer_key}
               allowFullScreen
             />
           </div>
           <br />
-          <h6>{this.props.imdb.plot}</h6>
+          <p style={{ color: 'black' }}>{this.props.imdb.plot}</p>
           <hr />
           <div>
-            <h2>{this.props.imdb.actors}</h2>
+            <h2 style={{ color: 'black' }}>{this.props.imdb.actors}</h2>
 
-            <h2 style={{ display: "inline-block", paddingRight: "250px" }}>
+            <h2
+              style={{
+                display: 'inline-block',
+                paddingRight: '250px',
+                color: 'black'
+              }}
+            >
               {this.props.imdb.country}
             </h2>
-            <h2 style={{ display: "inline-block", paddingRight: "250px" }}>
+            <h2
+              style={{
+                display: 'inline-block',
+                paddingRight: '250px',
+                color: 'black'
+              }}
+            >
               {this.props.imdb.runtime}
             </h2>
-            <h2 style={{ display: "inline-block" }}>{this.props.imdb.rated}</h2>
+            <h2 style={{ display: 'inline-block', color: 'black' }}>
+              {this.props.imdb.rated}
+            </h2>
           </div>
           <hr />
           <Recommendations recs={this.state.recommendations.slice(0, 3)} user={this.props.user} />

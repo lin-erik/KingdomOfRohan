@@ -8,3 +8,4 @@ config.js
 youtube.js
 imdb.js
 stripe.js
+*.pem

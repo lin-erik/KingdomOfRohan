@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
 import GlobalSearch from './components/GlobalSearch.jsx';
 import Profile_Search from './components/Profile_Search.jsx';
 import Nav from './components/Nav.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
+
+import axios from 'axios';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import Modal from 'react-responsive-modal';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,27 +16,33 @@ class App extends React.Component {
 
     this.state = {
       loggedIn: false,
-      user: "Anonymous",
-      birthday: '',
-      loginError: false
+      user: 'Anonymous',
+      loginError: false,
+      age: '',
+      underage: false,
+      theme: 'Light'
     };
 
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+
+    this.handleTheme = this.handleTheme.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   handleSignUp(username, password, birthday) {
-    console.log('username in handleSignup', username);
-    console.log('birthday in handleSignup', birthday);
     axios
-      .post("/signup", { username: username, password: password, birthday: birthday})
+      .post('/signup', {
+        username: username,
+        password: password,
+        birthday: birthday
+      })
       .then(response => {
-        console.log('signed up successfully!');
         this.setState({
           loggedIn: true,
           user: username,
-          birthday: birthday
+          overage: response.data
         });
       })
       .catch(err => {
@@ -50,9 +58,9 @@ class App extends React.Component {
           this.setState({
             loggedIn: true,
             user: username,
-            birthday: response.data.birthday,
+            overage: response.data.overage,
             loginError: false
-          }, () => {console.log(this.state.birthday)});
+          });
         } else {
           this.setState({
             loginError: true
@@ -65,35 +73,46 @@ class App extends React.Component {
   }
 
   handleLogout() {
+    var findlink = document.getElementsByTagName('link');
+    findlink[0].href =
+      'https://jenil.github.io/bulmaswatch/flatly/bulmaswatch.min.css';
+    
+    axios.get('/logout').catch(err => {
+      console.error('Error logging out', err);
+    });
+      
     this.setState({
       loggedIn: false,
       username: 'Anonymous'
     });
-
-    axios.get('/logout').catch(err => {
-      console.error('Error logging out', err);
-    });
   }
 
-  isOver18() {
-    let birthdayArray = this.state.birthday.split('-');
-    let date = new Date();
-    let currentYear = date.getFullYear();
-    let currentMonth = date.getMonth() + 1;
-    let currentDay = date.getDate();
-    
-    if (currentYear - Number(birthdayArray[0]) > 18) {
-      return true;
-    } 
-    if (currentYear - Number(birthdayArray[0]) === 18){
-      if (currentMonth - Number(birthdayArray[1]) > 0) {
-        return true;
+  handleTheme(e) {
+    if (this.state.overage) {
+      if (e.target.text === 'Dark') {
+        var findlink = document.getElementsByTagName('link');
+        findlink[0].href =
+          'https://jenil.github.io/bulmaswatch/darkly/bulmaswatch.min.css';
+      } else if (e.target.text === 'Light') {
+        var findlink = document.getElementsByTagName('link');
+        findlink[0].href =
+          'https://jenil.github.io/bulmaswatch/flatly/bulmaswatch.min.css';
       }
-      if (currentMonth - Number(birthdayArray[1]) === 0 && currentDay - birthdayArray[2] >= 0) {
-        return true;
-      }
+
+      this.setState({
+        theme: e.target.text
+      });
+    } else {
+      this.setState({
+        underage: true
+      });
     }
-    return false;
+  }
+
+  handleClose() {
+    this.setState({
+      underage: false
+    });
   }
 
   componentDidMount() {
@@ -105,6 +124,7 @@ class App extends React.Component {
           this.setState({
             loggedIn: true,
             user: response.data.username,
+            overage: response.data.overage,
             loginError: false
           });
         }
@@ -121,6 +141,8 @@ class App extends React.Component {
           <Nav
             loggedIn={this.state.loggedIn}
             handleLogout={this.handleLogout}
+            handleTheme={this.handleTheme}
+            theme={this.state.theme}
           />
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/global" />} />
@@ -164,6 +186,12 @@ class App extends React.Component {
             />
             <Route path="/logout" render={() => <Redirect to="/login" />} />
           </Switch>
+
+          <Modal open={this.state.underage} onClose={this.handleClose}>
+            <div style={{ margin: 'auto', textAlign: 'center', padding: '35%' }}>
+              You must be 18 or over to access Lewdvie..
+            </div>
+          </Modal>
         </div>
       </BrowserRouter>
     );

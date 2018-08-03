@@ -1,9 +1,9 @@
-import React from "react";
-import Results from "./Results.jsx";
-import MovieCard from "./MovieCard.jsx";
-import GoogleMaps from './GoogleMapsComponent.jsx'
+import React from 'react';
+import Results from './Results.jsx';
+import MovieCard from './MovieCard.jsx';
+import GoogleMaps from './GoogleMapsComponent.jsx';
 
-import axios from "axios";
+import axios from 'axios';
 
 class GlobalSearch extends React.Component {
   constructor(props) {
@@ -11,30 +11,30 @@ class GlobalSearch extends React.Component {
 
     this.state = {
       dbMoods: [
-        "whimsical",
-        "intense",
-        "thriller",
-        "heartfelt",
-        "gripping",
-        "boring",
-        "thought provoking",
-        "uplifting",
-        "light",
-        "tear jerker",
-        "challenging",
-        "mind screw",
-        "nostalgic",
-        "powerful",
-        "despair",
-        "exhausting",
-        "paranoid",
-        "motivated",
-        "uncomfortable"
+        'whimsical',
+        'intense',
+        'thriller',
+        'heartfelt',
+        'gripping',
+        'boring',
+        'thought provoking',
+        'uplifting',
+        'light',
+        'tear jerker',
+        'challenging',
+        'mind screw',
+        'nostalgic',
+        'powerful',
+        'despair',
+        'exhausting',
+        'paranoid',
+        'motivated',
+        'uncomfortable'
       ],
       moods: [],
       movies: [],
       nowPlaying: [],
-      active: "Now Playing",
+      active: 'Now Playing',
       long: '',
       lat: ''
     };
@@ -47,20 +47,20 @@ class GlobalSearch extends React.Component {
   }
 
   componentDidMount() {
-    this.getLocation()
+    this.getLocation();
   }
 
   getLocation() {
-    navigator.geolocation.getCurrentPosition((pos) => {
+    navigator.geolocation.getCurrentPosition(pos => {
       var crd = pos.coords;
 
-      let long = crd.longitude
-      let lat = crd.latitude
+      let long = crd.longitude;
+      let lat = crd.latitude;
       this.setState({
         long: long,
         lat: lat
-      })
-    })
+      });
+    });
   }
 
   //event handler for the addition of each mood to the global search
@@ -85,7 +85,7 @@ class GlobalSearch extends React.Component {
     if (this.state.moods.length > 0) {
       //send moods array to server and eventually query DB
       axios
-        .get("/results/", { params })
+        .get('/results/', { params })
         .then(response => {
           this.setState({ movies: response.data });
         })
@@ -105,7 +105,6 @@ class GlobalSearch extends React.Component {
   }
 
   handleClick(e) {
-    console.log(e.target.text);
     this.setState({
       active: e.target.text
     });
@@ -113,14 +112,14 @@ class GlobalSearch extends React.Component {
 
   componentDidMount() {
     axios
-      .get("/nowPlaying")
+      .get('/nowPlaying')
       .then(response => {
         this.setState({
           nowPlaying: response.data
         });
       })
       .catch(err => {
-        console.error("Error with endpoint of server", err);
+        console.error('Error with endpoint of server', err);
       })
       .then(() => {
         console.log(this.state.nowPlaying);
@@ -133,14 +132,14 @@ class GlobalSearch extends React.Component {
         <div className="tabs is-centered">
           <ul>
             <li
-              className={this.state.active === "Now Playing" ? "is-active" : ""}
+              className={this.state.active === 'Now Playing' ? 'is-active' : ''}
               onClick={this.handleClick}
             >
               <a>Now Playing</a>
             </li>
             <li
               className={
-                this.state.active === "Find Moodvie" ? "is-active" : ""
+                this.state.active === 'Find Moodvie' ? 'is-active' : ''
               }
               onClick={this.handleClick}
             >
@@ -151,17 +150,16 @@ class GlobalSearch extends React.Component {
 
         <div
           style={
-            this.state.active === "Now Playing"
-              ? { display: "inline" }
-              : { display: "none" }
+            this.state.active === 'Now Playing'
+              ? { display: 'inline' }
+              : { display: 'none' }
           }
         >
           <div className="container is-fluid">
             <div>
-              <GoogleMaps long={this.state.long}
-                lat={this.state.lat}/>
+              <GoogleMaps long={this.state.long} lat={this.state.lat} />
             </div>
-            <br/>
+            <br />
             <div className="columns is-multiline">
               {this.state.nowPlaying.map((movie, index) => {
                 return (
@@ -176,9 +174,9 @@ class GlobalSearch extends React.Component {
 
         <div
           style={
-            this.state.active === "Find Moodvie"
-              ? { display: "inline" }
-              : { display: "none" }
+            this.state.active === 'Find Moodvie'
+              ? { display: 'inline' }
+              : { display: 'none' }
           }
         >
           <div className="section">
@@ -205,17 +203,17 @@ class GlobalSearch extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="container" style={{ margin: "15px" }}>
+            <div className="container" style={{ margin: '15px' }}>
               {this.state.moods.length > 0 ? (
                 <span className="subtitle">
-                  Our users found these movies to be{" "}
+                  Our users found these movies to be{' '}
                 </span>
               ) : null}
 
               {this.state.moods.map((mood, index) => (
                 <span
                   className="tag is-primary is-large"
-                  style={{ margin: "7px" }}
+                  style={{ margin: '7px' }}
                   key={index}
                 >
                   {mood}
@@ -237,10 +235,8 @@ class GlobalSearch extends React.Component {
             </div>
           </div>
         </div>
-
-
       </div>
-    )
+    );
   }
 }
 
