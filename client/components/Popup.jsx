@@ -13,6 +13,37 @@ class Popup extends React.Component {
     this.state = {
       recommendations: []
     };
+
+    this.purchaseMovie = this.purchaseMovie.bind(this);
+  }
+
+  purchaseMovie() {
+    var movie = this.props.movie;
+
+    movie = Object.assign(movie, {
+      current_user: this.props.user,
+      purchase_trailer: this.props.purchase_trailer
+    });
+
+    axios
+      .post('/purchase', movie)
+      .then(response => {
+        axios
+          .get('/purchase', {
+            params: {
+              username: this.props.user
+            }
+          })
+          .then(response => {
+            if (response.data) {
+              this.props.handlePurchase(response.data);
+            }
+          })
+          .catch(err => console.log('Error retrieving purchase history', err));
+      })
+      .catch(err => {
+        console.error('Error purchasing', err);
+      });
   }
 
   componentDidMount() {
@@ -98,6 +129,17 @@ class Popup extends React.Component {
               moods={this.props.movie.moods || []}
             />
           </div>
+
+          <button
+            style={
+              this.props.loggedIn
+                ? { display: 'inline', marginLeft: 'auto' }
+                : { display: 'none', marginLeft: 'auto' }
+            }
+            onClick={this.purchaseMovie}
+          >
+            Purchase
+          </button>
         </Modal>
       );
     }
