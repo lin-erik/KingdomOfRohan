@@ -32,22 +32,23 @@ class Purchased extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="level">
-          <div className="level-left">
-            <div className="level-item">
-              <p className="subtitle-is-5">Purchased Movies</p>
-              {this.props.purchased.map( (movie) => (
-                <div>
+      <div className="section">
+        <div className="title is-title-4">Purchased Movies</div>
+
+        <div className="container">
+          <div className="columns is-multiline">
+            {this.props.purchased.map((movie, ind) => (
+              <div className="column is-one-quarter" key={ind}>
                   <iframe
                     style={{ height: '300px', width: '100%' }}
                     className="embed-responsive-item"
-                    src={'https://www.youtube.com/embed/' + movie.purchase_trailer}
+                    src={
+                      'https://www.youtube.com/embed/' + movie.purchase_trailer
+                    }
                     allowFullScreen
                   />
                 </div>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
       </div>
