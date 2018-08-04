@@ -87,8 +87,6 @@ class GlobalSearch extends React.Component {
       axios
         .get('/results/', { params })
         .then(response => {
-          console.log('Mood search', response.data);
-
           this.setState({ movies: response.data });
         })
         .catch(err => console.error(err));
