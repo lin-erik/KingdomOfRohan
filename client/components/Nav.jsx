@@ -27,7 +27,7 @@ var Nav = props => {
               Lewdvie
             </b>
           </span>
-          <Link to="/global">Mood Search</Link>
+          <Link to="/global">Home</Link>
           <Link to="/profile">Profile</Link>
           <Link to="/purchased">Purchased</Link>
           <Link onClick={props.handleLogout} to="/logout">
@@ -65,7 +65,7 @@ var Nav = props => {
           <span>
             <b>Moodvie</b>
           </span>
-          <Link to="/global">Mood Search</Link>
+          <Link to="/global">Home</Link>
           <Link to="/profile">Profile</Link>
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
