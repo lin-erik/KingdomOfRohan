@@ -7,25 +7,27 @@ var Nav = props => {
       <div className="tabs">
         <ul>
           <span>
-            <b
+            <Link
+              to="/global"
               style={
                 props.theme === 'Light'
-                  ? { display: 'inline', marginLeft: 'auto' }
-                  : { display: 'none', marginLeft: 'auto' }
+                  ? { display: 'block', marginLeft: 'auto', fontWeight: 'bold' }
+                  : { display: 'none', marginLeft: 'auto', fontWeight: 'bold' }
               }
             >
               Moodvie
-            </b>
+            </Link>
 
-            <b
+            <Link
+              to="/global"
               style={
                 props.theme === 'Dark'
-                  ? { display: 'inline', marginLeft: 'auto' }
-                  : { display: 'none', marginLeft: 'auto' }
+                  ? { display: 'block', marginLeft: 'auto', fontWeight: 'bold' }
+                  : { display: 'none', marginLeft: 'auto', fontWeight: 'bold' }
               }
             >
               Lewdvie
-            </b>
+            </Link>
           </span>
           <Link to="/global">Home</Link>
           <Link to="/profile">Profile</Link>
@@ -63,7 +65,16 @@ var Nav = props => {
       <div className="tabs">
         <ul>
           <span>
-            <b>Moodvie</b>
+            <Link
+              to="/global"
+              style={
+                props.theme === 'Light'
+                  ? { display: 'block', marginLeft: 'auto', fontWeight: 'bold' }
+                  : { display: 'none', marginLeft: 'auto', fontWeight: 'bold' }
+              }
+            >
+              Moodvie
+            </Link>
           </span>
           <Link to="/global">Home</Link>
           <Link to="/profile">Profile</Link>
