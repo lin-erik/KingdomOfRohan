@@ -4,9 +4,9 @@ An application that suggests movies based on user mood.
 
 ## Team
 
-  - __Product Owner__: Roman Gorelik
-  - __Scrum Master__: Erik Lin
-  - __Development Team Members__: Jon Izak, Dan Guan
+  - __Product Owner__: [Roman Gorelik](https://github.com/romangorelik)
+  - __Scrum Master__: [Erik Lin](https://github.com/lin-erik)
+  - __Development Team Members__: [Jon Izak](https://github.com/jonizak), [Dan Guan](https://github.com/StrykeBack)
 
 ## Table of Contents
 
@@ -38,6 +38,10 @@ Upon login or signup, users will be able to search for movies they wish to tag.
 ![alt_text](screenshots/purchased.png)
 
 Users are currently able to purchase 'movies'. In actuality, only movie trailers are purchased.
+
+![alt_text](screenshots/dark_theme.png)
+
+Dark theme rendering of the application available for logged in users.
 
 ## Development
 
