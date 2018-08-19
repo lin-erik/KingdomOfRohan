@@ -34,7 +34,7 @@ class CheckoutForm extends React.Component {
         </form>
       );
     } else {
-      return <div>Thanks for your money. Check your Purchased tab!</div>;
+      return <div>Thank you for your purchase. Check your Purchased tab!</div>;
     }
   }
 }

@@ -8,7 +8,7 @@ class CardSection extends React.Component {
     render() {
         return (
             <label>
-                Card details
+                Enter your card details to purchase a movie trailer!
                 <CardElement style={{base: {fontSize: '18px'}}} />
             </label>
         );

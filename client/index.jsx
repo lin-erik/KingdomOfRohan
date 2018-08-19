@@ -9,7 +9,6 @@ import Purchased from './components/Purchased.jsx';
 
 import axios from 'axios';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import Modal from 'react-responsive-modal';
 
 class App extends React.Component {
   constructor(props) {
@@ -30,7 +29,6 @@ class App extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
 
     this.handleTheme = this.handleTheme.bind(this);
-    this.handleClose = this.handleClose.bind(this);
 
     this.handlePurchase = this.handlePurchase.bind(this);
   }
@@ -92,30 +90,18 @@ class App extends React.Component {
   }
 
   handleTheme(e) {
-    if (this.state.overage) {
-      if (e.target.text === 'Dark') {
-        var findlink = document.getElementsByTagName('link');
-        findlink[0].href =
-          'https://jenil.github.io/bulmaswatch/darkly/bulmaswatch.min.css';
-      } else if (e.target.text === 'Light') {
-        var findlink = document.getElementsByTagName('link');
-        findlink[0].href =
-          'https://jenil.github.io/bulmaswatch/flatly/bulmaswatch.min.css';
-      }
-
-      this.setState({
-        theme: e.target.text
-      });
-    } else {
-      this.setState({
-        underage: true
-      });
+    if (e.target.text === 'Dark') {
+      var findlink = document.getElementsByTagName('link');
+      findlink[0].href =
+        'https://jenil.github.io/bulmaswatch/darkly/bulmaswatch.min.css';
+    } else if (e.target.text === 'Light') {
+      var findlink = document.getElementsByTagName('link');
+      findlink[0].href =
+        'https://jenil.github.io/bulmaswatch/flatly/bulmaswatch.min.css';
     }
-  }
 
-  handleClose() {
     this.setState({
-      underage: false
+      theme: e.target.text
     });
   }
 
@@ -222,14 +208,6 @@ class App extends React.Component {
             />
             <Route path="/logout" render={() => <Redirect to="/login" />} />
           </Switch>
-
-          <Modal open={this.state.underage} onClose={this.handleClose}>
-            <div
-              style={{ margin: 'auto', textAlign: 'center', padding: '35%' }}
-            >
-              You must be 18 or over to access Lewdvie..
-            </div>
-          </Modal>
         </div>
       </BrowserRouter>
     );

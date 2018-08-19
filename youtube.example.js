@@ -1,1 +1,0 @@
-module.exports.YOUTUBE_API_KEY = 'key';
