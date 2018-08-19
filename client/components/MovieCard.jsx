@@ -35,14 +35,13 @@ class MovieCard extends React.Component {
           imdb: response.data.imdb,
           trailer: response.data.trailer[0],
           trailer_key: response.data.trailer[0].key || 'dQw4w9WgXcQ',
-          purchase_trailer: response.data.trailer[1] ? response.data.trailer[1].key : 'dQw4w9WgXcQ'
+          purchase_trailer: (response.data.trailer[1] ? response.data.trailer[1].key : 'dQw4w9WgXcQ')
         });
       })
       .catch(err => {
         console.error('Error fetching trailers from server', err);
       })
       .then(() => {
-        console.log(this.state.purchase_trailer)
         this.setState({
           loading: false
         });
@@ -77,12 +76,8 @@ class MovieCard extends React.Component {
                 }
                 alt="Placeholder image"
               />
-              <a
-                className="delete"
-                onClick={e => this.props.deleteMovie(this.props.id)}
-              />
               <Popup
-                trailer_key={this.state.trailer_key}
+                trailerKey={this.state.trailer_key}
                 onCloseModal={this.onCloseModal}
                 imdb={this.state.imdb}
                 open={this.state.open}
@@ -90,7 +85,7 @@ class MovieCard extends React.Component {
                 movie={this.props.movie}
                 loggedIn={this.props.loggedIn}
                 user={this.props.user}
-                purchase_trailer={this.state.purchase_trailer}
+                purchaseTrailer={this.state.purchase_trailer}
                 handlePurchase={this.props.handlePurchase}
               />
             </figure>

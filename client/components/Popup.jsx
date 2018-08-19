@@ -27,7 +27,7 @@ class Popup extends React.Component {
 
     movie = Object.assign(movie, {
       current_user: this.props.user,
-      purchase_trailer: this.props.purchase_trailer
+      purchase_trailer: this.props.purchaseTrailer
     });
 
     axios
@@ -81,19 +81,21 @@ class Popup extends React.Component {
             </center>
           </div>
 
-          <br />
+          <hr />
           <h6>{this.props.imdb.plot}</h6>
           <hr />
           <div>
             <h2>{this.props.imdb.actors}</h2>
 
-            <h2 style={{ display: 'inline-block', paddingRight: '250px' }}>
+            <h2>
               {this.props.imdb.country}
             </h2>
-            <h2 style={{ display: 'inline-block', paddingRight: '250px' }}>
+            <h2>
               {this.props.imdb.runtime}
             </h2>
-            <h2 style={{ display: 'inline-block' }}>{this.props.imdb.rated}</h2>
+            <h2>
+              {this.props.imdb.rated}
+            </h2>
           </div>
         </Modal>
       );
@@ -104,36 +106,32 @@ class Popup extends React.Component {
             <iframe
               style={{ height: '300px', width: '100%' }}
               className="embed-responsive-item"
-              src={'https://www.youtube.com/embed/' + this.props.trailer_key}
+              src={'https://www.youtube.com/embed/' + this.props.trailerKey}
               allowFullScreen
             />
           </div>
-          <br />
+          <hr />
           <p style={{ color: 'black' }}>{this.props.imdb.plot}</p>
           <hr />
           <div>
-            <h2 style={{ color: 'black' }}>{this.props.imdb.actors}</h2>
+            <h2 style={{ color: 'black' }}>Cast: {this.props.imdb.actors}</h2>
 
             <h2
               style={{
-                display: 'inline-block',
-                paddingRight: '250px',
                 color: 'black'
               }}
             >
-              {this.props.imdb.country}
+              Countries Released: {this.props.imdb.country}
             </h2>
             <h2
               style={{
-                display: 'inline-block',
-                paddingRight: '250px',
                 color: 'black'
               }}
             >
-              {this.props.imdb.runtime}
+              Runtime: {this.props.imdb.runtime}
             </h2>
-            <h2 style={{ display: 'inline-block', color: 'black' }}>
-              {this.props.imdb.rated}
+            <h2 style={{ color: 'black' }}>
+              MPAA Rating: {this.props.imdb.rated}
             </h2>
           </div>
           <hr />
@@ -154,7 +152,6 @@ class Popup extends React.Component {
             style={
               this.props.loggedIn ? { display: 'inline' } : { display: 'none' }
             }
-            // onClick={this.purchaseMovie}
             onClick={this.openPurchase}
           >
             Purchase
