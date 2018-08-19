@@ -14,8 +14,8 @@ An application that suggests movies based on user mood.
 1. [Usage](#Usage)
 1. [Requirements](#requirements)
 1. [Development](#development)
+    1. [Core Tech Stack](#core-tech-stack)
     1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
 
 ## Usage
 
