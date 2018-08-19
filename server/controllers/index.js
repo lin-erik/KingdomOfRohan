@@ -215,7 +215,7 @@ app.get('/logout', (req, res) => {
   res.send();
 });
 
-app.get('/youtube', (req, res) => {
+app.get('/trailer', (req, res) => {
   var container = {};
   var imdb_id;
 

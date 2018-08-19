@@ -25,7 +25,7 @@ class MovieCard extends React.Component {
 
   setIMDBdata() {
     axios
-      .get('/youtube', {
+      .get('/trailer', {
         params: {
           search: this.props.movie.id
         }
@@ -35,13 +35,14 @@ class MovieCard extends React.Component {
           imdb: response.data.imdb,
           trailer: response.data.trailer[0],
           trailer_key: response.data.trailer[0].key || 'dQw4w9WgXcQ',
-          purchase_trailer: response.data.trailer[1].key || 'dQw4w9WgXcQ'
+          purchase_trailer: response.data.trailer[1] ? response.data.trailer[1].key : 'dQw4w9WgXcQ'
         });
       })
       .catch(err => {
         console.error('Error fetching trailers from server', err);
       })
       .then(() => {
+        console.log(this.state.purchase_trailer)
         this.setState({
           loading: false
         });

@@ -26,7 +26,7 @@ var Nav = props => {
                   : { display: 'none', marginLeft: 'auto', fontWeight: 'bold' }
               }
             >
-              Lewdvie
+              Moodvie
             </Link>
           </span>
           <Link to="/global">Home</Link>
