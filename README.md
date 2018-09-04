@@ -12,7 +12,6 @@ An application that suggests movies based on user mood.
 
 1. [Team](#team)
 1. [Usage](#Usage)
-1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Core Tech Stack](#core-tech-stack)
     1. [Installing Dependencies](#installing-dependencies)
@@ -46,7 +45,7 @@ Dark theme rendering of the application available for logged in users.
 ## Development
 
 ### Core Tech Stack
-React, React-Router, Node, Express, Mongoose
+React, React-Router, Node.js, Express.js, Mongoose
 
 ### Installing Dependencies
 ```sh
